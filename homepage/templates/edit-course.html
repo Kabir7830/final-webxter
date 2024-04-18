@@ -1,0 +1,103 @@
+{% extends "admin-master.html" %}
+{% block title %}
+  Webxter | Add Course
+{% endblock title %}
+
+{% load static %}
+
+{% block adminarea %}
+  <style>
+    .main-area{
+        /* background-color: white; */
+        width: 100%;
+        /* height: 200px; */
+        float: right;
+        margin-top:70px;
+    }
+    .form-group label{
+        color:white;
+    }
+    h2{
+        color:white;
+    }
+    .form-group input::placeholder,.form-group textarea::placeholder{
+        color: rgba(0, 0, 0, 0.449);
+    }
+    .form-group input, .form-group textarea{
+        /* background-color:#00000036 !important;
+         */
+        background-color: white;
+        color: black;
+    }
+  </style>
+
+  <div class="main-area">
+    <h2>Create Course</h2>
+    <br>
+    <form action="{% url 'edit-course' course_id=course.id%}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="">Course Name</label>
+            <input type="text" class="form-control" placeholder="Course Name" name="course_name" value="{{course.course_name}}">
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="">Short Description</label>
+            <textarea class="form-control" placeholder="Brief Description" name="course_short_description">{{course.course_short_description}}</textarea>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="">Description</label>
+            <textarea id="id_course_description" name="course_description">{{course.course_description}}</textarea> 
+        <script src="https://htmeditor.com/js/htmeditor.min.js" htmeditor_textarea="id_course_description" full_screen="no" editor_height="380" run_local="no"></script>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="">Thumbnail <i class="fa fa-image"></i></label>
+            <input type="file" class="form-control" placeholder="" name="course_image" id="files">
+            {% if course.course_image %}
+            <br>
+            <img id="image" src="/media/{{course.course_image}}" style="max-height: 150px;" />
+            {%else%}
+            <img id="image"  style="max-height: 150px;"/>
+            {% endif %}
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="">Syllabus</label>
+          <input type="file" name="course_syllabus" class="form-control" value="{{course.course_syllabus}}">
+        </div>
+        <br>
+        <div class="form-group">
+            <label>Publish Status</label>
+            <select class="form-select" name="is_published">
+                {%if course.is_published == True%}
+                <option value="True" selected>Publish</option>
+                <option value="False">Draft</option>
+                {%else%}
+                <option value="True">Publish</option>
+                <option value="False" selected>Draft</option>
+                {%endif%}
+            </select>
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="">URL</label>
+          <input type="text" name="slug" placeholder="this-is-url" class="form-control" value="{{course.slug}}">
+      </div>
+        <br>
+        <button class="btn btn-success" type="submit">Update</button>
+    </form>
+
+  </div>
+  <script>
+    document.getElementById('files').onchange = function () {
+  var src = URL.createObjectURL(this.files[0])
+  document.getElementById('image').src = src
+}
+  </script>
+  <script>
+    document.querySelector('li[data-target="add"]').classList.add('active')
+    document.querySelector('a[data-target="add-course"]').classList.add('active-a')
+  </script>
+{% endblock adminarea %}

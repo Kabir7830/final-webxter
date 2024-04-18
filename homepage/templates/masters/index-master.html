@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta name="google-site-verification" content="1ObPmx4VP2BOzOHvJIaI2X79XPyhWQQMVaGELJkC6UM" />
+  
+  <script src="{% static 'js/fontawsome.js'%}"></script>
+  <script src="{% static 'js/jquery.min.js'%}"></script>
+  <script src="{% static 'js/bootstrap.min.js'%}"></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
+  <link rel="shortcut icon" href="{%static 'images/logo.png'%}" type="image/x-icon">
+  <script src="{% static 'js/jquery/3.7.1/jquery.min.js'%}"></script>
+  <script src="{% static 'js/jquery/3.5.1/jquery.min.js'%}"></script>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/classy-nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/elegant-icon.css' %}">
+  <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+  
+  <meta charset="UTF-8">
+  <meta name="description" content="Unlock the world of web development at Webxter! Learn HTML and master the building blocks of the internet. Our institute offers expert-led classes in Django, CSS, Python, React JS, C/C+, Java, and Graphic Designing. From 6th-grade basics to advanced graduation-level programming, Webxter is your gateway to a comprehensive tech education.">
+  <meta name="keywords" content="webxter, webxter.in, Webxter,Web development,HTML,CSS,Python programming,Django framework,React JS,C/C+ programming,Java programming,Graphic designing,Tech education,Programming classes,Web design courses,Computer science education,Coding academy,Education from 6th to graduation">
+  <meta name="author" content="Webxter">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock title %}</title>
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+
+    }
+    .navbar-brand img{
+      width: 50px;}
+      svg{
+        max-height: 30px;
+        left: 0;
+        top:0;
+        width:20px;
+      }
+      body{
+          overflow-x:hidden;
+      }
+  </style>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap');
+    </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+    <symbol id="badge-success" viewBox="0 0 16 16">
+      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+    </symbol>
+    <symbol id="info-fill" viewBox="0 0 16 16">
+      <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+    </symbol>
+    <symbol id="badge-warning" viewBox="0 0 16 16">
+      <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+    </symbol>
+    <symbol id="badge-danger" viewBox="0 0 16 16">
+      <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+    </symbol>
+  </svg>
+  {% for message in messages %}
+  <div class="alert alert-{{message.tags}} d-flex align-items-center" role="alert" style="position:absolute;z-index: 1400; max-width: 70%;height: 60px;top:0;left:0;">
+    <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:"><use xlink:href="#badge-{{message.tags}}"/></svg>
+    <div>
+      {{message | safe}}
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+  {% include 'header/header.html'%}
+  {% comment %} <style>
+        .header-top{
+            width: 100%;
+            height: 40px;
+            background-color: #223645;
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            /* justify-content: space-around; */
+        }
+        .header-top  .fa{
+            color:green;
+            /* background-color: green; */
+        }
+        .header-top  .fab{
+            color: white;
+        }
+        .header-top .highlighted-text{
+            font-weight: bold;
+            color:white;
+        }
+        .header-top .highlighted-text .light-highlight{
+            font-weight:100 !important;
+        }
+        .header-top .working-hours{
+            width: 20%;
+        }
+        .header-top .email{
+            width: 40%;
+        }
+        .header-top .socials{
+            width: 13%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .header-top .socials a:hover .fab{
+            color: rgb(212, 6, 6);
+        }
+        .header-top .helpline{
+            width: 20%;
+            display: flex;
+            justify-content: center;
+        }
+        .vertical-seperator{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        width: 3%;
+        }
+        .vertical-seperator .seperator{
+            width: 1px;
+            height: 18px;
+            background-color: whitesmoke;
+        }
+        @media screen and (max-width:850px){
+            .header-top{
+                display: none;
+            }
+        }
+    </style>
+    
+    <div class="header-top">
+        <div class="working-hours">
+            <span class="fa fa-clock"></span>
+            <span class="highlighted-text">Working Hours: <span class="light-highlight">07.00am - 09.00pm</span></span>
+        </div>
+        <div class="vertical-seperator">
+            <div class="seperator"></div>
+        </div>
+        <div class="email">
+            <span class="fa fa-envelope"></span>
+            <span class="highlighted-text">Email: <span class="light-highlight">info@webxter.in</span></span>
+        </div>
+        <div class="socials">
+            <a href="https://www.facebook.com/webxter.webs/"><i class=" fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/webxter_webs/"><i class="fab fa-instagram"></i></a>
+            <a href="https://api.whatsapp.com/send?phone=7355017830"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <div class="vertical-seperator">
+            <div class="seperator"></div>
+        </div>
+        <div class="helpline">
+            <span class="highlighted-text">Hotline: <span class="light-highlight">+91 735 501 7830</span></span>
+        </div>
+    </div> {% endcomment %}
+
+    {% comment %} <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@600&family=Fugaz+One&family=Roboto:wght@100&display=swap');
+        header{
+            background-color: white;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 80px;
+        }
+        header .brand-logo{
+            width: 20%;
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+        header .brand-logo img{
+            height: 75px;
+        }
+        header .menu{
+            width: 52%;
+            height: 80px;
+            
+        }
+        header .menu ul{
+            list-style: none;
+            display: flex;
+            width: 100%;
+            height: 80px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header .menu ul li a{
+            color: black;
+            text-decoration: none;
+            font-family: 'Exo 2', sans-serif;
+        }
+        header .menu ul li a:hover{
+            color: red;
+        }
+        header .menu ul li .active{
+            color:rgb(212, 6, 6);
+        }
+        header .search{
+            width: 7%;
+            display: flex;
+            align-items: center;
+            justify-content: end;
+        }
+        header .search a{
+            color:black;
+        }
+        header .cart{
+            width: 3%;
+            display: flex;
+            align-items: center;
+            justify-content: end;
+        }
+        header .cart a{
+            color:black;
+        }
+        header .contact-us{
+            width: 15%;
+            display: flex;
+            align-items: center;
+            justify-content: end;
+        }
+        header .contact-us button{
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            background-color: rgb(248, 14, 14);
+            color: white;
+            width: 150px;
+        }
+        .toggler{
+            color:white;
+            font-size: 2rem;
+        }
+        .sidebar-down-div{
+            width: 100%;
+            background-color:rgb(0 0 0 / 56%) ;
+            position: absolute;
+            height: 100vh;
+            z-index: 20;
+            top: 0;
+            display: none;
+        }
+        .sidebar{
+            background-color: white;
+            width: 85%;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            z-index: 21;
+            display: none;
+            flex-direction: column;
+        }
+        @media screen and (max-width:850px){
+            header{
+                background-color:#223645;
+            }
+            header .menu ul li a{
+                display: none;
+            }
+            header .contact-us button{
+                display: none;
+            }
+            header .cart{
+                display: none;
+            }
+            header .search{
+                display: none;
+            }
+        }
+        .slide-in{
+            animation: slide-in 1s;
+        }
+        .slide-out{
+            animation: slide-out 1s;
+        }
+        @keyframes slide-in {
+            from{
+                left:-100%;
+                opacity: 0.1;
+            }
+            to{
+                left: 0%;
+                opacity: 1;
+            }
+        }
+        @keyframes slide-out {
+            from{
+                left: 0%;
+                opacity: 1;
+            }
+            to{
+                left:-100%;
+                opacity: 0.1;
+            }
+        }
+        @media screen and (min-width:850px) {
+            .sidebar{
+                display: none !important;
+            }
+            .sidebar-down-div{
+                display: none !important;
+
+            }
+        }
+        .sidebar .brand-icon{
+            width: 80vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sidebar .brand-icon .username{
+            font-size: 4vw;
+            font-family: 'Fugaz One', sans-serif;
+        }
+        .sidebar .brand-icon img{
+            max-width:15vw;
+            border-radius: 50%;
+        }
+        .search-bar{
+            width: 83vw;
+            display: flex;
+            column-gap: 0px;
+            justify-content: center;
+            align-items: center;
+            gap: 0px;
+        }
+        .search-bar .search-form{
+            display: flex;
+            justify-content: center;
+        }
+        .search-bar .search-input{
+            padding: 10px;
+            width: 60vw;
+            border: 1px solid black;
+            border-right: 0px;
+        }
+        .search-bar .search-input::placeholder{
+            font-family: 'Fugaz One', sans-serif;
+            color: black;
+            font-size:2.5vw;
+        }
+        .search-bar .search-input:focus{
+            outline: none;
+        }
+        .search-bar .search-button{
+            padding: 10px;
+            width: 10vw;
+            background-color: white;
+            border: 1px solid black;
+            border-left:0px;
+        }
+        .sidebar-menu-items{
+            width: 70vw;
+            height: 30em;
+        }
+        .sidebar-menu-items .menu{
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            row-gap: 30px;
+            padding: 40px;
+        }
+        .sidebar-menu-items .menu .menu-item{
+            font-family: 'Fugaz One', sans-serif;
+            font-size: 4vw;
+            color: black;   
+        }
+        .sidebar-menu-items .menu .menu-item a{
+      color:#20c997;
+      text-decoration: none;
+    }
+    </style> {% endcomment %}
+   
+    {% comment %} <header>
+        <div class="brand-logo">
+            <a href="{% url 'homepage' %}"><img src="{%static 'images/logo.png'%}" alt="webxter"></a>
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="{% url 'homepage'%}">Home</a></li>
+                <li><a href="{% url 'courses'%}">Coures</a></li>
+                <li><a href="{% url 'coachings' %}">Coaching</a></li>
+                <li><a href="{% url 'validate-certificate' %}">Certification Authentication</a></li>
+                <li><a href="{% url 'about' %}">About Us</a></li>
+                {% if request.user.is_authenticated%}
+                {% if request.user.is_superuser%}
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                {%endif%}
+                <li><a href="{% url 'blogs' %}">Blogs</a></li>
+                <li><a href="{% url 'notes' %}">Notes</a></li>
+                {%endif%}
+            </ul>
+        </div>
+        <div class="search">
+            {% if request.user.is_authenticated %}
+            <form method="post" action="{% url 'logout'%}">
+                {% csrf_token %}
+            <button style="border:none;background-color:transparent;color:black" title="logout"><i class="fa fa-sign-out"></i></button>
+            </form>
+            {% else %}
+            <a href="{% url 'login' %}"><i class="fa fa-key"></i></a>
+            {% endif %}
+        </div>
+        <div class="cart">
+            {% if request.user.is_authenticated %}
+            {% else %}
+            <a href="{% url 'signup' %}"><i class="fa fa-user-plus"></i></a>
+            {% endif %}
+        </div>
+        <div class="contact-us">
+            <a href="https://api.whatsapp.com/send?phone=7355017830"><button>Contact Us | +</button></a>
+        </div>
+        <div class="toggler">
+            <i class="fa fa-bars" id="toggler-button-header-mobile" onclick="toggler_sidebar()"></i>
+        </div>
+        
+        
+    </header> {% endcomment %}
+
+    {% comment %} <div class="sidebar-down-div" id="sidebar-down-div" onclick="toggler_sidebar()"></div>
+    <div class="sidebar" id="sidebar-mobile">
+        <div class="brand-icon">
+            <a href="#"><img src="{%static 'images/logo.png'%}" alt=""></a>
+            {% if request.user.is_authenticated %}
+            <span class="username">{{request.user.email}}</span>
+            {%else%}
+            <a href="{% url 'login' %}" style="color:#20c997;"><span class="username">Login</span></a>
+            {%endif%}
+        </div>
+        <div class="search-bar">
+            <form action="" class="search-form">
+                <input type="text" name="query" id="search-input" class="search-input" placeholder="Course, Timings, Class...">
+                <button class="search-button"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <div class="sidebar-menu-items">
+            <ul class="menu">
+                <li class="menu-item"><a href="{% url 'homepage'%}" class="active">Home</a></li>
+                <li class="menu-item"><a href="{% url 'courses' %}">Coures</a></li>
+                <li class="menu-item"><a href="{% url 'coachings' %}">Coaching</a></li>
+                <li class="menu-item"><a href="{% url 'validate-certificate' %}">Certification Authentication</a></li>
+                <li class="menu-item"><a href="{% url 'about' %}">About Us</a></li>
+                {% if request.user.is_authenticated%}
+                {% if request.user.is_superuser%}
+                <li class="menu-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                {%endif%}
+                <li class="menu-item"><a href="{% url 'blogs'%}">Blogs</a></li>
+                <li class="menu-item"><a href="{% url 'notes' %}">Notes</a></li>
+                {%endif%}
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let toggler_mobile_button = document.getElementById('toggler-button-header-mobile');
+        let sidebar_down = document.getElementById('sidebar-down-div');
+        let sidebar_mobile = document.getElementById('sidebar-mobile');
+        function toggler_sidebar(){
+            if(sidebar_mobile.style.display == "none"){
+                sidebar_mobile.style.display= "flex";
+                sidebar_down.style.display = "flex";
+                sidebar_down.classList.add('slide-in');
+                sidebar_mobile.classList.add('slide-in');
+                sidebar_mobile.classList.remove('slide-out');
+                sidebar_down.classList.remove('slide-out');
+            }
+            else{
+                sidebar_down.classList.add('slide-out');
+                sidebar_mobile.classList.add('slide-out');
+                sidebar_mobile.classList.remove('slide-in');
+                sidebar_down.classList.remove('slide-in');
+                setTimeout(() => {
+                    sidebar_mobile.style.display= "none";
+                    sidebar_down.style.display = "none";
+                }, 800);
+            }
+        }
+        sidebar_mobile.style.display= "none";
+        sidebar_down.style.display = "none";
+    </script> {% endcomment %}
+
+  <style>
+    .main-area{
+        min-height: 550px;
+        /*margin-top: 60px;*/
+        /* background-color: red; */
+    }
+  </style>
+  <div class="main-area" style="margin-top:100px">
+    {% block mainarea %}
+      
+    {% endblock mainarea %}
+  </div>
+
+
+  <style>
+    /* Footer Styles */
+    .footer {
+    background-color: #333;
+    color: #fff;
+    padding: 30px 0;
+    }
+
+    .footer h3 {
+    color: #fff;
+    }
+
+    .footer p {
+    color: #ccc;
+    margin-bottom: 10px;
+    }
+
+    .footer ul {
+    list-style: none;
+    padding-left: 0;
+    }
+
+    .footer ul li a {
+    color: #ccc;
+    text-decoration: none;
+    }
+
+    .footer ul li a:hover {
+    color: #fff;
+    }
+
+    .social-icons {
+    list-style: none;
+    padding-left: 0;
+    }
+
+    .social-icons li {
+    display: inline-block;
+    margin-right: 10px;
+    }
+
+    .social-icons li a {
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+    }
+
+    .social-icons li a:hover {
+    color: #ccc;
+    }
+
+    .footer hr {
+    border-top: 1px solid #555;
+    margin: 20px 0;
+    }
+
+    .footer p.text-center {
+    font-size: 14px;
+    }
+
+  </style>
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h3>Contact Us</h3>
+          <p>Email: info@webxter.in</p>
+          <p>Phone: +91 735-501-7830</p>
+          <p>Address: 585, Diamond Block, Impherial City, Loharka Road Amritsar</p>
+        </div>
+        <div class="col-md-4">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="{% url 'homepage' %}">Home</a></li>
+            <li><a href="{% url 'courses' %}">Courses</a></li>
+            <li><a href="{% url 'about' %}">About Us</a></li>
+            <li><a href="https://api.whatsapp.com/send?phone=7355017830">Contact</a></li>
+            <li><a href="{% url 'privacy-policy' %}">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h3>Connect with Us</h3>
+          <ul class="social-icons">
+            <li><a href="https://www.facebook.com/webxter.webs/" ><i class="fab fa-facebook"></i></a></li>
+            <li><a href="https://www.instagram.com/webxter_webs/" ><i class="fab fa-instagram"></i></a></li>
+            <li><a href="https://api.whatsapp.com/send?phone=7355017830"><i class="fab fa-whatsapp"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <hr>
+          <p class="text-center">&copy; 2024 Webxter. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+ 
+  <script src="{% static 'js/jquery/3.7.1/jquery.min.js'%}"></script>
+  <script src="{% static 'js/jquery/3.5.1/jquery.min.js'%}"></script>
+  <!-- sets active anchor tag color red -->
+  <script>
+    let anchorTags = document.querySelectorAll('a');
+    console.log("{{request.path}}")
+    anchorTags.forEach(function(anchorTag) {
+        var hrefUrl = new URL(anchorTag.href);
+        var hrefPath = hrefUrl.pathname;
+        if (hrefPath == "{{request.path}}") {
+            anchorTag.classList.add("active")
+        }
+    });
+  </script>
+  <script src="{% static 'js/jquery/jquery-2.2.4.min.js' %}"></script>
+    <!-- Popper js -->
+    <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
+    <!-- Bootstrap js -->
+    <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+    <!-- All Plugins js -->
+    <script src="{% static 'js/plugins/plugins.js' %}"></script>
+    <!-- Active js -->
+    <script src="{% static 'js/active.js' %}"></script>
+</body>
+</html>

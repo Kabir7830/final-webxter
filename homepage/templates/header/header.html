@@ -1,0 +1,150 @@
+<style>
+a.active{
+    color:#70c745 !important;
+}
+a{
+    cursor: pointer;
+}
+</style>
+<header class="header-area">
+        <!-- ***** Top Header Area ***** -->
+        <div class="top-header-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="top-header-content d-flex align-items-center justify-content-between">
+                            <!-- Top Header Content -->
+                            <div class="top-header-meta">
+                                <a href="mailto:{{company.email}}" data-toggle="tooltip" data-placement="bottom" title="{{company.email}}"><i class="fa fa-envelope-o" aria-hidden="true"></i> <span>Email: {{company.email}}</span></a>
+                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="+91 {{company.phone_number}}"><i class="fa fa-phone" aria-hidden="true"></i> <span>Call Us: +91 {{company.phone_number}}</span></a>
+                            </div>
+
+                            <!-- Top Header Content -->
+                            <div class="top-header-meta d-flex">
+                                <!-- Language Dropdown -->
+                                <div class="language-dropdown">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle mr-30" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Language</button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="#">USA</a>
+                                            <a class="dropdown-item" href="#">UK</a>
+                                            <a class="dropdown-item" href="#">Bangla</a>
+                                            <a class="dropdown-item" href="#">Hindi</a>
+                                            <a class="dropdown-item" href="#">Spanish</a>
+                                            <a class="dropdown-item" href="#">Latin</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Login -->
+                                <div class="login">
+                                {% if user.is_authenticated %}
+                                <form action="{% url 'logout'%}" method="post">
+                                    {% csrf_token %}
+                                    <button style="background-color: transparent;border:none;display: inline-block;
+                                    font-size: 12px;
+                                    font-weight: 400;
+                                    color: #ffffff;
+                                    line-height: 1;
+                                    margin-right: 25px;" type="submit"><i class="fa fa-user" aria-hidden="true" style="color:#70c745"></i> <span>Logout</span></button>
+                                </form>
+                                {%else%}
+                                <a href="{% url 'login'%}"><i class="fa fa-user" aria-hidden="true"></i> <span>Login</span></a>
+                                {% endif %}
+                                </div>
+                                <!-- Cart -->
+                                <div class="cart">
+                                    <a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Cart <span class="cart-quantity">({{cart_items}})</span></span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ***** Navbar Area ***** -->
+        <div class="alazea-main-menu">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container">
+                    <!-- Menu -->
+                    <nav class="classy-navbar justify-content-between" id="alazeaNav">
+
+                        <!-- Nav Brand -->
+                        <a href="{% url 'homepage' %}" class="nav-brand" style="max-width:10%"><img src="/media/{{company.logo}}" alt="{{company.name}}" style="max-width:100%"></a>
+
+                        <!-- Navbar Toggler -->
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
+
+                        <!-- Menu -->
+                        <div class="classy-menu">
+
+                            <!-- Close Button -->
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+
+                            <!-- Navbar Start -->
+                            <div class="classynav">
+                                <ul>
+                                    <li><a href="{% url 'homepage'%}" data-target="{% url 'homepage'%}">Home</a></li>
+                                    <li><a href="{% url 'about'%}" data-target="{% url 'about'%}">About</a></li>
+                                    <li><a>Categories</a>
+                                        <ul class="dropdown">
+                                            <li><a>Web Development</a></li>
+                                            <li><a>Graphic Designing</a></li>
+                                            <li><a>Modren Trends</a>
+                                                <ul class="dropdown">
+                                                    <li><a>AI</a></li>
+                                                    <li><a href="#">Data Analysis</a></li>
+                                                    <li><a href="#">API Integrations</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#" data-target="#">Programing</a></li>
+                                            {% if user.is_superuser %}
+                                              
+                                            <li><a href="#" class="position-relative">
+                                                Dashboard
+                                                <span class="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style="left: 130px;">
+                                                    {{notifications}}
+                                                </span>
+                                            </a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </li>
+                                    <li><a href="{% url 'courses' %}" data-target="{% url 'courses' %}">Courses</a></li>
+                                    <li><a href="{% url 'validate-certificate'%}" data-target="{% url 'validate-certificate'%}">Vertificate Validation</a></li>
+                                    {% if user.is_superuser %}
+                                    <li><a href="#" class="position-relative">
+                                        Dashboard
+                                        <span class="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style="left: 130px;">
+                                            {{notifications}}
+                                          </span>
+                                    </a></li>
+                                    {% endif %}
+                                </ul>
+
+                                <!-- Search Icon -->
+                                <div id="searchIcon">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </div>
+
+                            </div>
+                            <!-- Navbar End -->
+                        </div>
+                    </nav>
+
+                    <!-- Search Form -->
+                    <div class="search-form">
+                        <form action="#" method="get">
+                            <input type="search" name="search" id="search" placeholder="Type keywords &amp; press enter...">
+                            <button type="submit" class="d-none"></button>
+                        </form>
+                        <!-- Close Icon -->
+                        <div class="closeIcon"><i class="fa fa-times" aria-hidden="true"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>

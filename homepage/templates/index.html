@@ -1,0 +1,425 @@
+{% extends "index-master.html" %}
+
+{% block title %}
+  Webxter | Homepage | Coaching and Web Dev Platform
+{% endblock title %}
+{% load static %}
+{% block mainarea %}
+  <style>
+    
+    .about-us{
+      width: 100%;
+      height: fit-content;
+      background-color: white;
+    }
+    .about-us .heading{
+      font-size: 46px;
+      font-weight: bold;
+      color:#4da191;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .about-us .about{
+      width: 100%;
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      column-gap: 10px;
+      flex-wrap: wrap;
+      /* height: 200px; */
+    }
+    .about-us .about p{
+      font-size: 18px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      width: 100%;
+      text-align: justify;
+    }
+    .brand-name{
+      position: absolute;
+      font-size: 66px;
+      color:white;
+      top: 50px;
+      width: 100%;
+      text-align: center;
+      font-weight: bolder;
+
+    }
+    .about-us .section-left{
+      width: 30%;
+      height:400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .about-us .section-left img{
+      max-height: 400px;
+      width: 100%;
+      border-radius: 20px;
+    }
+    .about-us .section-right{
+      width: 60%;
+      height: 300px;
+    }
+    @media screen and (min-width:200px) and (max-width:550px) {
+      #about-us-heading, #about-us-body{
+        display: none;
+      }
+    }
+  </style>
+  <div id="carouselExampleCaptions" class="carousel slide">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleCaptions" style="background-color: black;" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      {% for banner in banners %}
+      {% if banners.0 == banner %}
+      {%else%}
+      <button type="button" data-bs-target="#carouselExampleCaptions" style="background-color: black;" data-bs-slide-to="{{forloop.counter0}}" aria-label="Slide {{index}}"></button>
+      {% endif %}
+      {%endfor%}
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/media/{{banners.0.carousel_image}}" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5></h5>
+          <p></p>
+        </div>
+      </div>
+      {% for banner in banners %}
+      {% if banners.0 == banner %}
+      {%else%}
+      <div class="carousel-item">
+        <img src="/media/{{banner.carousel_image}}" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5></h5>
+          <p>.</p>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <br><br>
+  <!--<div class="heading" id="about-us-heading">-->
+  <!--  <hr>-->
+  <!--  <label>About Us</label>-->
+  <!--  <hr>-->
+  <!--</div>-->
+  <!--<div class="card text-bg-dark" id="about-us-body" style="height: 500px;">-->
+    <!-- <img src="{%static 'images/bg04.jpg'%}" class="card-img" alt="..." style="max-height: 500px;"> -->
+  <!--  <div class="card-img-overlay" style="font-size: 1em;">-->
+  <!--    <p class="about-us-text">{{company.company_about_us | safe}}</p>-->
+      
+  <!--    <p class="card-text"><small><button class="btn btn-success"><i class="fa fa-arrow-right"></i></button></small></p>-->
+  <!--  </div>-->
+  <!--</div>-->
+  <!--<br><br>-->
+
+  <style>
+
+    .heading{
+      font-size: 2em;
+      font-weight: bold;
+      color :#4da191;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      background-color: white;
+    }
+    .heading hr{
+      height: 2px;
+      width: 30%;
+      background-color:#475e88;
+      color: #475e88;
+      border-color: #475e88;
+    }
+    @media screen and (min-width:200px) and (max-width:550px) {
+      .heading{
+        font-size: 1.5em;
+      }
+      .heading hr{
+        width: 10%;
+      }
+      }
+  </style>
+  <div class="courses">
+    <div class="heading">
+      <hr>
+      <label for="">Training Courses</label>
+      <hr>
+    </div>
+    <style>
+      .card-grp{
+        /* display: grid; */
+        display: flex;
+        column-gap: 50px;
+        justify-content: center !important;
+      }
+      .card{
+        width: 100%;
+        padding: 10px;
+        border-radius: 20px;
+      }
+      .card-img-top{
+        width: 50% !important;
+        max-height: 210px;
+      }
+      .btn{
+        width: 100px !important;
+      }
+      .card-footer{
+        display: block;
+        width: 100%;
+        background-color: white;
+        border: none;
+      }
+      .card-header{
+        height: 200px;
+        border: none;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    .center-div{
+        width: 100%;
+        text-align: center;
+      }
+    </style>
+    <div class="row row-cols-1 row-cols-md-4 g-4 card-grp" style="width:100%">
+      {% for course in courses %}        
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-header">
+            <img src="/media/{{course.course_image}}" class="card-img-top" alt="...">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{course.course_name}}</h5>
+            <p class="card-text" style="text-align:justify;">{{course.course_short_description}}</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-body-secondary"><a href="/course/{{course.slug}}/"><button type="button" class="btn btn-success">View</button></a></small>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    <div class="center-div">
+      <br> 
+      <a href="/courses/"><button class="btn btn-outline-secondary">View All</button></a>
+    </div>
+    </div>
+
+
+  </div>
+
+  <br><br>
+  <!-- Coaching -->
+  <div class="courses" id="training_courses">
+    <div class="heading">
+      <hr>
+      <label for="">Coaching Available For</label>
+      <hr>
+    </div>
+    <br>
+    <div class="row row-cols-1 row-cols-md-4 g-4 card-grp" style="width:100%">
+      {% for coaching in coachings %}        
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-header">
+            <img src="/media/{{coaching.image}}" class="card-img-top" alt="...">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{coaching.subject}}</h5>
+            <p class="card-text" style="text-align:justify;">{{coaching.short_description}}</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-body-secondary"><a href="/coaching/{{coaching.slug}}/"><button type="button" class="btn btn-success">View</button></a></small>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+    <div class="center-div">
+      <br> 
+      <a href="/coachings/"><button class="btn btn-outline-secondary">View All</button></a>
+    </div>
+  </div>
+  
+  <style>
+    .offline-tuitions{
+      background-color: white;
+    }
+  </style>
+  
+  <br><br>
+  <div class="heading">
+    <hr>
+    <label for="">Request A Call Back <span class="fa fa-phone"></span></label>
+    <hr>
+  </div>
+  <style>
+    .enroll-now{
+      background-color:white;
+      width: 100%;
+      height: 380px;
+    }
+    .webxter-button{
+      padding: 10px;
+      border: none;
+      color: white;
+      background-color: #4da191;
+      border-radius: 10px;
+      width: 150px;
+    }
+    .webxter-button:hover{
+      background-color: #475e88;
+    }
+    .enroll-now {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .enroll-now form{
+      width: 50%;
+    }
+    .enroll-now form input,textarea{
+      max-width: 100%;
+    }
+    @media screen and (min-width:200px) and (max-width:550px) {
+        .enroll-now form{
+      width: 95%;
+    }
+    }
+  </style>
+  <div class="enroll-now">
+    <form action="{% url 'request-callback'%}" method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <input type="text" placeholder="Full Name" name="name" required class="form-control"> 
+      </div>
+      <br>
+      <div class="form-group">
+        <input type="email" placeholder="user@example.com" name="email" required class="form-control">
+      </div>
+      <br>
+      <div class="form-group">
+        <input type="text" placeholder="Phone Number" name="phone_number" maxlength="10" minlength="10" required class="form-control">
+      </div>
+      <br>
+      <div class="form-group">
+        <textarea name="message" id="" cols="80" rows="4" placeholder="Message" class="form-control"></textarea>
+      </div>
+      <input type="text" name="date" id="id_date" hidden>
+      <input type="text" name="time" id="id_time" hidden>
+      <script>
+        const date = new Date()
+        let day = date.getDate();
+        let month = date.getMonth();
+        let year = date.getFullYear();
+        let current_date = `${day}-${month+1}-${year}`;
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let current_time = `${hours}:${minutes}`;
+        document.getElementById('id_date').value = current_date;
+        document.getElementById('id_time').value = current_time;
+      </script>
+      <br>
+      <button type="submit" class="webxter-button">submit</button>
+    </form>
+  </div>
+  </div>
+  <br><br>
+  <div class="heading">
+    <hr>
+    <label for="">Why Choose Webxter?</label>
+    <hr>
+  </div>
+  <style>
+    .why-webxter {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+    }
+    .why-webxter ul{
+      width: 82%;
+      line-height: 40px;
+    }
+    .why-webxter ul{
+      list-style: none;
+      font-size: 16px;
+    }
+    .why-webxter ul li strong{
+      font-size: 20px;
+      color: #475e88;
+      text-transform: uppercase;
+    }
+  </style>
+
+  <div class="accordion accordion-flush" id="accordionFlushExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+          <strong>Expertise</strong>
+        </button>
+      </h2>
+      <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">Our team's vast knowledge and experience in the IT industry ensure that you receive the highest quality education and industry-relevant insights.</div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+          <strong>Practical Approach</strong>
+        </button>
+      </h2>
+      <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">We focus on hands-on projects and real-world scenarios, giving you the confidence to apply your skills in real-life situations.</div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+          <strong>Industry Connections</strong>
+        </button>
+      </h2>
+      <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">Our network of professionals and alumni provides valuable connections and potential opportunities for your future career.</div>
+      </div>
+     </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+          <strong>Flexible Learning Options</strong>
+        </button>
+      </h2>
+      <div id="flush-collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">Choose from a range of courses and schedules that suit your needs, whether you're a school student or a working professional.</div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+          <strong>Supportive Community</strong>
+        </button>
+      </h2>
+      <div id="flush-collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">Join a community of like-minded individuals passionate about technology and learning. Collaborate, grow, and inspire together.</div>
+      </div>
+    </div>
+  </div>
+
+{% endblock mainarea %}

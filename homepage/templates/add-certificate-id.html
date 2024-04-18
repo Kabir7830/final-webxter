@@ -1,0 +1,99 @@
+{% extends "admin-master.html" %}
+{% block title %}
+  Create Certificate
+{% endblock title %}
+
+{% block adminarea %}
+  
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container-wrapper .container {
+      max-width: 400px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .container-wrapper h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .container-wrapper label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .container-wrapper input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+    .container-wrapper select{
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+    .container-wrapper button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .container-wrapper .message {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .container-wrapper .success {
+      color: #4CAF50;
+    }
+
+    .container-wrapper .error {
+      color: #f44336;
+    }
+  </style>
+</head>
+
+<div class="container-wrapper">
+  <div class="container">
+    <h1>Create Certificate</h1>
+    <form action="{% url 'create-certificate'%}" method="post">
+      {% csrf_token %}
+        <label for="certificateCode">Enter certificate number:</label>
+        <input type="text" id="certificateCode" placeholder="E.g., ABC1234" name='certificate_number' required>
+        <br>
+        <label for="studentID">Enter student ID:</label>
+        <select id="studentID" placeholder="E.g., 123456" name="student_id" required>
+            {% for student in students %}
+            <option value="{{student.id}}">{{student.email}} -- {{student.first_name}}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <button type="submit">Create</button>
+    </form>
+    </div>
+  </div>
+
+  
+    {% endblock adminarea %}

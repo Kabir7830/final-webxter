@@ -1,0 +1,21 @@
+{% extends "masters/index-master.html" %}
+{% block title %}
+500 server Error
+{% endblock title %}
+
+{% block mainarea %}
+  <style>
+    .container404{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+  </style>
+  <div class="container404" >
+    <h1>500 Internal Server Error</h1>
+    <p>Oops! Server Error</p>
+  </div>
+
+{% endblock mainarea %}

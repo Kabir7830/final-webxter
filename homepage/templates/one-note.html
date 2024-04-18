@@ -1,0 +1,68 @@
+{% extends "index-master.html" %}
+{% block title %}
+  {{note.notes_title}} | Webxter
+{% endblock title %}
+
+{% load static %}
+
+{% block mainarea %}
+  <style>
+    .form-group label{
+        color:white;
+    }
+    .form-group input::placeholder,.form-group textarea::placeholder{
+        color: rgba(0, 0, 0, 0.449);
+    }
+    .form-group input, .form-group textarea{
+        /* background-color:#00000036 !important;
+         */
+        background-color: white;
+        color: black;
+    }
+    .notes-area{
+        width: 100%;
+        text-align: center;
+        padding-top: 10px;
+    }
+  </style>
+
+  <div class="notes-area">
+    <h2>Edit Note</h2>
+    <br>
+    <form action="{% url 'edit-note' notes_id=note.id%}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="">Note Title</label>
+            <input type="text" class="form-control" placeholder="Title" name="notes_title" value="{{note.notes_title}}">
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="">Notes</label>
+            <textarea id="id_notes" name="notes">{{note.notes}}</textarea> 
+        <script src="https://htmeditor.com/js/htmeditor.min.js" htmeditor_textarea="id_notes" full_screen="no" editor_height="380" run_local="no"></script>
+        </div>
+        <input type="text" hidden id="id_edited_on" name="edited_on">
+        <script>
+            let date = new Date();
+            let _date = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`; 
+            // console.log(_date);
+            var element = document.getElementById('id_edited_on');
+            element.value = _date;
+        </script>
+        <br>
+        <button class="btn btn-success" type="submit">Save</button>
+    </form>
+    <form action="{% url 'delete-note' notes_id=note.id%}" method="post" style="width: 100%;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger" style="margin-left: 87vw;margin-top:-67px">Delete</button>
+    </form>
+  </div>
+
+<!-- 
+user_id
+notes_title
+notes
+written_on
+edited_on
+ -->
+{% endblock mainarea %}

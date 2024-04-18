@@ -1,0 +1,61 @@
+{% extends "admin-master.html" %}
+
+{% block title %}
+  All Coachings
+{% endblock title %}
+
+
+{% block adminarea %}
+<style>
+    table tr{
+        color: white;
+    }
+</style>
+<table class="table">
+    <thead>
+      <tr>
+        <th>Subjects</th>
+        <th>Classes</th>
+        <th>Online</th>
+        <th>Offline</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for coaching in coachings %}
+      <tr>
+        <td>{{coaching.subject}}</td>
+        <td>{{coaching.classes}}</td>
+        {% if coaching.mode == 'both' %}
+          <td><i class="fa fa-check"></i></td>
+          <td><i class="fa fa-check"></i></td>
+          {%else%}
+        
+        <td>
+          {% if coaching.mode == "online" %}
+          <i class="fa fa-check"></i>
+          {%else%}
+          <i class="fa fa-close"></i>
+          {% endif %}
+        </td>
+        <td>
+          {% if coaching.mode == "offline" %}
+          <i class="fa fa-check"></i>
+          {%else%}
+          <i class="fa fa-close"></i>
+          {% endif %}
+        </td>
+        {% endif %}
+        <td><a href="/edit-coaching/{{coaching.id}}/"><button class="btn btn-success">Edit</button></a></td>
+        <td><form action="/delete/coaching/{{coaching.id}}/" method="post">{% csrf_token %} <button type="submit" class="btn btn-danger">Delete</button></form></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <script>
+    document.querySelector('li[data-target="all"]').classList.add('active')
+    document.querySelector('a[data-target="all-coachings"]').classList.add('active-a')
+</script>
+{% endblock adminarea %}

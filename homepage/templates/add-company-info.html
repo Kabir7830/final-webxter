@@ -1,0 +1,56 @@
+{% extends "admin-master.html" %}
+{% block title %}
+Comapny Details
+{% endblock title %}
+
+{% block adminarea %}
+  <style>
+    .form-group label{
+        color: white;
+    }
+  </style>
+  <form action="{% url 'add-company-info'%}" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="">Company Name</label>
+        <input type="text" name="company_name" class="form-control" required>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="">Logo</label>
+        <input type="file" name="company_logo" class="form-control" id="files">
+        <img id="image1"  style="max-height: 150px;"/>
+    </div>
+    <script>
+        document.getElementById('files').onchange = function () {
+      var src = URL.createObjectURL(this.files[0])
+      document.getElementById('image1').src = src
+    }
+      </script>
+    <br>
+    <div class="form-group">
+        <label for="">Fav Icon</label>
+        <input type="file" name="company_fav_icon" class="form-control" id="files2">
+        <img id="image2"  style="max-height: 150px;"/>
+    </div>
+    <script>
+        document.getElementById('files2').onchange = function () {
+      var src = URL.createObjectURL(this.files[0])
+      document.getElementById('image2').src = src
+    }
+      </script>
+    <br>
+    <div class="form-group">
+        <label for="">About Comapny</label>
+        <textarea id="id_company_about_us" name="company_about_us"></textarea> 
+        <script src="https://htmeditor.com/js/htmeditor.min.js" htmeditor_textarea="id_company_about_us" full_screen="no" editor_height="380" run_local="no"></script>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-success">Add</button>
+  </form>
+  <script>
+    document.querySelector('li[data-target="add"]').classList.add('active')
+    document.querySelector('a[data-target="add-conmpany-info"]').classList.add('active-a')
+</script>
+
+{% endblock adminarea %}

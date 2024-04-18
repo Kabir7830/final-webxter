@@ -1,0 +1,35 @@
+{% extends "index-master.html" %}
+
+{%block title%}
+Calculator Home | Webxter
+{%endblock title%}
+
+{% block mainarea %}
+<style>
+    .home-area{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 20px;
+        height: 400px;
+    }
+    .option{
+        padding: 10px;
+        width: 200px;
+        background-color: black;
+        color:white;
+        border-radius: 10px;
+    }
+    .option:hover{
+        background-color: white;
+        border: solid 1px black;
+        color: black;
+        cursor: pointer;
+    }
+</style>  
+<div class="home-area">
+    <a href="cal-values/"><button class="option">Calorie Calculator</button></a>
+    <a href="cal-dvs/"><button class="option">DV Calculator</button></a>
+  </div>
+{% endblock mainarea %}

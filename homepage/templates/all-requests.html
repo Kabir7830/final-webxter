@@ -1,0 +1,66 @@
+{% extends "admin-master.html" %}
+
+{% block title %}
+  All Requests
+{% endblock title %}
+
+
+{% block adminarea %}
+  <style>
+
+  </style>
+
+  <form action="">
+    <input type="text" name="query" placeholder="search">
+    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+  </form>
+  <table class="table">
+    <thead>
+        <tr style="color:white">
+            <th>User Name</th>
+            <th>User Email</th>
+            <th>User Phone Number</th>
+            <th>Message</th>
+            <th>Date & Time</th>
+            <th>Status</th>
+            <th>Option</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for req in requests %}
+        <tr style="color:white">
+            <td>{{req.name}}</td>
+            <td>{{req.email}}</td>
+            <td>{{req.phone_number}}</td>
+            <td>{{req.message}}</td>
+            <td>{{req.date}} -- {{req.time}}</td>
+            <td>
+                {% if req.is_opened == True %}
+                <i class="fa fa-check"></i>
+                {%else%}
+                pending
+                {% endif %}
+            </td>
+            <td>
+                {% if req.is_opened == True %}
+                <form action="{% url 'delete-request' req_id=req.id%}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                {%else%}
+                <form action="{% url 'read-request' req_id=req.id%}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success">mark as read</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+  <script>
+    document.querySelector('li[data-target="all"]').classList.add('active')
+    document.querySelector('a[data-target="all-requests"]').classList.add('active-a')
+  </script>
+{% endblock adminarea %}

@@ -1,0 +1,169 @@
+{% extends "index-master.html" %}
+{% block title %}
+  New Blog | Webxter
+{% endblock title %}
+
+{% block mainarea %}
+  
+
+{%load static%}
+<style>
+    * { box-sizing:border-box; }
+
+/* basic stylings ------------------------------------------ */
+
+
+h2 		 { 
+  text-align:center; 
+  margin-bottom:50px; 
+}
+h2 small { 
+  font-weight:normal; 
+  color:#888; 
+  display:block; 
+}
+
+
+/* form starting stylings ------------------------------- */
+.group 			  { 
+  position:relative; 
+  margin-bottom:45px; 
+}
+input 				{
+  font-size:18px;
+  padding:10px 10px 10px 5px;
+  display:block;
+  width:300px;
+  border:none;
+  border-bottom:1px solid #757575;
+}
+input:focus 		{ outline:none; }
+
+/* LABEL ======================================= */
+label 				 {
+  color:#999; 
+  font-size:18px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+
+/* active state */
+input:focus ~ label, input:valid ~ label 		{
+  top:-20px;
+  font-size:14px;
+  color:#5264AE;
+}
+
+/* BOTTOM BARS ================================= */
+.bar 	{ position:relative; display:block; width:300px; }
+.bar:before, .bar:after 	{
+  content:'';
+  height:2px; 
+  width:0;
+  bottom:1px; 
+  position:absolute;
+  background:#5264AE; 
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+.bar:before {
+  left:50%;
+}
+.bar:after {
+  right:50%; 
+}
+
+/* active state */
+input:focus ~ .bar:before, input:focus ~ .bar:after {
+  width:50%;
+}
+
+/* HIGHLIGHTER ================================== */
+.highlight {
+  position:absolute;
+  height:60%; 
+  width:100px; 
+  top:25%; 
+  left:0;
+  pointer-events:none;
+  opacity:0.5;
+}
+
+/* active state */
+input:focus ~ .highlight {
+  -webkit-animation:inputHighlighter 0.3s ease;
+  -moz-animation:inputHighlighter 0.3s ease;
+  animation:inputHighlighter 0.3s ease;
+}
+
+/* ANIMATIONS ================ */
+@-webkit-keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+@-moz-keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+@keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+</style>
+<div>
+    <br>
+    
+</div>
+
+<form method="POST" action="{% url 'edit-blog' slug=blog.slug %}/">
+  
+    {%csrf_token%}
+
+    <div class="group">      
+        <input type="text" id="id_blog_title" name="blog_title" value="{{blog.blog_title}}">
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>Title</label>
+    </div>
+    <textarea id="id_blog_content" name="blog_content">{{blog.blog_content}}</textarea> 
+    <script src="https://htmeditor.com/js/htmeditor.min.js" htmeditor_textarea="id_blog_content" full_screen="no" editor_height="380" run_local="no"></script>
+    <br>
+    <div class="group">
+        <h6>Visibility</h6>
+        <select name="is_published" class="form-select">
+          {% if blog.is_published == True %}
+          <option value="True" selected>Public</option>
+          <option value="False">Private</option>
+          {%else%}
+          <option value="True">Public</option>
+          <option value="False" selected>Private</option>
+          {% endif %}
+
+        </select>
+    </div>
+    <input type="text" name="edited_on" id="id_edited_on" hidden>
+    <script>
+        var element = document.getElementById('id_edited_on');
+        let date = new Date();
+        let _date = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+        element.value = _date;
+    </script>
+    <br>
+    <button type="submit" class="btn btn-success">Save &nbsp;&nbsp;&nbsp;<span class="fab fa-telegram-plane"></span> </button>
+</form>
+
+<form action="{% url 'delete-blog' blog_id=blog.id%}" method="post" style="width: 100%;">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger" style="margin-left: 83vw;margin-top: -65px;">Delete</button>
+</form>
+
+
+
+{% endblock mainarea %}

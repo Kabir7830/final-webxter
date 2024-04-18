@@ -1,0 +1,38 @@
+{% extends "admin-master.html" %}
+{% block title %}
+  All Courses
+{% endblock title %}
+
+
+{% block adminarea %}
+  <style>
+
+  </style>
+  <table class="table">
+    <thead>
+        <tr style="color: white;">
+            <th>Course Name</th>
+            <th>Thumbnail</th>
+            <th>Short Description</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for course in courses %}
+        <tr style="color: white !important;">
+              <td>{{course.course_name}}</td>
+              <td><img src="/media/{{course.course_image}}" alt="img" style="max-height: 100px;"></td>
+              <td>{{course.course_short_description}}</td>
+              <td><a href="/edit-course/{{course.id}}/"><button class="btn btn-success">Edit</button></a></td>
+              <td><form action="/delete-course/{{course.id}}/" method="post">{% csrf_token %}<button type="submit" class="btn btn-danger">Delete</button></form></td>
+            </tr>
+            {% endfor %}
+    </tbody>
+  </table>
+  <script>
+        document.querySelector('li[data-target="all"]').classList.add('active')
+        document.querySelector('a[data-target="all-courses"]').classList.add('active-a')
+  </script>
+{% endblock adminarea %}

@@ -1,0 +1,43 @@
+{% extends "admin-master.html" %}
+
+{% block title %}
+  Add Banner
+{% endblock title %}
+
+
+{% block adminarea %}
+  <style>
+    .form-group label{
+        color:white;
+    }
+  </style>
+  <form action="{% url 'add-banner'%}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="">Select Image</label>
+        <input type="file" class="form-control" placeholder="" name="carousel_image" id="files" required>
+        <img id="image"  style="max-height: 150px;"/>
+    </div>
+    <div class="form-group">
+        <label for="">Carousel Title</label>
+        <input type="text" name="carousel_title" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="">Carousel Description</label>
+        <textarea name="carousel_description" class="form-control"></textarea>
+    </div>
+    <script>
+        document.getElementById('files').onchange = function () {
+      var src = URL.createObjectURL(this.files[0])
+      document.getElementById('image').src = src
+    }
+      </script>
+    <br>
+    <button class="btn btn-success">Add</button>
+  </form>
+
+  <script>
+        document.querySelector('li[data-target="add"]').classList.add('active')
+    document.querySelector('a[data-target="add-banner"]').classList.add('active-a')
+  </script>
+{% endblock adminarea %}

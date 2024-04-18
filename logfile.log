@@ -1,0 +1,113 @@
+This is a debug message
+An error occurred: You cannot access body after reading from request's data stream
+Exception traceback:
+Traceback (most recent call last):
+  File "D:\cloudmagika webxter\webxter\homepage\views.py", line 36, in post
+    body_content = request.body
+                   ^^^^^^^^^^^^
+  File "D:\virtualenvironment\virtualenv\Lib\site-packages\rest_framework\request.py", line 421, in __getattr__
+    return getattr(_request, attr)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\virtualenvironment\virtualenv\Lib\site-packages\django\http\request.py", line 325, in body
+    raise RawPostDataException(
+django.http.request.RawPostDataException: You cannot access body after reading from request's data stream
+This is a debug message
+An error occurred: You cannot access body after reading from request's data stream
+Exception traceback:
+Traceback (most recent call last):
+  File "D:\cloudmagika webxter\webxter\homepage\views.py", line 36, in post
+    body_content = request.body
+                   ^^^^^^^^^^^^
+  File "D:\virtualenvironment\virtualenv\Lib\site-packages\rest_framework\request.py", line 421, in __getattr__
+    return getattr(_request, attr)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\virtualenvironment\virtualenv\Lib\site-packages\django\http\request.py", line 325, in body
+    raise RawPostDataException(
+django.http.request.RawPostDataException: You cannot access body after reading from request's data stream
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+An error occurred: Manager isn't available; 'auth.User' has been swapped for 'homepage.CompanyUser'
+Exception traceback:
+Traceback (most recent call last):
+  File "D:\cloudmagika webxter\webxter\homepage\views.py", line 50, in post
+    existing_signedup_user = User.objects.filter(email = email)
+                             ^^^^^^^^^^^^
+  File "D:\virtualenvironment\virtualenv\Lib\site-packages\django\db\models\manager.py", line 196, in __get__
+    raise AttributeError(
+AttributeError: Manager isn't available; 'auth.User' has been swapped for 'homepage.CompanyUser'
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message
+This is a debug message

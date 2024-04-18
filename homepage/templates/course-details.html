@@ -1,0 +1,142 @@
+{% extends "index-master.html" %}
+
+{% block title %}
+  {{course.course_name}} | Info
+{% endblock title %}
+
+
+{% block mainarea %}
+  <style>
+    .course-details-3647326 h1 {
+      margin-top: 0;
+    }
+
+    .course-details-3647326.container {
+      max-width: 960px;
+      margin: 150px auto;
+      padding: 20px;
+    }
+
+    .course-details-3647326 .course {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .course-details-3647326 .course h2 {
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+
+    .course-details-3647326 .course p {
+      margin-bottom: 10px;
+    }
+
+    .course-details-3647326 .course ul {
+      margin: 0;
+      padding-left: 20px;
+      list-style-type: disc;
+    }
+
+    .course-details-3647326 .course ul li {
+      margin-bottom: 5px;
+    }
+
+    .course-details-3647326 .enroll-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      min-width: 100px;
+    }
+
+    .course-details-3647326 .enroll-btn:hover {
+      background-color: #0056b3;
+    }
+    button.message-success{
+      background-color: #00d26a !important;
+      color:white !important;
+      cursor: no-drop !important;
+    }
+  </style>
+
+<div class="container course-details-3647326">
+    <div class="course">
+        <div>
+            <img src="/media/{{course.course_image}}" alt="" style="max-height: 250px;">
+        </div>
+      <h2>{{course.course_name}}</h2>
+      <p>{{course.course_short_description}}</p>
+      {{course.course_description | safe}}
+      <br>
+      <form>
+        {% csrf_token %}
+        {% if student %}
+        <button type="button" class="enroll-btn" disabled style="cursor: no-drop;background-color: #00d26a;">Enrolled ✅</button>
+        {%else%}
+        <input type="text" hidden id="id_enrolled_date" name="enrolled_date">
+        <input type="text" hidden id="id_enrolled_time" name="enrolled_time">
+        <button type="button" onclick="enrollNow_to_a_course()" id="id_enroll_button" class="enroll-btn">Enroll Now</button>
+        {% endif %}
+        {% if course.course_syllabus %}
+        <a href="/media/{{course.course_syllabus}}" download=""><button type="button" class="enroll-btn">Download Syllabus</button></a>
+        {% endif %}
+        <p id="id_error_message" style="color:red"></p>
+        <script>
+          let date = new Date()
+          let date_ele = document.getElementById('id_enrolled_date');
+          let time_ele = document.getElementById('id_enrolled_time');
+          date_ele.value = `${date.getDate()} - ${(Number(date.getMonth())+1)} - ${date.getFullYear()}`;
+          time_ele.value = `${date.getHours()} : ${date.getMinutes()}`;
+        </script>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function enrollNow_to_a_course(){
+      let url = "{% url 'enroll' course_id=course.id%}";
+      let course_id = "{{course.id}}";
+      let enroll_button = document.getElementById('id_enroll_button');
+      var csrftoken = $('input[name="csrfmiddlewaretoken"]').val();
+      let error_message = document.getElementById('id_error_message');
+      enroll_button.innerHTML = `<div class="spinner-border " role="status" style="width: 20px;height: 20px;">
+            <span class="visually-hidden">Loading...</span>
+          </div>`
+      $.ajax(
+        {
+          url:url,
+          type:'POST',
+          contentType: 'application/json',
+          beforeSend:function(xhr){
+            xhr.setRequestHeader("X-CSRFToken",csrftoken)
+          },
+          success: function(data){
+            if (data['status'] == 'success'){
+              setTimeout(() => {
+                enroll_button.disabled = true;
+                enroll_button.innerHTML = data['message'];
+                enroll_button.classList.add('message-success');
+              }, 600);
+            }
+            else if (data['status'] == 'error'){
+              setTimeout(() => {
+                enroll_button.innerHTML = "Enroll Now";
+                error_message.innerHTML = data['message'];
+              }, 600);
+            }
+          },
+          error: function(xhr,textStatus, errorThrown){
+            console.log('Ajax Error:', errorThrown); 
+            console.log('Ajax Error:', textStatus); 
+          }
+        }
+      );
+    }
+  </script>
+{% endblock mainarea %}

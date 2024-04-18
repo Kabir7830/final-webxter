@@ -1,0 +1,132 @@
+{% extends "index-master.html" %}
+
+{%block title%}
+Calorie Calculator | Webxter
+{%endblock title%}
+{% block mainarea %}
+  
+
+    <style>
+         /* body
+        {
+            background-image: linear-gradient(to top,#000000c2,black,#000000c2);
+            color: white;
+        } */
+        .calorie-calculator-wrapper .main-area{
+            clear: both;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            
+        }
+        .calorie-calculator-wrapper .main-area .inputs{
+            display: flex;
+            width: 350px;
+            height: 50px;
+            align-items: center;
+            justify-content: start;
+            column-gap: 10px;
+        }
+        .calorie-calculator-wrapper .main-area .inputs input,select,button{
+            padding: 6px;
+            border-radius: 8px;
+            
+        }
+        .calorie-calculator-wrapper .main-area .inputs button{
+            border: none;
+            cursor: pointer;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.34);
+        }
+        .inputs label{
+            min-width: 130px;
+            font-size: 18px;
+        }
+        .calorie-calculator-wrapper .main-area .submit-div{
+            width: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 70px;
+        }
+        .calorie-calculator-wrapper .main-area .submit-div button{
+            padding: 10px;
+            width: 150px;
+            border: none;
+            border-radius: 10px;
+            background-color: black;
+            color: white;
+            transition: .4s;
+        }
+        .calorie-calculator-wrapper .main-area .submit-div button:hover{
+            transition: .4s;
+            background-color: white;
+            color: black;
+            cursor: pointer;
+            border: 1px solid black;
+        }
+        .calorie-calculator-wrapper .main-area .dvs{
+            width: 50%;
+        }
+        .calorie-calculator-wrapper .main-area h2{
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+        <div class="calorie-calculator-wrapper">
+    <div class="main-area">
+        <div class="calorie-calculator">
+            <form action="" method="post">
+                {% csrf_token %}
+                <h2>Calories</h2>
+                <div class="inputs">
+                    <label for="">Carbrohydrates</label>
+                    <input type="number" name="carbs" value="{{carbs}}" step="0.00001">
+                    <select name="carbs_units" id="">
+                        <option value="mg" {%if carbs_units == 'mg'%}selected{%endif%}>mg</option>
+                        <option value="g" {%if carbs_units == 'g'%}selected{%endif%}>g</option>
+                        <option value="kg" {%if carbs_units == 'kg'%}selected{%endif%}>kg</option>
+                    </select>
+                </div>
+                <div class="inputs">
+                    <label for="">Protein</label>
+                    <input type="number" name="protine" value="{{protine}}"  step="0.00001">
+                    <select name="protine_units" id="">
+                        <option value="mg" {%if protine_units == 'mg'%}selected{%endif%}>mg</option>
+                        <option value="g" {%if protine_units == 'g'%}selected{%endif%}>g</option>
+                        <option value="kg" {%if protine_units == 'kg'%}selected{%endif%}>kg</option>
+                    </select>
+                </div>
+                <div class="inputs">
+                    <label for="">Fats</label>
+                    <input type="number" name="fats" value="{{fats}}"  step="0.00001">
+                    <select name="fats_units" id="">
+                        <option value="mg" {%if fats_units == 'mg'%}selected{%endif%}>mg</option>
+                        <option value="g" {%if fats_units == 'g'%}selected{%endif%}>g</option>
+                        <option value="kg" {%if fats_units == 'kg'%}selected{%endif%}>kg</option>
+                    </select>
+                </div>
+                
+            
+        </div>
+        <div class="result inputs">
+            <label for="" style="font-weight: bold;max-width: 130px;">Total Calories</label>
+            <br>
+            <input type="text" readonly value="{{result}}"  step="0.00001">&nbsp;&nbsp;kcal
+        </div>
+        <div class="submit-div">
+            <button>Calculate</button>
+        </div>
+    <div>
+        </div>
+       
+</form>
+        <a href="/calorie-cal/cal-dvs/"><button>Calculate DV</button></a>
+<script>
+    var achors = document.querySelectorAll('a[data-common="anchor"]');
+    for (var a of achors){
+        a.classList.remove('active');
+    }
+    document.querySelector('a[data-active="calorie-calculator"]').classList.add('active');
+</script>
+{% endblock mainarea %}

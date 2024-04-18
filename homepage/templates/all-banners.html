@@ -1,0 +1,38 @@
+{% extends "admin-master.html" %}
+{% block title %}
+  All Courses
+{% endblock title %}
+
+
+{% block adminarea %}
+  <style>
+
+  </style>
+  <table class="table">
+    <thead>
+        <tr style="color: white;">
+            <th>Course Title</th>
+            <th>Image</th>
+            <th>Description</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for banner in banners %}
+        <tr style="color: white !important;">
+              <td>{{banner.carousel_title}}</td>
+              <td><img src="/media/{{banner.carousel_image}}" alt="img" style="max-height: 100px;"></td>
+              <td>{{banner.carousel_description}}</td>
+              <td><a href="/edit-banner/{{banner.id}}/"><button class="btn btn-success">Edit</button></a></td>
+              <td><form action="{% url 'delete-banner' carousel_id=banner.id%}" method="post">{% csrf_token %}<button type="submit" class="btn btn-danger">Delete</button></form></td>
+            </tr>
+            {% endfor %}
+    </tbody>
+  </table>
+  <script>
+        document.querySelector('li[data-target="all"]').classList.add('active')
+        document.querySelector('a[data-target="all-banners"]').classList.add('active-a')
+  </script>
+{% endblock adminarea %}

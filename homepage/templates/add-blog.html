@@ -1,0 +1,206 @@
+{% extends "index-master.html" %}
+{% block title %}
+  New Blog | Webxter
+{% endblock title %}
+
+{% block mainarea %}
+  
+
+{%load static%}
+<style>
+    * { box-sizing:border-box; }
+
+/* basic stylings ------------------------------------------ */
+
+
+h2 		 { 
+  text-align:center; 
+  margin-bottom:50px; 
+}
+h2 small { 
+  font-weight:normal; 
+  color:#888; 
+  display:block; 
+}
+
+
+/* form starting stylings ------------------------------- */
+.group 			  { 
+  position:relative; 
+  margin-bottom:45px; 
+}
+input 				{
+  font-size:18px;
+  padding:10px 10px 10px 5px;
+  display:block;
+  width:300px;
+  border:none;
+  border-bottom:1px solid #757575;
+}
+input:focus 		{ outline:none; }
+
+/* LABEL ======================================= */
+label 				 {
+  color:#999; 
+  font-size:18px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+
+/* active state */
+input:focus ~ label, input:valid ~ label 		{
+  top:-20px;
+  font-size:14px;
+  color:#5264AE;
+}
+
+/* BOTTOM BARS ================================= */
+.bar 	{ position:relative; display:block; width:300px; }
+.bar:before, .bar:after 	{
+  content:'';
+  height:2px; 
+  width:0;
+  bottom:1px; 
+  position:absolute;
+  background:#5264AE; 
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+.bar:before {
+  left:50%;
+}
+.bar:after {
+  right:50%; 
+}
+
+/* active state */
+input:focus ~ .bar:before, input:focus ~ .bar:after {
+  width:50%;
+}
+
+/* HIGHLIGHTER ================================== */
+.highlight {
+  position:absolute;
+  height:60%; 
+  width:100px; 
+  top:25%; 
+  left:0;
+  pointer-events:none;
+  opacity:0.5;
+}
+
+/* active state */
+input:focus ~ .highlight {
+  -webkit-animation:inputHighlighter 0.3s ease;
+  -moz-animation:inputHighlighter 0.3s ease;
+  animation:inputHighlighter 0.3s ease;
+}
+
+/* ANIMATIONS ================ */
+@-webkit-keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+@-moz-keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+@keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+</style>
+<div>
+    <br>
+    
+</div>
+
+<form method="POST" action="{% url 'add-blog' %}">
+  
+    {%csrf_token%}
+
+    <div class="group">      
+        <input type="text" id="id_blog_title" name="blog_title" required>
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>Title</label>
+    </div>
+    <textarea id="id_blog_content" name="blog_content"></textarea> 
+    <script src="https://htmeditor.com/js/htmeditor.min.js" htmeditor_textarea="id_blog_content" full_screen="no" editor_height="380" run_local="no"></script>
+    <br>
+    <div class="group">
+        <h6>Visibility</h6>
+        <select name="is_published" class="form-select">
+            <option value="True">Public</option>
+            <option value="False">Private</option>
+        </select>
+    </div>
+    <div>
+        <h6>Featured Image</h6>
+        <div>
+        <span for="#id-featured-image-url">URL</span>
+        <input type="radio" name="featured-image" id="id-featured-image-url" onchange="toggle_checks_url()">
+        <input type="text" placeholder="enter url" id="id-featured-image-url-input" name="featured-image-url">
+        <br>
+        <span for="#id-featured-image-upload">File Upload</span>
+        <input type="radio" name="featured-image" id="id-featured-image-upload" onchange="toggle_checks_url()">
+        <input type="file" id="id-featured-image-upload-input" name="featured-image-upload">
+    </div>
+    <script>
+        let url_check = document.getElementById('id-featured-image-url')
+        let url_input = document.getElementById('id-featured-image-url-input')
+        let url_upload = document.getElementById('id-featured-image-upload')
+        let upload_input = document.getElementById('id-featured-image-upload-input')
+        url_input.style.display = "none";
+        upload_input.style.display = "none";
+        function toggle_checks_url(){
+            if (url_check.checked){
+                url_input.style.display = "";
+                url_input.disabled=false;
+                url_input.required = true;
+                upload_input.style.display = "none";
+                upload_input.disabled = true;
+                upload_input.required = false;
+            }
+            else if(url_upload.checked){
+                upload_input.style.display = "";
+                upload_input.disabled = false;
+                upload_input.required = true;
+                url_input.style.display = "none";
+                url_input.disabled=true;
+                url_input.required = false;
+            }
+            else{
+                url_input.style.display = "none";
+                url_input.disabled=true;
+                upload_input.disabled = true;
+                upload_input.style.display = "none";
+
+            }
+        }
+    </script>
+    </div>
+    <input type="text" name="written_on" id="id_written_on" hidden>
+    <script>
+        var element = document.getElementById('id_written_on');
+        let date = new Date();
+        let _date = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+        element.value = _date;
+    </script>
+    <br>
+    <button type="submit" class="btn btn-success">Publish &nbsp;&nbsp;&nbsp;<span class="fab fa-telegram-plane"></span> </button>
+    <br>
+    <br>
+    <br>
+</form>
+
+
+
+{% endblock mainarea %}

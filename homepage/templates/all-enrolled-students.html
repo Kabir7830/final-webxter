@@ -1,0 +1,44 @@
+{% extends "admin-master.html" %}
+
+{% block title %}
+  All Enrolled Students
+{% endblock title %}
+
+
+{% block adminarea %}
+  <style>
+
+  </style>
+
+  <form action="">
+    <input type="text" name="query" placeholder="search">
+    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+  </form>
+  <table class="table">
+    <thead>
+        <tr style="color:white">
+            <th>Student Name</th>
+            <th>Course Enrolled</th>
+            <th>Student Email</th>
+            <th>Enrolled Date</th>
+            <th>Enrolled Time</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for student in students %}
+        <tr style="color:white">
+            <td>{{student.student_id.first_name}} {{student.student_id.last_name}}</td>
+            <td>{{student.course_id.course_name}}</td>
+            <td>{{student.student_id.email}}</td>
+            <td>{{student.enrolled_date}}</td>
+            <td>{{student.enrolled_time}}</td>
+          </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+  <script>
+    document.querySelector('li[data-target="all"]').classList.add('active')
+    document.querySelector('a[data-target="all-enrolled-students"]').classList.add('active-a')
+  </script>
+{% endblock adminarea %}

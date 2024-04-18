@@ -1,0 +1,92 @@
+{% extends "admin-master.html" %}
+{% block title %}
+  Add New Coaching
+{% endblock title %}
+
+{% block adminarea %}
+  <style>
+    .form-group label{
+        color:white;
+    }
+  </style>
+
+  <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="">Subject</label>
+        <input type="text" name="subject" placeholder="subject" class="form-control" value="{{coaching.subject}}">
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="">Classes</label>
+        <input type="text" name="classes" placeholder="classes" class="form-control" value="{{coaching.classes}}">
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="">Mode</label>
+        <select  name="mode" class="form-control">
+            <option value="{{coaching.mode}}" selected>{{coaching.mode}}</option>
+            <option value="offline">Offline</option>
+            <option value="online">Online</option>
+            <option value="both">Online + Offline</option>
+        </select>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="">Timings</label>
+        <input type="text" name="timings" placeholder="timings" class="form-control" value="{{coaching.timings}}">
+    </div>
+    <br>
+    <div class="form-group">
+            <label for="">Short Description</label>
+            <textarea class="form-control" placeholder="Brief Description" name="short_description" maxlength="200">{{coaching.short_description}}</textarea>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="">Description</label>
+            <textarea id="id_coaching_description" name="description">{{coaching.description}}</textarea> 
+        <script src="https://htmeditor.com/js/htmeditor.min.js" htmeditor_textarea="id_coaching_description" full_screen="no" editor_height="380" run_local="no"></script>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="">Thumbnail <i class="fa fa-image"></i></label>
+            <input type="file" class="form-control" name="image" id="image">
+            {% if coaching.image %}
+            <br>
+            <img id="files" src="/media/{{coaching.image}}" style="max-height: 150px;" />
+            {%else%}
+            <img id="files"  style="max-height: 150px;"/>
+            {% endif %}
+        </div>
+        <script>
+      document.getElementById('image').onchange = function () {
+    var src = URL.createObjectURL(this.files[0])
+    document.getElementById('files').src = src;
+  }
+    </script>
+    <br>
+    <div class="form-group">
+        <label>Publish Status</label>
+        <select class="form-select" name="is_published">
+            {%if coaching.is_published == True%}
+            <option value="True" selected>Publish</option>
+            <option value="False">Draft</option>
+            {%else%}
+            <option value="True">Publish</option>
+            <option value="False" selected>Draft</option>
+            {%endif%}
+        </select>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="">URL</label>
+        <input type="text" name="slug" placeholder="this-is-url" class="form-control" value="{{coaching.slug}}">
+    </div>
+    <br>
+    <button type="submit" class="btn btn-success">Save</button>
+  </form>
+  <script>
+    document.querySelector('li[data-target="add"]').classList.add('active')
+    document.querySelector('a[data-target="add-coaching"]').classList.add('active-a')
+</script>
+{% endblock adminarea %}

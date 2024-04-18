@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}
+      
+    {% endblock title %}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <style>
+        .navbar-brand img{
+      width: 50px;}
+      .active-a{
+        color:#1abc9c !important;
+      }
+      svg{
+        max-height: 30px;
+        left: 0;
+        top:0;
+        width:20px;
+      }
+    </style>
+</head>
+<body>
+    
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+        <symbol id="badge-success" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </symbol>
+        <symbol id="info-fill" viewBox="0 0 16 16">
+          <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+        </symbol>
+        <symbol id="badge-warning" viewBox="0 0 16 16">
+          <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </symbol>
+        <symbol id="badge-danger" viewBox="0 0 16 16">
+          <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </symbol>
+      </svg>
+      {% for message in messages %}
+      <div class="alert alert-{{message.tags}} d-flex align-items-center" role="alert" style="position:absolute;z-index: 1400; max-width: 70%;height: 60px;top:0;left:0;">
+        <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:"><use xlink:href="#badge-{{message.tags}}"/></svg>
+        <div>
+          {{message}}
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+      
+    <nav class="navbar navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/"><img src="{%static 'images/logo.png'%}" alt="">WEBXTER</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Webxter</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <aside class="sidebar">
+                    <div id="leftside-navigation" class="nano">
+                      <ul class="nano-content">
+                        <li>
+                          <a href="/admin/"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+                        </li>
+                        <li class="sub-menu" data-target="add">
+                          <a href="javascript:void(0);"><i class="fa fa-cogs"></i><span>Add</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                          <ul>
+                  
+                            <li><a href="/add-course" data-target="add-course">Add Course</a>
+                            <li><a href="/add-banner/" data-target="add-banner">Add Banner</a>
+                            <li><a href="/add-company-info/" data-target="add-conmpany-info">Add Company Details</a>
+                            <li><a href="/add-coaching/" data-target="add-coaching">Add Coaching</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li class="sub-menu" data-target="all">
+                          <a href="javascript:void(0);"><i class="fa fa-table"></i><span>All</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                          <ul>
+                            <li><a href="/all-courses/" data-target="all-courses">All Course</a>
+                            <li><a href="/all-banners/" data-target="all-banners">All Banners</a>
+                            <li><a href="/all-requests/" data-target="all-requests">All Requests</a>
+                            <li><a href="/all-coachings/" data-target="all-coachings">All Coachings</a>
+                              <a data-target="all-enrolled-students" name="link-button" title="all enrolled students" href="/all-enrolled-students/" class="link">All Enrolled Students</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li class="sub-menu" data-target="edit">
+                          <a href="javascript:void(0);"><i class="fa fa fa-tasks"></i><span>Edit</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                          <ul>
+                            <li><a href="/edit-company-info/" data-target="edit-company-info">Edit Company Info</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li class="sub-menu">
+                          <a href="javascript:void(0);"><i class="fa fa-envelope"></i><span>Mail</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                          <ul>
+                            <li class="active"><a href="mail-inbox.html">Inbox</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li class="sub-menu">
+                          <a href="javascript:void(0);"><i class="fa fa-bar-chart-o"></i><span>Charts</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                          <ul>
+                            <li><a href="charts-chartjs.html">Chartjs</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li class="sub-menu">
+                          <a href="javascript:void(0);"><i class="fa fa-map-marker"></i><span>Maps</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                          <ul>
+                            <li><a href="map-google.html">Google Map</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li class="sub-menu">
+                          <a href="typography.html"><i class="fa fa-text-height"></i><span>Typography</span></a>
+                        </li>
+                        <li class="sub-menu">
+                          <a href="javascript:void(0);"><i class="fa fa-file"></i><span>Pages</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                          <ul>
+                            <li><a href="pages-blank.html">Blank Page</a>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  </aside>
+            </div>
+          </div>
+        </div>
+      </nav>
+<style>
+  @import url('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css');
+  @font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 300;
+    font-stretch: normal;
+    src: url(https://fonts.gstatic.com/s/opensans/v35/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsiH0B4gaVc.ttf) format('truetype');
+  }
+  @font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-stretch: normal;
+    src: url(https://fonts.gstatic.com/s/opensans/v35/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
+  }
+  @font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-stretch: normal;
+    src: url(https://fonts.gstatic.com/s/opensans/v35/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1x4gaVc.ttf) format('truetype');
+  }
+  body {
+    color: #5D5F63;
+    background: #293949;
+    font-family: 'Open Sans', sans-serif;
+    padding: 0;
+    margin: 0;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  .sidebar-toggle {
+    margin-left: -240px;
+  }
+  .sidebar {
+    width: 100%;
+    height: 100%;
+    /* background: #293949; */
+    position: relative;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    z-index: 100;
+  }
+  .sidebar #leftside-navigation ul,
+  .sidebar #leftside-navigation ul ul {
+    margin: -2px 0 0;
+    padding: 0;
+  }
+  .sidebar #leftside-navigation ul li {
+    list-style-type: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .sidebar #leftside-navigation ul li.active > a {
+    color: #1abc9c;
+  }
+  .sidebar #leftside-navigation ul li.active ul {
+    display: block;
+  }
+  .sidebar #leftside-navigation ul li a {
+    color: #aeb2b7;
+    text-decoration: none;
+    display: block;
+    padding: 18px 0 18px 25px;
+    font-size: 12px;
+    outline: 0;
+    -webkit-transition: all 200ms ease-in;
+    -moz-transition: all 200ms ease-in;
+    -o-transition: all 200ms ease-in;
+    -ms-transition: all 200ms ease-in;
+    transition: all 200ms ease-in;
+  }
+  .sidebar #leftside-navigation ul li a:hover {
+    color: #1abc9c;
+  }
+  .sidebar #leftside-navigation ul li a span {
+    display: inline-block;
+  }
+  .sidebar #leftside-navigation ul li a i {
+    width: 20px;
+  }
+  .sidebar #leftside-navigation ul li a i .fa-angle-left,
+  .sidebar #leftside-navigation ul li a i .fa-angle-right {
+    padding-top: 3px;
+  }
+  .sidebar #leftside-navigation ul ul {
+    display: none;
+  }
+  .sidebar #leftside-navigation ul ul li {
+    /* background: #23313f; */
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    border-bottom: none;
+  }
+  .sidebar #leftside-navigation ul ul li a {
+    font-size: 12px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    color: #aeb2b7;
+  }
+  .admin-area{
+      margin-top: 70px;
+  }
+  .admin-content{
+    color:white;
+  }
+  .admin-content .heading{
+    width: 100%;
+    text-align: center;
+  }
+  .admin-content .highlight{
+    color: #62c7b4;
+  }
+  .admin-content .options{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    min-height: 300px;
+    column-gap: 25%;
+  }
+  .admin-content .options .option-button{
+    width: 150px;
+    height: 50px;
+    border:none;
+    border-radius: 20px;
+    background-color: #4ea292;
+    color: white;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.4);
+    /* padding: 15px; */
+  }
+  .admin-content .options .option-button:hover{
+    background-color: #60cbb7;
+  }
+</style>
+
+
+
+<div class="admin-area">
+{% block adminarea %}
+  <div class="admin-content">
+    <h2 class="heading"><span class="highlight">{{request.user.first_name | upper}}{% if request.user.first_name %} {{request.user.last_name | upper}}{% endif %}'s</span> Dashboard</h2>
+    <div class="options">
+      <a data-target="add-course" name="link-button" title="add course" href="/add-course/" class="link"><button class="option-button">Add course</button></a>
+      <a data-target="add-banner" name="link-button" title="add banner" href="/add-banner/" class="link"><button class="option-button">Add Banner</button></a>
+      <a data-target="add-company-info" name="link-button" title="add company info" href="/add-company-info/" class="link"><button class="option-button">Add Company Details</button></a>
+      <a data-target="add-coaching" name="link-button" title="add coaching" href="/add-coaching/" class="link"><button class="option-button">Add Coaching</button></a>
+      <a data-target="all-courses" name="link-button" title="all courses" href="/all-courses/" class="link"><button class="option-button">All Course</button></a>
+      <a data-target="all-enrolled-students" name="link-button" title="all enrolled students" href="/all-enrolled-students/" class="link"><button class="option-button">All Enrolled Students</button></a>
+      <a data-target="all-requests" name="link-button" title="all requests" href="/all-requests/" class="link"><button class="option-button">All Requests</button></a>
+      <a data-target="all-banners" name="link-button" title="all banners" href="/all-banners/" class="link"><button class="option-button">All Banners</button></a>
+      <a data-target="all-coachings" name="link-button" title="all coachings" href="/all-coachings/" class="link"><button class="option-button">All Coachings</button></a>
+      <a data-target="edit-company-info" name="link-button" title="edit company info" href="/edit-company-info/" class="link"><button class="option-button">Edit Company Info</button></a>
+    </div>
+  </div>
+
+{% endblock adminarea %}
+</div>
+<script>
+    $("#leftside-navigation .sub-menu > a").click(function(e) {
+  $("#leftside-navigation ul ul").slideUp(), $(this).next().is(":visible") || $(this).next().slideDown(),
+  e.stopPropagation()
+})
+</script>
+
+</body>
+</html>

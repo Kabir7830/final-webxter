@@ -1,0 +1,63 @@
+{% extends "index-master.html" %}
+{% block title %}
+  Coachings | Webxter
+{% endblock title %}
+
+{% block mainarea %}
+<style>
+    .card-grp{
+      /* display: grid; */
+      display: flex;
+      column-gap: 50px;
+      justify-content: center !important;
+    }
+    .card{
+      width: 100%;
+      padding: 10px;
+      border-radius: 20px;
+    }
+    .card-img-top{
+      width: 50% !important;
+      max-height: 210px;
+    }
+    .btn{
+      width: 100px !important;
+    }
+    .card-footer{
+      display: block;
+      width: 100%;
+      background-color: white;
+      border: none;
+    }
+    .card-header{
+      height: 200px;
+      border: none;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+  <br>
+  <br>
+  <h1>All coachings</h1>
+  <br>
+  <div class="row row-cols-1 row-cols-md-4 g-4 card-grp">
+    {% for coaching in coachings %}        
+    <div class="col">
+      <div class="card h-100">
+        <div class="card-header">
+          <img src="/media/{{coaching.image}}" class="card-img-top" alt="...">
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{coaching.subject}}</h5>
+          <p class="card-text">{{coaching.short_description}}</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-body-secondary"><a href="/coaching/{{coaching.slug}}/"><button type="button" class="btn btn-success">View</button></a></small>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+{% endblock mainarea %}

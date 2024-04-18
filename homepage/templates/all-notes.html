@@ -1,0 +1,107 @@
+{% extends "index-master.html" %}
+
+{% block title %}
+  Notes | Webxter
+{% endblock title %}
+
+{% block mainarea %}
+  
+    <style>
+        .notes-group{
+            width: 100%;
+            min-height: 500px;
+            max-height: fit-content;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            align-items: center;
+            column-gap: 20px;
+        }
+        .notes-group a{
+            text-decoration: none;
+        }
+        .notes-group .note-card{
+            width: 300px;
+            height: 350px;
+            border-radius: 20px;
+            box-shadow: 0px 0px 6px rgba(0,0,0,0.5);
+            transition: 0.3s ease;
+        }
+        .notes-group .note-card:hover{
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+            transform: translateY(-10px);
+        }
+
+        .notes-group .note-card .note-card-header{
+            /* background-color: red; */
+            width: 100%;
+            height: 60px;
+            border-radius: 20px 20px 0px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .notes-group .note-card .note-card-header .heading{
+            font-size:35px;
+            color:black;
+        }
+        .notes-group .note-card .note-card-body{
+            /* background-color: blue; */
+            width: 100%;
+            height:290px;
+            border-radius: 0px 0px 20px 20px;
+            /* display: flex; */
+            /* align-items: center; */
+            /* justify-content: center; */
+            /* text-align: center; */
+            text-align: justify;
+            padding: 8px;
+            color: black !important;
+        }
+        .notes-group .note-card .note-card-body .notes-content{
+            color: black;
+            width: 100%;
+            max-height: 250px;
+            background-color: red;
+        }
+
+        .add-new-notes{
+            width: 100%;
+            padding-left: 30px;
+        }
+    </style>
+
+    <div>
+        <br>
+    </div>
+    <div class="add-new-notes">
+        <a href="{% url 'add-note'%}"><button class="btn btn-success">New +</button></a>
+    </div>
+    {%if notes%}
+    <div class="notes-wrapper">
+        <div class="notes-group">
+            <!-- loop start -->
+            {% for note in notes %}  
+            <a href="/notes/{{note.id}}/">
+                <div class="note-card">
+                    <div class="note-card-header">
+                        <h2 class="heading">{{note.notes_title}}</h2>
+                    </div>
+                    <div class="note-card-body">
+                            {{note.notes|safe | slice:"0:365"}}...
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+            <!-- loop end -->
+        </div>
+    </div>
+    {%else%}
+    <h2 style="width:100%;text-align:center;">You do no have any notes yet.</h2>
+    {%endif%}
+
+
+
+
+
+{% endblock mainarea %}

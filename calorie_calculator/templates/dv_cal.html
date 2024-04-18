@@ -1,0 +1,144 @@
+{% extends "index-master.html" %}
+
+{%block title%}
+Daily Value Calculator | Webxter
+{%endblock title%}
+
+{% block mainarea %}
+  {% load static %}
+
+    <style>
+        /* body
+        {
+            background-image: linear-gradient(to top,#000000c2,black,#000000c2);
+            color: white;
+            background-repeat: no-repeat;
+            background-size: contain;
+        } */
+        .main-area{
+            clear: both;
+            display: flex;
+            justify-content: center;
+        }
+        .inputs{
+            display: flex;
+            width: 350px;
+            height: 50px;
+            align-items: center;
+            justify-content: start;
+            column-gap: 10px;
+        }
+        .inputs input,select,button{
+            padding: 6px;
+            border-radius: 8px;
+            
+        }
+        .inputs button{
+            cursor: pointer;
+            border: none;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.34);
+        }
+
+        .inputs label{
+            min-width: 130px;
+            font-size: 18px;
+        }
+        .submit-div{
+            width: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 70px;
+        }
+        .submit-div button{
+            padding: 10px;
+            width: 150px;
+            border: none;
+            border-radius: 10px;
+            background-color: black;
+            color: white;
+            transition: .4s;
+        }
+        .submit-div button:hover{
+            transition: .4s;
+            background-color: white;
+            color: black;
+            cursor: pointer;
+            border: 1px solid black;
+        }
+        .dvs{
+            width: 50%;
+        }
+        h2{
+            text-align: center;
+            width: 100%;
+        }
+        @media screen and (min-width:200px) and (max-width:550px){
+            .inputs{
+                display: flex;
+                width: 100%;
+                height: 50px;
+                align-items: center;
+                justify-content: start;
+                flex-wrap: wrap;
+                column-gap: 5px;
+            }
+            .inputs input{
+                width: 60px;
+            }
+            .submit-div{
+            width: 100%;
+        }
+        
+        }
+    </style>
+    <br><br>
+    <div class="filter">
+    </div>
+    <div>
+        <p>{{error_message}}</p>
+    </div>
+    <div class="main-area">
+        <div class="calorie-calculator">
+            <form  method="post">
+                {% csrf_token %}
+               
+    <div>
+        <h2>DV Calculator <a href="/media/nutrition_values_gov_based.xlsx" download="">Download DV Values</a></h2>
+        {% for key, value in nutrients.items  %}
+        <div class="inputs dvs">
+            {%if value.0 %}
+            <label for="" style="background-color:yellow;">{{key}}</label>
+            {%else%}
+            <label for="">{{key}}</label>
+            {%endif%}
+            <input type="number" name="nut_{{key}}" value="{{value.0}}" step="0.00001">
+            {% if value.2 %}
+           =<input text readonly  value="{{value.1}}" style="width: 60px;">%
+            {% endif %}
+            <select name="nut_{{key}}_units" >
+                <option value="mg" {%if value.2 == 'mg'%}selected{%endif%}>mg</option>
+                <option value="g" {%if value.2 == 'g'%}selected{%endif%}>g</option>
+                <option value="mcg" {%if value.2 == 'mcg'%}selected{%endif%}>mcg</option>
+            </select>
+            &nbsp;&nbsp;&nbsp;
+            <button>Calculate</button>
+        </div>
+
+        {% endfor %}
+    </div>
+    <div class="submit-div">
+        <button>Calculate</button>
+    </div>
+</form>
+<a href="/calorie-cal/cal-values/"><button>Calculate Calories</button></a>
+</div>
+</div>
+<script>
+    var achors = document.querySelectorAll('a[data-common="anchor"]');
+    for (var a of achors){
+        a.classList.remove('active');
+    }
+    document.querySelector('a[data-active="dv-calculator"]').classList.add('active');
+</script>
+{% endblock mainarea %}
