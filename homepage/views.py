@@ -706,6 +706,24 @@ def getEnrolledtudents(request):
         return render(request,'all-enrolled-students.html',{"students":students})
 
 
+class ModifyEnrolledStudetns(APIView):
+
+    def post(self,request):
+        try:
+            data = request.data
+
+            student_id = data['student_id']
+            enrolled_students = EnrolledStudents.objects.filter(id = student_id)
+
+            enrolled_students.update(
+                is_read = True
+            )
+            return Response({"data":[],"message":"status updated","status":"success"})
+        except Exception as e:
+            return Response({"data":[],"message":f"Something went worng -{e}","status":"error"})
+        
+
+
 def createCertificate(request):
     students = CompanyUser.objects.all()
     if request.method == "POST":

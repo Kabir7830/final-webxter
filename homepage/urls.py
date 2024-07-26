@@ -54,4 +54,10 @@ urlpatterns = [
     path('edit-company/',EditCompany,name="edit-company"),
     path('404/',Error404,name='404'),
     path('500/',Error500,name='500'),
+
+    # APIs
+
+    path('enrolled-student-mark-as-read-api/',ModifyEnrolledStudetns.as_view(),name="enrolled_student_mark_as_read_api"),
+
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

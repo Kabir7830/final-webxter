@@ -22,6 +22,7 @@
             <th>Student Email</th>
             <th>Enrolled Date</th>
             <th>Enrolled Time</th>
+            <th>Status</th>
         </tr>
     </thead>
 
@@ -33,8 +34,52 @@
             <td>{{student.student_id.email}}</td>
             <td>{{student.enrolled_date}}</td>
             <td>{{student.enrolled_time}}</td>
+            {% if student.is_read %}
+            <td>✅</td>
+            {% else %}
+            <td>
+              <form action="{% url 'enrolled_student_mark_as_read_api'%}" method="post">
+                {% csrf_token %}
+                <!-- <input type="hidden" id="id_student_id" value="{{student.id}}"> -->
+                <button class="btn btn-success" type="button" onclick='mark_as_read("{{student.id}}")'>Mark as read</button>
+                <span class="message error" id="error_message_{{student.id}}"></span>
+              </form>
+            </td> 
+            {% endif %}
           </tr>
         {% endfor %}
+              <script>
+                function mark_as_read(student_id){
+                  var csrftoken = $('input[name="csrfmiddlewaretoken"]').val();
+                  let postData;
+                  postData = {
+                    "student_id":student_id,
+                  }
+                  $.ajax({
+                    url:"{% url 'enrolled_student_mark_as_read_api'%}",
+                    type:"POST",
+                    contentType:"application/json",
+                    data:JSON.stringify(postData),
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    },
+                    success:function(data){
+                      console.log("data",data);
+                      if (data['status'] == 'success'){
+                        window.location.reload();
+                      }
+                      else if (data['status'] == "error"){
+                        document.getElementById(`error_message_${student_id}`).innerHTML = data['message']; 
+                      }
+                    },
+                    error:function(xhr,textStatus,errorThrown){
+                      console.error("AJAX ERROR:",errorThrown);
+                    }
+
+                  })
+                }
+
+              </script>
     </tbody>
   </table>
   <script>

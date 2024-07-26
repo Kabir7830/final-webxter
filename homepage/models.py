@@ -99,6 +99,7 @@ class CarouselImages(models.Model):
     carousel_image = models.ImageField(upload_to='carousel_images/')
     carousel_title = models.CharField(max_length=100,null=True,blank=True,default="")
     carousel_description = models.CharField(max_length=300,null=True,blank=True,default="")
+    
 
 class CompanyInfo(models.Model):
     class Meta:
@@ -153,6 +154,7 @@ class EnrolledStudents(models.Model):
     course_id = models.ForeignKey(Courses,on_delete=models.CASCADE)
     enrolled_date = models.CharField(max_length=60,default="")
     enrolled_time = models.CharField(max_length=60,default="")
+    is_read = models.BooleanField(default=False,blank=True)
 
 
 class Certificate_IDS(models.Model):

@@ -104,7 +104,7 @@ a{
                                             <li><a href="#" data-target="#">Programing</a></li>
                                             {% if user.is_superuser %}
                                               
-                                            <li><a href="#" class="position-relative">
+                                            <li><a href="{% url 'dashboard' %}" class="position-relative">
                                                 Dashboard
                                                 <span class="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style="left: 130px;">
                                                     {{notifications}}
@@ -116,7 +116,7 @@ a{
                                     <li><a href="{% url 'courses' %}" data-target="{% url 'courses' %}">Courses</a></li>
                                     <li><a href="{% url 'validate-certificate'%}" data-target="{% url 'validate-certificate'%}">Vertificate Validation</a></li>
                                     {% if user.is_superuser %}
-                                    <li><a href="#" class="position-relative">
+                                    <li><a href="{% url 'dashboard' %}" class="position-relative">
                                         Dashboard
                                         <span class="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style="left: 130px;">
                                             {{notifications}}
