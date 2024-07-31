@@ -395,7 +395,7 @@ img {
     transition-duration: 200ms; }
     @media only screen and (min-width: 768px) and (max-width: 991px) {
       .header-area .alazea-main-menu .classy-navbar .classy-menu {
-        background-color: #111111; } }
+        background-color: transparent; } }
     @media only screen and (max-width: 767px) {
       .header-area .alazea-main-menu .classy-navbar .classy-menu {
         background-color: #111111; } }
@@ -520,13 +520,16 @@ img {
         opacity: 1;
         visibility: visible; }
   .header-area .is-sticky .alazea-main-menu {
-    background-color: #111111;
+    background-color: #7e7e7e61;
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
     z-index: 9999;
-    box-shadow: 0 5px 50px 15px rgba(0, 0, 0, 0.2); }
+    box-shadow: 0 5px 50px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(100px);
+  }
+
   .header-area #searchIcon {
     -webkit-transition-duration: 500ms;
     transition-duration: 500ms;
@@ -1063,7 +1066,7 @@ img {
       font-size: 20px;
       color: #303030; }
       .product_details_tab .nav-tabs .nav-link.active, .product_details_tab .nav-tabs .nav-link:hover {
-        color: #70c745; }
+        color: #4ea292; }
   .product_details_tab .additional_info_area p {
     color: #303030; }
     .product_details_tab .additional_info_area p span {

@@ -2,24 +2,20 @@ from django.shortcuts import render,redirect
 from .forms import *
 from django.contrib import messages
 from django.db.models import Q
-from django.contrib.auth import login,logout,authenticate
-from django.contrib.auth import get_user_model
+from django.contrib.auth import login,logout,authenticate,get_user_model
 import smtplib
 from email.mime.text import MIMEText
-from django.conf import settings
 import random
-from email.mime.text import MIMEText
-from email.mime.image import MIMEImage
-from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
-import smtplib
+from .pagination import *
 from .email_templates import otpTemplate,AccountCreatedTemplate,EnrollmentTemplate,CallbackRequestTemplate,callbackSentTemplate
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from datetime import datetime,timedelta
-import json
 import logging
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .serializers import *
+
 User = get_user_model()
 
 logger = logging.getLogger("otp")
@@ -169,6 +165,12 @@ def privacyPolicy(request):
 
 def getAllCourses(request):
     courses = Courses.objects.filter(is_published = True)
+    query = request.GET.get('q')
+    category = request.GET.get('category')
+    if category:
+        courses = courses.filter(category__name__icontains = category)
+    if query:
+        courses = courses.filter(Q(tags__icontains = query) | Q(course_name__icontains = query))
     courses_per_page = 6
     paginator = Paginator(courses, courses_per_page)
     page = request.GET.get('page')
@@ -186,8 +188,67 @@ def getAllCourses(request):
                                                     "number_of_courses":number_of_courses,
                                                     "current_number_of_courses":current_number_of_courses,
                                                     "courses_per_page":courses_per_page,
+                                                    "query":query,
+                                                    "ctgry":category,
                                                     })
     # return render(request,"courses/courses.html",{'courses':courses})
+
+
+class CoursesAPI(APIView):
+    
+    page_size = 8
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+
+    def get(self,request):
+        
+        courses = Courses.objects.filter(is_published=True)
+        
+        query = request.GET.get('q')
+        category = request.GET.get('category')
+        page_size = request.GET.get('page_size')
+        if page_size:
+            self.page_size = int(page_size)
+        if category:
+            courses = courses.filter(category__name__icontains = category)
+        if query:
+            courses = courses.filter(Q(tags__icontains = query) | Q(course_name__icontains = query))
+        paginator = CustomPagination()
+        paginator.page_size = self.page_size
+        result_page = paginator.paginate_queryset(courses, request)
+        serializer = CoursesSerializer(result_page, many=True)
+        page_size = self.page_size
+        return paginator.get_paginated_response({"data":serializer.data,"message":"","status":"success","page_size":page_size})
+
+
+        # courses = Courses.objects.filter(is_published = True)
+        
+        # serializer_class = CoursesSerializer(courses,many=True)
+
+        # courses_per_page = 6
+        # paginator = Paginator(courses, courses_per_page)
+        # page = request.GET.get('page')
+        # try:
+        #     objects = paginator.page(page)
+        # except PageNotAnInteger:
+        #     # If page is not an integer, deliver first page.
+        #     objects = paginator.page(1)
+        # except EmptyPage:
+        #     # If page is out of range (e.g. 9999), deliver last page of results.
+        #     objects = paginator.page(paginator.num_pages)
+        # number_of_courses = len(courses)
+        # current_number_of_courses = len(objects)
+        # return render(request, 'courses/courses.html', {'courses': objects,
+        #                                                 "number_of_courses":number_of_courses,
+        #                                                 "current_number_of_courses":current_number_of_courses,
+        #                                                 "courses_per_page":courses_per_page,
+        #                                                 "query":query,
+        #                                                 "ctgry":category,
+        #                                                 })
+
+        # return Response({"data":serializer_class.data,"message":"","status":"success"})
+
 
 
 def AddCompany(request):
@@ -236,7 +297,14 @@ def addCourse(request):
                     course_syllabus = request.FILES.get('course_syllabus'),
                     is_published = request.POST.get('is_published'),
                     slug = request.POST.get('slug'),
+                    tags = request.POST.get('tags'),
                 )
+                categories = request.POST.get('categories')
+                if categories:
+                    categories = eval(categories)
+                    for category in categories:
+                        ctg = CourseCategories.objects.filter(id = category).first()
+                        course.categories.add(ctg)
                 course.save()
                 messages.success(request,"added")
                 return redirect(request.META.get('HTTP_REFERER'))
@@ -254,9 +322,14 @@ def editCourse(request,course_id):
         form = courseForm()
         course = Courses.objects.filter(id = course_id)
         if request.method == "POST":
+            print("categories = ",request.POST.get('category'))
             form = courseForm(request.POST,request.FILES,instance=course.first())
             if form.is_valid():
-                form.save()
+                course = form.save(commit=False)
+                categories = request.POST.getlist('categories')
+                print(categories)
+                course.category.set(categories)
+                course.save()
                 messages.success(request,"updated")
                 return redirect(request.META.get("HTTP_REFERER"))
             else:
@@ -290,7 +363,39 @@ def deleteCourse(request,course_id):
         return redirect(request.META.get("HTTP_REFERER"))
     else:
         return render(request,"access-denied.html")
-    
+
+
+def addCourseCategory(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            try:
+                category = CourseCategories.objects.create(
+                    name = request.POST.get('name'),
+                )
+                category.save()
+                messages.success(request,"Category Added")
+                return redirect(request.META.get('HTTP_REFERER'))
+            except Exception as e:
+                print(e)
+                messages.error(request,f"error - {e}")
+                return redirect(request.META.get('HTTP_REFERER'))
+        return render(request,"add/course_category.html")
+
+
+def editCourseCategory(request,category_id):
+    if request.user.is_authenticated:
+        category = CourseCategories.objects.filter(id = category_id).first()
+        if request.method == "POST":
+            form = CourseCategoryForm(data= request.POST,instance=category)
+            if form.is_valid():
+                form.save()
+                messages.success(request,"Category Updated")
+                return redirect(request.META.get('HTTP_REFERER'))
+            messages.error(request,f"Something went wrong {form.errors}")
+            return redirect(request.META.get('HTTP_REFERER'))
+        return render(request,"edit/course_category.html",{"category":category})
+
+
 
 def addCarouselImage(request):
     if request.user.is_superuser:
@@ -300,6 +405,8 @@ def addCarouselImage(request):
                     carousel_image = request.FILES.get('carousel_image'),
                     carousel_description = request.POST.get('carousel_description'),
                     carousel_title= request.POST.get('carousel_title'),
+                    carousel_redirect_link = request.POST.get('carousel_redirect_link'),
+                    is_mobile = request.POST.get('is_mobile'),
                 )
                 carouselImage.save()
                 messages.success(request,"added")

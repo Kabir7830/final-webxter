@@ -30,6 +30,17 @@
         <label for="">Carousel Description</label>
         <textarea name="carousel_description" class="form-control">{{carousel.carousel_description}}</textarea>
     </div>
+    <div class="form-group">
+        <label for="">Link</label>
+        <textarea name="carousel_redirect_link" class="form-control">{{carousel.carousel_redirect_link}}</textarea>
+    </div>
+    <div class="form-group">
+        <label for="">Show On Mobile?</label>
+        <select name="is_mobile" id="id_is_mobile" class="form-select">
+          <option value="True" {% if carousel.is_mobile %} selected {% endif %}>Show</option>
+          <option value="False" {% if carousel.is_mobile %} {% else %}selected {% endif %}>Do not Show</option>
+        </select>
+    </div>
     <script>
         document.getElementById('files').onchange = function () {
       var src = URL.createObjectURL(this.files[0])

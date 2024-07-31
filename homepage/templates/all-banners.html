@@ -14,8 +14,11 @@
             <th>Course Title</th>
             <th>Image</th>
             <th>Description</th>
+            <th>link</th>
+            <th>Mobile</th>
             <th>Edit</th>
             <th>Delete</th>
+            <th></th>
         </tr>
     </thead>
 
@@ -25,6 +28,8 @@
               <td>{{banner.carousel_title}}</td>
               <td><img src="/media/{{banner.carousel_image}}" alt="img" style="max-height: 100px;"></td>
               <td>{{banner.carousel_description}}</td>
+              <td>{{banner.carousel_redirect_link}}</td>
+              <td>{% if banner.is_mobile %} Show {% else %} Do not show {% endif %}</td>
               <td><a href="/edit-banner/{{banner.id}}/"><button class="btn btn-success">Edit</button></a></td>
               <td><form action="{% url 'delete-banner' carousel_id=banner.id%}" method="post">{% csrf_token %}<button type="submit" class="btn btn-danger">Delete</button></form></td>
             </tr>

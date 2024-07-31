@@ -17,6 +17,8 @@ class courseForm(forms.ModelForm):
             'course_syllabus',
             'is_published',
             'slug',
+            'tags',
+            'category'
         ]
 
 class CarouselForm(forms.ModelForm):
@@ -26,6 +28,8 @@ class CarouselForm(forms.ModelForm):
             'carousel_image',
             'carousel_description',
             'carousel_title',
+            'carousel_redirect_link',
+            'is_mobile',
         ]
 
 
@@ -84,4 +88,12 @@ class BlogsForm(forms.ModelForm):
             "blog_content",
             "edited_on",
             "is_published",
+        ]
+
+class CourseCategoryForm(forms.ModelForm):
+
+    class Meta:
+        model = CourseCategories
+        fields = [
+            'name'
         ]

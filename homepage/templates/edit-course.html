@@ -32,7 +32,7 @@
   </style>
 
   <div class="main-area">
-    <h2>Create Course</h2>
+    <h2>Edit Course ({{course.course_name}})</h2>
     <br>
     <form action="{% url 'edit-course' course_id=course.id%}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -84,7 +84,20 @@
         <div class="form-group">
           <label for="">URL</label>
           <input type="text" name="slug" placeholder="this-is-url" class="form-control" value="{{course.slug}}">
-      </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="">Tags</label>
+          <input type="text" name="tags" placeholder="Tags" class="form-control" value="{{course.tags}}">
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="">Categories</label>
+            <br>
+            {% for category in course_categories %}
+            <input type="checkbox" name="categories" value="{{category.id}}" class="course_categories_checkbox" {% if category in course.category.all %}checked{% endif %} onclick="define_categories_value()"> <label for="">{{category.name}}</label><br>
+            {% endfor %}
+        </div>
         <br>
         <button class="btn btn-success" type="submit">Update</button>
     </form>

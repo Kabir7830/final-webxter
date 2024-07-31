@@ -80,7 +80,21 @@
         <div class="form-group">
           <label for="">URL</label>
           <input type="text" name="slug" placeholder="this-is-url" class="form-control">
-      </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="">Tags</label>
+          <input type="text" name="tags" placeholder="Tags" class="form-control">
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="">Categories</label>
+          <select name="categories" placeholder="Tags" class="form-select" multiple>
+            {% for category in course_categories %}
+            <option value="{{category.id}}">{{category.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
         <br>
         <button class="btn btn-success" type="submit">Create</button>
     </form>

@@ -1,14 +1,20 @@
 <style>
-a.active{
-    color:#70c745 !important;
+a.active, a:hover{
+    color:#4ea292 !important;
 }
 a{
     cursor: pointer;
 }
+
+@media screen and (max-width:500px){
+    .desktop{
+        display: none;
+    }
+}
 </style>
 <header class="header-area">
         <!-- ***** Top Header Area ***** -->
-        <div class="top-header-area">
+        <div class="top-header-area desktop">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -22,7 +28,7 @@ a{
                             <!-- Top Header Content -->
                             <div class="top-header-meta d-flex">
                                 <!-- Language Dropdown -->
-                                <div class="language-dropdown">
+                                <!-- <div class="language-dropdown">
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle mr-30" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Language</button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -34,7 +40,7 @@ a{
                                             <a class="dropdown-item" href="#">Latin</a>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- Login -->
                                 <div class="login">
                                 {% if user.is_authenticated %}
@@ -52,9 +58,9 @@ a{
                                 {% endif %}
                                 </div>
                                 <!-- Cart -->
-                                <div class="cart">
+                                <!-- <div class="cart">
                                     <a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Cart <span class="cart-quantity">({{cart_items}})</span></span></a>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -92,11 +98,37 @@ a{
                                     <li><a href="{% url 'about'%}" data-target="{% url 'about'%}">About</a></li>
                                     <li><a>Categories</a>
                                         <ul class="dropdown">
-                                            <li><a>Web Development</a></li>
+                                            <li><a>Programming</a>
+                                                <ul class="dropdown">
+                                                    <li><a href="#">Python</a></li>
+                                                    <li><a href="#">Django</a></li>
+                                                    <li><a href="#">React JS</a></li>
+                                                    <li><a href="#">JavaScript</a></li>
+                                                    <li><a href="#">Java</a></li>
+                                                    <li><a href="#">C/C++</a></li>
+                                                    <li><a href="#">HTML & CSS</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a>DataBase</a>
+                                                <ul class="dropdown">
+                                                    <li><a href="#">MySQL</a></li>
+                                                    <li><a href="#">MongoDB</a></li>
+                                                    <li><a href="#">Postgresql</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a>Web Development</a>
+                                                <ul class="dropdown">
+                                                    <li><a href="#">Full Stack</a></li>
+                                                    <li><a href="#">Front-End</a></li>
+                                                    <li><a href="#">Back-End</a></li>
+                                                </ul>
+                                            </li>
                                             <li><a>Graphic Designing</a></li>
                                             <li><a>Modren Trends</a>
                                                 <ul class="dropdown">
-                                                    <li><a>AI</a></li>
+                                                    <li><a>AI</a>
+                                                        <ul class="dropdown"><li><a href="#">Comming Soon</a></li></ul>
+                                                    </li>
                                                     <li><a href="#">Data Analysis</a></li>
                                                     <li><a href="#">API Integrations</a></li>
                                                 </ul>
@@ -114,7 +146,7 @@ a{
                                         </ul>
                                     </li>
                                     <li><a href="{% url 'courses' %}" data-target="{% url 'courses' %}">Courses</a></li>
-                                    <li><a href="{% url 'validate-certificate'%}" data-target="{% url 'validate-certificate'%}">Vertificate Validation</a></li>
+                                    <li><a href="{% url 'validate-certificate'%}" data-target="{% url 'validate-certificate'%}">Certificate Validation</a></li>
                                     {% if user.is_superuser %}
                                     <li><a href="{% url 'dashboard' %}" class="position-relative">
                                         Dashboard
@@ -122,6 +154,12 @@ a{
                                             {{notifications}}
                                           </span>
                                     </a></li>
+                                    {% endif %}
+                                    {% if user.is_authenticated %}
+                                    <li><a href="{% url 'logout'%}">Logout</a></li>
+                                    {% else %}
+                                    <li><a href="{% url 'login'%}">Login</a></li>
+                                    <li><a href="{% url 'signup'%}">Signup</a></li>
                                     {% endif %}
                                 </ul>
 
@@ -137,8 +175,8 @@ a{
 
                     <!-- Search Form -->
                     <div class="search-form">
-                        <form action="#" method="get">
-                            <input type="search" name="search" id="search" placeholder="Type keywords &amp; press enter...">
+                        <form action="{% url 'courses' %}" method="get">
+                            <input type="search" name="q" id="search" placeholder="Type keywords &amp; press enter...">
                             <button type="submit" class="d-none"></button>
                         </form>
                         <!-- Close Icon -->

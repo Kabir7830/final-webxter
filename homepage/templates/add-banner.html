@@ -26,6 +26,17 @@
         <label for="">Carousel Description</label>
         <textarea name="carousel_description" class="form-control"></textarea>
     </div>
+    <div class="form-group">
+        <label for="">Link</label>
+        <textarea name="carousel_redirect_link" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="">Show On Mobile?</label>
+        <select name="is_mobile" id="id_is_mobile" class="form-select">
+          <option value="True">Show</option>
+          <option value="False">Do not Show</option>
+        </select>
+    </div>
     <script>
         document.getElementById('files').onchange = function () {
       var src = URL.createObjectURL(this.files[0])

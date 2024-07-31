@@ -74,6 +74,14 @@ class userOTP(models.Model):
     expiry = models.CharField(max_length=255)
     is_verified = models.BooleanField(default=False,null=True,blank=True)
 
+
+class CourseCategories(models.Model):
+    class Meta:
+        db_table = "course_categories"
+
+    name = models.CharField(max_length=255,unique=True)
+
+
 class Courses(models.Model):
     class Meta:
         db_table = "Courses"
@@ -85,6 +93,8 @@ class Courses(models.Model):
     course_syllabus = models.FileField(upload_to="course_syllabus/",default="")
     is_published = models.BooleanField(default=True)
     slug = models.SlugField(unique=True, blank=True)  # Ensure unique slugs and allow blank
+    tags = models.TextField(default="",blank=True)
+    category = models.ManyToManyField(CourseCategories,related_name="categories",blank=True,null=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:  # If slug is not set
@@ -99,7 +109,10 @@ class CarouselImages(models.Model):
     carousel_image = models.ImageField(upload_to='carousel_images/')
     carousel_title = models.CharField(max_length=100,null=True,blank=True,default="")
     carousel_description = models.CharField(max_length=300,null=True,blank=True,default="")
-    
+    carousel_redirect_link = models.TextField(default="#",blank=True)
+    is_mobile = models.BooleanField(default=False,blank=True)
+
+
 
 class CompanyInfo(models.Model):
     class Meta:
@@ -217,3 +230,14 @@ class Blogs(models.Model):
         return ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
 
 
+class DemoClassRegistration(models.Model):
+
+    class Meta:
+        db_table = "demo_class_registeration"
+
+
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    course = models.ForeignKey(Courses,on_delete=models.PROTECT)
+    phone_number = models.CharField(max_length=15)
+    time_slot = models.CharField(max_length=80)

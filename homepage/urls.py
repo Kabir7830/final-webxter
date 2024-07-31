@@ -16,7 +16,7 @@ urlpatterns = [
     path("create-certificate/",createCertificate,name="create-certificate"),
     path("validate-certificate/",CertificateValidation.as_view(),name="validate-certificate"),
     path("enroll/<int:course_id>/",CourseEnrollment.as_view(),name="enroll"),
-    path("course/<slug:slug>/",getCourseDetails,name="course-details"),
+    path("courses/<slug:slug>/",getCourseDetails,name="course-details"),
     path("add-course/",addCourse,name="add-course"),
     path("add-banner/",addCarouselImage,name="add-banner"),
     path("add-company-info/",addCompanyInfo,name="add-company-info"),
@@ -55,9 +55,14 @@ urlpatterns = [
     path('404/',Error404,name='404'),
     path('500/',Error500,name='500'),
 
+    path('add-category/',addCourseCategory,name="add_course_category"),
+    path('edit-category/<int:category_id>/',editCourseCategory,name="edit_course_category"),
+
     # APIs
 
     path('enrolled-student-mark-as-read-api/',ModifyEnrolledStudetns.as_view(),name="enrolled_student_mark_as_read_api"),
+
+    path('courses-api/',CoursesAPI.as_view(),name="courses-api"),
 
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
