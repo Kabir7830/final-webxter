@@ -302,7 +302,8 @@
     .enroll-now{
       background-color:white;
       width: 100%;
-      height: 380px;
+      min-height: 380px;
+      height: fit-content;
     }
     .webxter-button{
       padding: 10px;
@@ -326,6 +327,16 @@
     .enroll-now form input,textarea{
       max-width: 100%;
     }
+    .enroll-now form .message{
+      font-size: small;
+      padding: 5px;
+    }
+    .enroll-now form .message.error{
+      color: red;
+    }
+    .enroll-now form .message.success{
+      color: green;
+    }
     @media screen and (min-width:200px) and (max-width:550px) {
         .enroll-now form{
       width: 95%;
@@ -336,36 +347,130 @@
     <form action="{% url 'request-callback'%}" method="POST">
       {% csrf_token %}
       <div class="form-group">
-        <input type="text" placeholder="Full Name" name="name" required class="form-control"> 
+        <input type="text" placeholder="Full Name" name="name" id="id_name" required class="form-control">
+        <span class="message error visually-hidden" id="id_name_error"></span>
       </div>
       <br>
       <div class="form-group">
-        <input type="email" placeholder="user@example.com" name="email" required class="form-control">
+        <input type="email" placeholder="user@example.com" name="email" id="id_email" required class="form-control">
+        <span class="message error visually-hidden" id="id_email_error"></span>
       </div>
       <br>
       <div class="form-group">
-        <input type="text" placeholder="Phone Number" name="phone_number" maxlength="10" minlength="10" required class="form-control">
+        <input type="text" placeholder="Phone Number" name="phone_number" id="id_phone_number" maxlength="10" minlength="10" required class="form-control">
+        <span class="message error visually-hidden" id="id_phone_error"></span>
       </div>
       <br>
       <div class="form-group">
-        <textarea name="message" id="" cols="80" rows="4" placeholder="Message" class="form-control"></textarea>
+        <textarea name="message" cols="80" rows="4" placeholder="Message" id="id_message" class="form-control" required></textarea>
+        <span class="message error visually-hidden" id="id_message_error"></span>
       </div>
-      <input type="text" name="date" id="id_date" hidden>
-      <input type="text" name="time" id="id_time" hidden>
+      <br>
+      <button type="button" class="webxter-button" id="id_request_call_back_submit_button" onclick="send_request_call_back()">submit</button>
+      <br>
+      <span class="message success visually-hidden" id="id_message_success_call_back_request"></span>
+      <span class="message error visually-hidden" id="id_message_error_call_back_request"></span>
       <script>
-        const date = new Date()
-        let day = date.getDate();
-        let month = date.getMonth();
-        let year = date.getFullYear();
-        let current_date = `${day}-${month+1}-${year}`;
-        let hours = date.getHours();
-        let minutes = date.getMinutes();
-        let current_time = `${hours}:${minutes}`;
-        document.getElementById('id_date').value = current_date;
-        document.getElementById('id_time').value = current_time;
+
+        function prepare_request_call_back_data(){
+
+          let name = document.getElementById('id_name');
+          let message = document.getElementById('id_message');
+          let email = document.getElementById('id_email');
+          let phone_number = document.getElementById('id_phone_number');
+          const date = new Date()
+          let day = date.getDate();
+          let month = date.getMonth();
+          let year = date.getFullYear();
+          let current_date = `${day}-${month+1}-${year}`;
+          let hours = date.getHours();
+          let minutes = date.getMinutes();
+          let current_time = `${hours}:${minutes}`;
+          let data = {
+            "name":name.value,
+            "email":email.value,
+            "message":message.value,
+            "phone_number":phone_number.value,
+            "date":current_date,
+            "time":current_time,
+          }
+          return data
+        }
+
+        function send_request_call_back(){
+          let submit_btn = document.getElementById('id_request_call_back_submit_button');
+          submit_btn.innerHTML = `<div class="spinner-border text-success" role="status">
+                                      <span class="visually-hidden">Loading...</span>
+                                  </div>`;
+          let success_message = document.getElementById('id_message_success_call_back_request');
+          success_message.classList.add('visually-hidden');
+          let error_message = document.getElementById('id_message_error_call_back_request');
+          error_message.classList.add('visually-hidden');
+          let phone_error = document.getElementById('id_phone_error');
+          phone_error.classList.add('visually-hidden');
+          let name_error = document.getElementById('id_name_error');
+          name_error.classList.add('visually-hidden');
+          let email_error = document.getElementById('id_email_error');
+          email_error.classList.add('visually-hidden');
+          let message_error = document.getElementById('id_message_error');
+          message_error.classList.add('visually-hidden');
+          let postData = prepare_request_call_back_data()
+          console.log(postData);
+          var csrftoken = $('input[name="csrfmiddlewaretoken"]').val();
+          $.ajax({
+            url:"{% url 'request-callback-api' %}",
+            type:"POST",
+            contentType:"application/json",
+            data:JSON.stringify(postData),
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            success:function(data){
+              if (data['status']=="success"){
+                submit_btn.innerHTML = "submit";
+                submit_btn.disabled = true;
+                submit_btn.style.cursor = "no-drop";
+                success_message.classList.remove('visually-hidden');
+                success_message.innerHTML = data['message'];
+
+              }
+              else if (data['status']=="error"){
+                if (data['required_error']){
+                  let error = data['required_error'];
+                  submit_btn.innerHTML = "submit";
+                    if (error['phone_number']){
+                      phone_error.classList.remove('visually-hidden');
+                      phone_error.innerHTML = error['phone_number'];
+                    }
+                    if (error['email']){
+                      email_error.classList.remove('visually-hidden');
+                      email_error.innerHTML = error['email'];
+                    }
+                    if (error['name']){
+                      name_error.classList.remove('visually-hidden');
+                      name_error.innerHTML = error['name'];
+                    }
+                    if (error['message']){
+                      message_error.classList.remove('visually-hidden');
+                      message_error.innerHTML = error['message'];
+                    }
+                  
+                }
+                else{
+                  submit_btn.innerHTML = "submit";
+                  error_message.classList.remove('visually-hidden');
+                  error_message.innerHTML = data['message'].replace('{','').replace('}','');
+                  console.error('Error: ',data['message']);
+                }
+              }
+            },
+            error:function(xhr,textStatus,errorThrown){
+              console.error("AJAX ERROR: ",errorThrown);
+            }
+          })
+        }
+
       </script>
-      <br>
-      <button type="submit" class="webxter-button">submit</button>
     </form>
   </div>
   </div>

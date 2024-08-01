@@ -515,6 +515,42 @@ def addRequestCallBack(request):
     return redirect(request.META.get('HTTP_REFERER'))
 
 
+class RequestCallbackAPI(APIView):
+
+    def post(self,request):
+        data = request.data
+        is_required_error = False
+        required_error = {}
+        if data.get('phone_number') == "" or data.get('phone_number') == None:
+            required_error['phone_number'] = "This field is required"
+            is_required_error = True
+        if data.get('email') == "" or data.get('email') == None:
+            required_error['email'] = "This field is required"
+            is_required_error = True
+        if data.get('message') == "" or data.get('message') == None:
+            required_error['message'] = "This field is required"
+            is_required_error = True
+        if data.get('name') == "" or data.get('name') == None:
+            required_error['name'] = "This field is required"
+            is_required_error = True
+
+        if is_required_error:
+            return Response({"data":[],"message":f"invalid data","status":"error","required_error":required_error})
+        form = RequestCallbackAPIForm(data=data)
+
+        if form.is_valid():
+            form.save()
+            body = CallbackRequestTemplate(name=data.get('name'),email=data.get('email'),phone_number=data.get('phone_number'),message=data.get('message'))
+            studentbody = callbackSentTemplate(name=data.get('name'))
+            send_email(subject="New Callback Request",body=body,recipients=["kabir.behal7830@gmail.com"],sender_name="Webxter Callback Request")
+            send_email(subject="Thankyou for Callback Request",body=studentbody,recipients=[data.get('email')],sender_name="Webxter Callback Request")
+            return Response({"data":[],"message":"Form Submitted","status":"success"})
+        return Response({"data":[],"message":f"{dict(form.errors)}","status":"error"})
+        
+
+        
+
+
 def allRequestCallBack(request):
     if request.user.is_superuser:
         requests = RequestCallBack.objects.all()

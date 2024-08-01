@@ -55,6 +55,11 @@ class RequestCallBackForm(forms.ModelForm):
         ]
 
 
+class RequestCallbackAPIForm(forms.ModelForm):
+    class Meta:
+        model = RequestCallBack
+        fields = "__all__"
+
 class CoachingForm(forms.ModelForm):
     class Meta:
         model = Coaching

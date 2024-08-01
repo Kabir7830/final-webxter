@@ -63,7 +63,7 @@ urlpatterns = [
     # APIs
 
     path('enrolled-student-mark-as-read-api/',ModifyEnrolledStudetns.as_view(),name="enrolled_student_mark_as_read_api"),
-
+    path("add-request-callback-api/",RequestCallbackAPI.as_view(),name="request-callback-api"),
     path('courses-api/',CoursesAPI.as_view(),name="courses-api"),
     
 
