@@ -57,12 +57,15 @@ urlpatterns = [
 
     path('add-category/',addCourseCategory,name="add_course_category"),
     path('edit-category/<int:category_id>/',editCourseCategory,name="edit_course_category"),
+    path("book-demo/",demoRegisterView,name="book-demo"),
+
 
     # APIs
 
     path('enrolled-student-mark-as-read-api/',ModifyEnrolledStudetns.as_view(),name="enrolled_student_mark_as_read_api"),
 
     path('courses-api/',CoursesAPI.as_view(),name="courses-api"),
+    
 
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

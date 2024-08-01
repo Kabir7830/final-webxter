@@ -1,0 +1,5 @@
+@media screen and (min-width:501px){
+    .mobile_navs{
+        display: none !important;
+    }
+}

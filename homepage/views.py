@@ -15,7 +15,7 @@ from datetime import datetime,timedelta
 import logging
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .serializers import *
-
+from .utils import *
 User = get_user_model()
 
 logger = logging.getLogger("otp")
@@ -24,21 +24,6 @@ credentials_file = open('homepage/credentials.txt','r')
 for line in credentials_file:
     credentials = eval(line)
     break
-
-def is_admin(request):
-    if request.user.is_superuser:
-        return True
-    return False
-
-def is_loggin(request):
-    if request.user.is_authenticated:
-        return True
-    return False
-
-def is_method_post(request):
-    if request.method == "POST":
-        return True
-    return False
 
 def Error404(request):
     return render(request,"error/404.html")
@@ -96,6 +81,7 @@ class otpAPI(APIView):
             logger.exception("Exception traceback:")
             return Response({"message":"Couldn't Send OTP. Server error!","status":"error"})
 
+
 class verifyOTP(APIView):
 
     def post(self,request):
@@ -139,6 +125,7 @@ def send_email(subject, body, recipients,sender_name="Webxter"):
        smtp_server.sendmail(sender, recipients, msg.as_string())
     print("Message sent!")
 
+
 def adminHomepage(request):
     if request.user.is_superuser:
         return render(request,"admin-master.html")
@@ -149,6 +136,7 @@ def adminHomepage(request):
 def openZoho(request):
     return render(request,"verifyforzoho.html")
 
+
 def homepage(request):
     coachings = Coaching.objects.all()[:9]
     banners = CarouselImages.objects.all()
@@ -158,6 +146,7 @@ def homepage(request):
 
 def aboutUs(request):
     return render(request,"about-us.html")
+
 
 def privacyPolicy(request):
     return render(request,"privacy-policy.html")
@@ -250,7 +239,6 @@ class CoursesAPI(APIView):
         # return Response({"data":serializer_class.data,"message":"","status":"success"})
 
 
-
 def AddCompany(request):
     if is_admin(request):
         form = CompanyForm()
@@ -281,8 +269,6 @@ def EditCompany(request):
             return redirect('500')
         return render(request,"edit/company.html",{"company":company})
     return redirect('404')
-
-
 
 
 def addCourse(request):
@@ -396,7 +382,6 @@ def editCourseCategory(request,category_id):
         return render(request,"edit/course_category.html",{"category":category})
 
 
-
 def addCarouselImage(request):
     if request.user.is_superuser:
         if request.method == "POST":
@@ -446,6 +431,7 @@ def allBanners(request):
     else:
         return render(request,"access-denied.html")
 
+
 def deleteBanner(request,carousel_id):
     if request.user.is_superuser:
 
@@ -483,6 +469,7 @@ def addCompanyInfo(request):
         return render(request,"add-company-info.html")
     else:
         return render(request,"access-denied.html")
+
 
 def editCompanyInfo(request):
     if request.user.is_superuser:
@@ -563,6 +550,7 @@ def deleteRequestCallBack(request,req_id):
     else:
         return render(request,"access-denied.html")
 
+
 def makeRequestRead(request,req_id):
     if request.user.is_superuser:
         if request.method == "POST":
@@ -582,14 +570,12 @@ def makeRequestRead(request,req_id):
         return render(request,"access-denied.html")
 
 
-
 def getCourseDetails(request,slug):
     student = 0
     if request.user.is_authenticated:
         student = EnrolledStudents.objects.filter(student_id = request.user.id).filter(course_id__slug = slug).first()
     course = Courses.objects.filter(slug = slug).first()
     return render(request,"course-details.html",{'course':course,'student':student})
-
 
 
 def addCoaching(request):
@@ -670,13 +656,13 @@ def deleteCoaching(request,coaching_id):
         return render(request,"access-denied.html")
 
 
-
 def getAllCoaching(request):
     if request.user.is_superuser:
         coachings = Coaching.objects.all()
         return render(request,"all-coachings.html",{'coachings':coachings})
     else:
         return render(request,"access-denied.html")
+
 
 def SignUp(request):
     if request.method == "POST":
@@ -710,7 +696,6 @@ def SignUp(request):
             messages.error(request,"Error")
             return redirect(request.META.get('HTTP_REFERER'))
     return render(request,"signup.html")
-
 
 
 def loginHandler(request):
@@ -775,7 +760,6 @@ class CourseEnrollment(APIView):
         return Response({"message":"You must be logged in to enroll in a course!","status":"error"})
 
 
-
 # def EnrollNow(request,course_id):
 #     if request.user.is_authenticated:
 #         if request.method == "POST":
@@ -830,7 +814,6 @@ class ModifyEnrolledStudetns(APIView):
             return Response({"data":[],"message":f"Something went worng -{e}","status":"error"})
         
 
-
 def createCertificate(request):
     students = CompanyUser.objects.all()
     if request.method == "POST":
@@ -862,26 +845,6 @@ class CertificateValidation(APIView):
                 return Response({"message":"The certificate is valid","status":"success"})
         else:
             return Response({"message":"The certificate is not valid","status":"error"})
-
-
-# def validateCertificate(request):
-#     validation_message = ['','']
-#     if request.method == "POST":
-#         try:
-#             certificate_number = request.POST.get('certificate_number')
-#             certificate = Certificate_IDS.objects.filter(certificate_number = certificate_number).first()
-#             if certificate is not None:
-#                 validation_message = ['yes',"Congratulations! This certificate is valid"]
-#             else:
-#                 validation_message = ['no','This certificate is not valid!']
-#             return render(request,"certificate_validation.html",{'validation_message':validation_message})
-#         except Exception as e:
-#             print(e)
-#             messages.error(request,"Something went wrong! Try again in sometime")
-#             return redirect(request.META.get('HTTP_REFERER'))
-#     return render(request,"certificate_validation.html",{'validation_message':validation_message})
-    
-    
     
 
 def forgotPassword(request):
@@ -942,7 +905,6 @@ def addNotes(request):
     return redirect(request.META.get('HTTP_REFERER'))
 
 
-
 def editNotes(request,notes_id):
     notes = Notes.objects.filter(id = notes_id).first()
     if request.user.is_authenticated:
@@ -965,13 +927,13 @@ def getallNotes(request):
     messages.warning(request,"Please <a href='/login/'>Login</a>")
     return redirect(request.META.get('HTTP_REFERER'))
 
+
 def getNote(request,notes_id):
     if request.user.is_authenticated:
         note = Notes.objects.filter(user_id = request.user.id).filter(id = notes_id)
         return render(request,"one-note.html",{'note':note.first()})
     messages.warning(request,"Please <a href='/login/'>Login</a>")
     return redirect(request.META.get('HTTP_REFERER'))
-
 
 
 def deleteNotes(request,notes_id):
@@ -993,7 +955,6 @@ def deleteNotes(request,notes_id):
     messages.warning(request,"Please <a href='/login/'>Login</a>")
     return redirect(request.META.get("HTTP_REFERER"))
         
-
 
 def addBlog(request):
     if request.user.is_authenticated:
@@ -1051,7 +1012,6 @@ def deleteBlog(request,blog_id):
     return redirect(request.META.get('HTTP_REFERER'))
         
 
-
 def getBlogs(request):
     if request.user.is_authenticated:
         blogs = Blogs.objects.filter(user_id = request.user.id)
@@ -1060,7 +1020,8 @@ def getBlogs(request):
     return redirect(request.META.get('HTTP_REFERER'))
         
                     
-        
+def demoRegisterView(request):
+    return render(request,"enrollment/demo.html")
 
 
 
