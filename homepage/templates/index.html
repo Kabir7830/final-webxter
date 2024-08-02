@@ -239,7 +239,7 @@
             <p class="card-text" style="text-align:justify;">{{course.course_short_description}}</p>
           </div>
           <div class="card-footer">
-            <small class="text-body-secondary"><a href="/course/{{course.slug}}/"><button type="button" class="btn btn-success">View</button></a></small>
+            <small class="text-body-secondary"><a href="{% url 'course-details' slug=course.slug%}"><button type="button" class="btn btn-success">View</button></a></small>
           </div>
         </div>
       </div>
@@ -348,22 +348,22 @@
       {% csrf_token %}
       <div class="form-group">
         <input type="text" placeholder="Full Name" name="name" id="id_name" required class="form-control">
-        <span class="message error visually-hidden" id="id_name_error"></span>
+        <span class="message error visually-hidden" id="id_error_name"></span>
       </div>
       <br>
       <div class="form-group">
         <input type="email" placeholder="user@example.com" name="email" id="id_email" required class="form-control">
-        <span class="message error visually-hidden" id="id_email_error"></span>
+        <span class="message error visually-hidden" id="id_error_email"></span>
       </div>
       <br>
       <div class="form-group">
         <input type="text" placeholder="Phone Number" name="phone_number" id="id_phone_number" maxlength="10" minlength="10" required class="form-control">
-        <span class="message error visually-hidden" id="id_phone_error"></span>
+        <span class="message error visually-hidden" id="id_error_phone_number"></span>
       </div>
       <br>
       <div class="form-group">
         <textarea name="message" cols="80" rows="4" placeholder="Message" id="id_message" class="form-control" required></textarea>
-        <span class="message error visually-hidden" id="id_message_error"></span>
+        <span class="message error visually-hidden" id="id_error_message"></span>
       </div>
       <br>
       <button type="button" class="webxter-button" id="id_request_call_back_submit_button" onclick="send_request_call_back()">submit</button>
@@ -402,20 +402,19 @@
           submit_btn.innerHTML = `<div class="spinner-border text-success" role="status">
                                       <span class="visually-hidden">Loading...</span>
                                   </div>`;
+          
+          
           let success_message = document.getElementById('id_message_success_call_back_request');
           success_message.classList.add('visually-hidden');
           let error_message = document.getElementById('id_message_error_call_back_request');
           error_message.classList.add('visually-hidden');
-          let phone_error = document.getElementById('id_phone_error');
-          phone_error.classList.add('visually-hidden');
-          let name_error = document.getElementById('id_name_error');
-          name_error.classList.add('visually-hidden');
-          let email_error = document.getElementById('id_email_error');
-          email_error.classList.add('visually-hidden');
-          let message_error = document.getElementById('id_message_error');
-          message_error.classList.add('visually-hidden');
+
+          let messages = document.querySelectorAll(".message.error")
+          for (let message of messages){
+            message.classList.add('visually-hidden');
+          }
+
           let postData = prepare_request_call_back_data()
-          console.log(postData);
           var csrftoken = $('input[name="csrfmiddlewaretoken"]').val();
           $.ajax({
             url:"{% url 'request-callback-api' %}",
@@ -432,36 +431,17 @@
                 submit_btn.style.cursor = "no-drop";
                 success_message.classList.remove('visually-hidden');
                 success_message.innerHTML = data['message'];
-
               }
               else if (data['status']=="error"){
-                if (data['required_error']){
-                  let error = data['required_error'];
-                  submit_btn.innerHTML = "submit";
-                    if (error['phone_number']){
-                      phone_error.classList.remove('visually-hidden');
-                      phone_error.innerHTML = error['phone_number'];
-                    }
-                    if (error['email']){
-                      email_error.classList.remove('visually-hidden');
-                      email_error.innerHTML = error['email'];
-                    }
-                    if (error['name']){
-                      name_error.classList.remove('visually-hidden');
-                      name_error.innerHTML = error['name'];
-                    }
-                    if (error['message']){
-                      message_error.classList.remove('visually-hidden');
-                      message_error.innerHTML = error['message'];
-                    }
-                  
+                let errors = data['message']
+                let counter = Object.keys(errors).length
+                let keys = Object.keys(errors);
+                for(let i=0;i<counter;i++){
+                  let ele = document.getElementById(`id_error_${keys[i]}`);
+                  ele.classList.remove('visually-hidden');
+                  ele.innerHTML = errors[keys[i]];
                 }
-                else{
-                  submit_btn.innerHTML = "submit";
-                  error_message.classList.remove('visually-hidden');
-                  error_message.innerHTML = data['message'].replace('{','').replace('}','');
-                  console.error('Error: ',data['message']);
-                }
+                submit_btn.innerHTML = "submit";
               }
             },
             error:function(xhr,textStatus,errorThrown){

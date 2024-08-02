@@ -8,7 +8,13 @@ from email.mime.text import MIMEText
 import random
 from email.mime.multipart import MIMEMultipart
 from .pagination import *
-from .email_templates import otpTemplate,AccountCreatedTemplate,EnrollmentTemplate,CallbackRequestTemplate,callbackSentTemplate
+from .email_templates import (otpTemplate,
+                              AccountCreatedTemplate,
+                              EnrollmentTemplate
+                              ,CallbackRequestTemplate,
+                              callbackSentTemplate,
+                              DemoClassRegestrationTemplate,
+                              AdminDemoClassRegestrationTemplate)
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from datetime import datetime,timedelta
@@ -238,6 +244,15 @@ class CoursesAPI(APIView):
 
         # return Response({"data":serializer_class.data,"message":"","status":"success"})
 
+
+class CourseForFormAPI(APIView):
+    
+    def get(self,request):
+        
+        courses = Courses.objects.filter(is_published = True).values('id','course_name')
+        serializer_class = CourseFormAPISerializer(courses,many=True)
+        return Response({"data":serializer_class.data,"message":'',"status":'success'})
+        
 
 def AddCompany(request):
     if is_admin(request):
@@ -521,21 +536,21 @@ class RequestCallbackAPI(APIView):
         data = request.data
         is_required_error = False
         required_error = {}
-        if data.get('phone_number') == "" or data.get('phone_number') == None:
-            required_error['phone_number'] = "This field is required"
-            is_required_error = True
-        if data.get('email') == "" or data.get('email') == None:
-            required_error['email'] = "This field is required"
-            is_required_error = True
-        if data.get('message') == "" or data.get('message') == None:
-            required_error['message'] = "This field is required"
-            is_required_error = True
-        if data.get('name') == "" or data.get('name') == None:
-            required_error['name'] = "This field is required"
-            is_required_error = True
+        # if data.get('phone_number') == "" or data.get('phone_number') == None:
+        #     required_error['phone_number'] = "This field is required"
+        #     is_required_error = True
+        # if data.get('email') == "" or data.get('email') == None:
+        #     required_error['email'] = "This field is required"
+        #     is_required_error = True
+        # if data.get('message') == "" or data.get('message') == None:
+        #     required_error['message'] = "This field is required"
+        #     is_required_error = True
+        # if data.get('name') == "" or data.get('name') == None:
+        #     required_error['name'] = "This field is required"
+        #     is_required_error = True
 
-        if is_required_error:
-            return Response({"data":[],"message":f"invalid data","status":"error","required_error":required_error})
+        # if is_required_error:
+        #     return Response({"data":[],"message":f"invalid data","status":"error","required_error":required_error})
         form = RequestCallbackAPIForm(data=data)
 
         if form.is_valid():
@@ -545,11 +560,9 @@ class RequestCallbackAPI(APIView):
             send_email(subject="New Callback Request",body=body,recipients=["kabir.behal7830@gmail.com"],sender_name="Webxter Callback Request")
             send_email(subject="Thankyou for Callback Request",body=studentbody,recipients=[data.get('email')],sender_name="Webxter Callback Request")
             return Response({"data":[],"message":"Form Submitted","status":"success"})
-        return Response({"data":[],"message":f"{dict(form.errors)}","status":"error"})
+        # return Response({"data":[],"message":f"{dict(form.errors)}","status":"error"})
+        return Response({"data":[],"message":form.errors,"status":"error"})
         
-
-        
-
 
 def allRequestCallBack(request):
     if request.user.is_superuser:
@@ -796,37 +809,6 @@ class CourseEnrollment(APIView):
         return Response({"message":"You must be logged in to enroll in a course!","status":"error"})
 
 
-# def EnrollNow(request,course_id):
-#     if request.user.is_authenticated:
-#         if request.method == "POST":
-#             try:
-#                 already_enrolled = EnrolledStudents.objects.filter(student_id = request.user.id,course_id = course_id)
-#                 if already_enrolled.exists():
-#                     messages.warning(request,"You have already request to enroll")
-#                     return redirect(request.META.get('HTTP_REFERER'))
-#                 enroll_student = EnrolledStudents.objects.create(
-#                     student_id_id = request.user.id,
-#                     course_id_id = course_id,
-#                     enrolled_date = request.POST.get('enrolled_date'),
-#                     enrolled_time = request.POST.get('enrolled_time'),
-#                 )
-#                 messages.success(request,"Enroll request sent.")
-#                 course = Courses.objects.filter(id = course_id).first()
-#                 subject = "Thankyou For Enrollment"
-#                 body = EnrollmentTemplate(name=f"{request.user.first_name} {request.user.last_name}",course_name=course.course_name)
-#                 recipients = [request.user.email]
-#                 send_email(subject, body, recipients,sender_name="Enrollment Request Received - Webxter")
-#                 return redirect(request.META.get('HTTP_REFERER'))
-#             except Exception as e:
-#                 print(e)
-#                 messages.error(request,f"Something went wrong! Try again, {e}")
-#                 return redirect(request.META.get('HTTP_REFERER'))
-        
-#         return redirect(request.META.get('HTTP_REFERER'))
-#     messages.warning(request,"login required!")
-#     return redirect(request.META.get('HTTP_REFERER'))
-
-
 def getEnrolledtudents(request):
     if request.user.is_superuser:
         students = EnrolledStudents.objects.all().order_by('-id')
@@ -1060,8 +1042,87 @@ def demoRegisterView(request):
     return render(request,"enrollment/demo.html")
 
 
-
+class DemoRegisterationAPI(APIView):
     
+    def post(self,request):
+        data = request.data
+        serializer_class = DemoRegisterationSerializer(data=data)
+        if serializer_class.is_valid():
+            serializer_class.save()
+            body = AdminDemoClassRegestrationTemplate(name=data.get('name'),
+                                                      email=data.get('email'),
+                                                      contact_number=data.get('contact_number'),
+                                                      alternate_number=data.get('alternate_number'),
+                                                      course_name=Courses.objects.filter(id = data.get('course')).first().course_name,
+                                                      time_slot=f"{TimeSlots.objects.filter(id = data.get('time_slot')).first().start_slot}-{TimeSlots.objects.filter(id = data.get('time_slot')).first().end_slot}",
+                                                      date_slot=data.get('date_slot'),
+                                                      date_of_birth = data.get('date_of_birth'),
+                                                      gender = data.get('gender')
+                                                      )
+            studentbody = DemoClassRegestrationTemplate(name=data.get('name'),
+                                                        course_name=Courses.objects.filter(id = data.get('course')).first().course_name,
+                                                        time_slot=f"{TimeSlots.objects.filter(id = data.get('time_slot')).first().start_slot}-{TimeSlots.objects.filter(id = data.get('time_slot')).first().end_slot}" ,
+                                                        date_slot=data.get('date_slot'))
+            send_email(subject="Confirmation of Your Demo Class Booking",body=studentbody,recipients=[data.get('email')],sender_name="Webxter Demo Confirmation")
+            send_email(subject="New Demo Class Booking",body=body,recipients=["kabir.behal7830@gmail.com"],sender_name="Webxter Demo Request")
+            return Response({"data":[],"message":"Demo Booked","status":"success"})
+        return Response({"data":[],"message":serializer_class.errors,"status":"error"})
+        
+
+class GetDemoTimeSlots(APIView):
+    
+    def get(self,request):
+        
+        time_slots = TimeSlots.objects.filter(is_available=True).filter(is_for_demo=True).values('id','start_slot','end_slot')
+        serializer_class = DemoTimeSlotsSerializer(time_slots,many=True)
+        return Response({"data":serializer_class.data,"message":"","status":"success"})
+
+
+class AdminTimeSlotsAPI(APIView):
+    
+    def get(self,request):
+        pass
+    
+    def post(self,request):
+        
+        data = request.data
+        
+        serializer_class = AdminTimeSlotSerializer(data=data)
+        
+        if serializer_class.is_valid():
+            serializer_class.save()
+            return Response({"data":[],'message':"Slot Added","status":"success"})
+        return Response({"data":[],"message":serializer_class.errors,"status":"error"})
+        
+
+class AdminBatchAPI(APIView):
+    
+    def post(self,request):
+        
+        data = request.data
+        serializer_class = AdminBatchSerializer(data=data)
+        if serializer_class.is_valid():
+            serializer_class.save()
+            return Response({"data":[],"message":"Batch Added","status":"success"})
+        return Response({"data":[],"message":serializer_class.errors,"status":"error"})
+        
+
+
+def RegistrationFormTemplate(request):
+    return render(request,"enrollment/registration.html")
+
+
+class RegisterationFormAPI(APIView):
+    
+    def post(self,request):
+        
+        data = request.data
+        serializer_class = RegistrationFormSerializer(data=data)
+        if serializer_class.is_valid():
+            serializer_class.save()
+            return Response({"data":[],"message":"Registered","status":"success"})
+        return Response({"data":[],"message":serializer_class.errors,"status":"error"})
+        
 
     
             

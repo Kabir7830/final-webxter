@@ -12,7 +12,7 @@
 
 
 #multistepsform {
-  width: 400px;
+  width: 100%;
   margin: 50px auto;
   text-align: center;
   position: relative;
@@ -90,7 +90,7 @@
   color: #679b9b;
   text-transform: uppercase;
   font-size: 9px;
-  width: 50%;
+  width: calc(100%/6);
   float: left;
   position: relative;
 }
@@ -154,7 +154,11 @@
     <!-- progressbar -->
     <ul id="progressbar">
       <li class="active">Personal Details</li>
+      <li>Academic Details</li>
       <li>Course Details</li>
+      <li>Prerequisite Information</li>
+      <li>Returning Student</li>
+      <li>Emergency Contact</li>
     </ul>
     <!-- fieldsets -->
     <fieldset>
@@ -200,6 +204,39 @@
       <input type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
   
+
+    <fieldset>
+        
+        <h2 class="fs-title">Academic Details</h2>
+        <h3 class="fs-subtitle"></h3>
+        <div class="custom-field-grp">
+          <span class="field_title">Student ID (Board/University roll number)</span>
+          <input type="text" name="student_id" id="id_student_id" placeholder="Student ID" title="Student ID" />
+          <span id="student_id" class="message error"></span>
+        </div>
+        <div class="custom-field-grp">
+          <span class="field_title">Higest Education Qualification <span class="required">*</span></span>
+          <select name="higest_education_qualification" id="id_higest_education_qualification">
+            <option value="" selected disabled>Qualification</option>
+            <option value="10th">10th</option>
+            <option value="+1/+2 with IT">+1/+2 (with IT)</option>
+            <option value="+1/+2 without IT">+1/+2 (without IT)</option>
+            <option value="graduation">Graduation</option>
+            <option value="masters">Masters</option>
+            <option value="phd">Phd.</option>
+          </select>
+          <span id="higest_education_qualification" class="message error"></span>
+        </div>
+        <div class="custom-field-grp">
+          <span class="field_title">Institute Name <span class="required">*</span></span>
+          <input type="text" name="institute_name" id="id_institute_name" placeholder="Institute Name" title="Institute Name" required />
+          <span id="institute_name" class="message error"></span>
+        </div>
+        
+        <input type="button" name="previous" class="previous action-button" value="Previous" />
+        <input type="button" name="next" class="next action-button" value="Next" />
+      </fieldset>
+
     <fieldset>
       <h2 class="fs-title">Course Details</h2>
       <h3 class="fs-subtitle"></h3>
@@ -236,127 +273,94 @@
         <span id="course" class="message error"></span>
       </div>
       <div class="custom-field-grp">
-        <span class="field_title">Available Demo Date <span class="required">*</span></span>
-        <select name="date_slot" id="id_date_slot_657">
-          <option value="" selected disabled>Demo Date</option>
-          <script>
-            function set_date_option_values(){
-              let date_field = document.getElementById('id_date_slot_657');
-              const date = new Date();
-              day = date.getDate();
-              month = date.getMonth() +1;
-              year = date.getFullYear();
-              let current_date = `${day}-${month}-${year}`;
-              let db_date_format = `${year}-${month}-${day}`
-              let monthwith31days = [1,3,5,7,8,10,12];
-              for (let i=0;i<5;i++){
-
-                if (monthwith31days.includes(month)){
-                  day += 2;
-                  if (day>31){
-                    day=1;
-                    month+=1;
-                    if (month>12){
-                      month=1;
-                      year+=1;
-                    }
-                  }
-                }
-
-                else if(month==2){
-                  day+=2;
-                  if (day>28){
-                    day=1;
-                    month+=1;
-                    if (month>12){
-                      month=1;
-                      year+=1;
-                    }
-                  }
-                }
-
-                else{
-                  day+=2;
-                  if (day>30){
-                    day=1;
-                    month+=1;
-                    if (month>12){
-                      month=1;
-                      year+=1;
-                    }
-                  }
-                }
-                let option = document.createElement('option');
-                option.value = `${year}-${month}-${day}`;
-                option.innerHTML = `${day}-${month}-${year}`;
-                date_field.appendChild(option);
-              }
-              
-            }
-            set_date_option_values();
-          </script>
-          
+        <span class="field_title">Batch <span class="required">*</span></span>
+        <select name="batch" id="id_batch">
+            <option value="">1</option>
+            <option value="">2</option>
+            <option value="">3</option>
         </select>
-        <span id="date_slot" class="message error"></span>
-      </div>
-      <div class="custom-field-grp">
-        <span class="field_title">Available Time Slots <span class="required">*</span></span>
-        <select name="time_slot" placeholder="Time Slot" title="Time Slot" id="id_time_slot_438">
-          <option value="" selected disabled>Demo Time</option>
-          <script>
-
-            function get_demo_available_time_slots(){
-              let time_slot = document.getElementById('id_time_slot_438');
-              $.ajax({
-                url:"{% url 'get-demo-time-slots' %}",
-                type:"GET",
-                contentType:"application/json",
-                success:function(data){
-                  if (data['status'] == "success"){
-                    let slots = data['data'];
-                    let start_slot;
-                    let end_slot;
-                    for (let slot of slots){
-                      let option = document.createElement('option');
-                      option.value = slot['id'];
-                      // console.log(Number(slot['start_slot'].split(":")[0]) + 1)
-                      if (Number(slot['start_slot'].split(":")[0])>12){
-                        start_slot = Number(slot['start_slot'].split(":")[0]) - 12;
-                        start_slot+="PM"
-                      }
-                      else{
-                        start_slot = Number(slot['start_slot'].split(":")[0]) + "AM";
-                      }
-                      if (Number(slot['end_slot'].split(":")[0])>12){
-                        end_slot = Number(slot['end_slot'].split(":")[0]) - 12;
-                        end_slot+= "PM";
-                      }
-                      else{
-                        end_slot = Number(slot['end_slot'].split(":")[0]) + "AM";
-                      }
-                      option.innerHTML = `${start_slot} - ${end_slot}`;
-                      time_slot.appendChild(option);
-                    }
-                  }
-                }
-              })
-
-            }
-            get_demo_available_time_slots();
-
-          </script>
-        </select>
-        <span id="time_slot" class="message error"></span>
+        <span id="batch" class="message error"></span>
       </div>
       
+      
+      
       <input type="button" name="previous" class="previous action-button" value="Previous" />
-      <!-- <input type="button" name="submit" onclick="register_demo_class()" id="id_demo_submit_button" class="submit action-button" value="Submit" /> -->
-      <button type="button" onclick="register_demo_class()" id="id_demo_submit_button" class="submit action-button" >Submit</button>
+        <input type="button" name="next" class="next action-button" value="Next" />
+      
       <br>
       <span class="message success" id="id_message_success"></span>
     </fieldset>
     
-    
+    <fieldset>
+        <h2 class="fs-title">Prerequisite Information</h2>
+        <h3 class="fs-subtitle"></h3>
+        <div class="custom-field-grp">
+          <span class="field_title">Privious Courses (if any)</span>
+          <input type="text" name="privious_courses" id="id_privious_courses" placeholder="Privious Courses" title="Privious Courses" />
+          <span id="privious_courses" class="message error"></span>
+        </div>
+        <div class="custom-field-grp">
+            <span class="field_title">Relevant Certifications</span>
+            <input type="text" name="relevant_certifications" id="id_relevant_certifications" placeholder="Relevant Certifications" title="Relevant Certifications" />
+            <span id="relevant_certifications" class="message error"></span>
+        </div>
+        
+        <input type="button" name="previous" class="previous action-button" value="Previous" />
+        <input type="button" name="next" class="next action-button" value="Next" />
+      </fieldset>
+
+    <fieldset>
+        <h2 class="fs-title">Returning Student</h2>
+        <h3 class="fs-subtitle"></h3>
+        <div class="custom-field-grp">
+          <span class="field_title">Have you priviously Enrolled in any Webxter course? <span class="required">*</span></span>
+          <select name="is_returning_student" id="id_is_returning_student" title="Have you priviously Enrolled in any Webxter course?" required>
+            <option value="" selected disabled>--</option>
+            <option value="True">Yes</option>
+            <option value="False">No</option>
+          </select>
+          <span id="is_returning_student" class="message error"></span>
+        </div>
+        <div class="custom-field-grp">
+            <span class="field_title">Webxter Student ID</span>
+            <input type="text" name="webxter_student_id" id="id_webxter_student_id" placeholder="Webxter Student ID" title="Webxter Student ID" />
+            <span id="webxter_student_id" class="message error"></span>
+        </div>
+        
+        <input type="button" name="previous" class="previous action-button" value="Previous" />
+        <input type="button" name="next" class="next action-button" value="Next" />
+      </fieldset>
+
+
+    <fieldset>
+        <h2 class="fs-title">Emergency Information</h2>
+        <h3 class="fs-subtitle"></h3>
+        <div class="custom-field-grp">
+          <span class="field_title">Name (Emergency)</span>
+          <input type="text" name="emergency_contact_name" id="id_emergency_contact_name" placeholder="Full Name" title="Emergency Contact Full Name">
+          <span id="emergency_contact_name" class="message error"></span>
+        </div>
+        <div class="custom-field-grp">
+            <span class="field_title">Contact Number (Emergency)</span>
+            <input type="text" name="emergency_contact_number" id="id_emergency_contact_number" placeholder="Emergency Contact Number" title="Emergency Contact Number" />
+            <span id="emergency_contact_number" class="message error"></span>
+        </div>
+        <div class="custom-field-grp">
+            <span class="field_title">Relationship</span>
+            <select name="emergency_contact_relationship" id="id_emergency_contact_relationship">
+                <option value="father">Father</option>
+                <option value="mother">Mother</option>
+                <option value="sister">Sister</option>
+                <option value="brother">Brother</option>
+                <option value="husband">Husband</option>
+                <option value="wife">Wife</option>
+            </select>
+            <span id="emergency_contact_relationship" class="message error"></span>
+        </div>
+        
+        <input type="button" name="previous" class="previous action-button" value="Previous" />
+        <button type="button" onclick="register_demo_class()" id="id_demo_submit_button" class="submit action-button" >Submit</button>
+      </fieldset>
   </form>
 
 </div>
@@ -371,8 +375,6 @@
       let contact_number = document.getElementById('id_contact_number');
       let alternate_number = document.getElementById('id_alternate_number');
       let course = document.getElementById('id_course_list_4373');
-      let date_slot = document.getElementById('id_date_slot_657');
-      let time_slot = document.getElementById('id_time_slot_438');
       let data = {
         "name":name.value,
         "email":email.value,
@@ -381,8 +383,6 @@
         "contact_number":contact_number.value,
         "alternate_number":alternate_number.value,
         "course":course.value,
-        "date_slot":date_slot.value,
-        "time_slot":time_slot.value,
       }
       return data;
     }
@@ -402,7 +402,7 @@
       }
       let postData = prepare_form_data();
       $.ajax({
-        url:"{% url 'book-demo-api' %}",
+        url:"{% url 'registration-api' %}",
         type:"POST",
         contentType:"application/json",
         beforeSend:function(xhr){
@@ -419,6 +419,7 @@
             success_message.innerHTML = data['message'];
           }
           else if (data['status'] == "error"){
+            console.log(data)
             submit_button.innerHTML = "submit";
             let errors = data['message'];
             // console.log(errors)

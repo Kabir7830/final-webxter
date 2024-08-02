@@ -240,6 +240,16 @@ class Blogs(models.Model):
         return ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
 
 
+class TimeSlots(models.Model):
+    class Meta:
+        db_table = "time_slots"
+        
+    start_slot = models.TimeField()
+    end_slot = models.TimeField()
+    is_available = models.BooleanField(default=True,blank=True)
+    is_for_demo = models.BooleanField(default=False,blank=True)
+    
+
 class DemoClassRegistration(models.Model):
 
     class Meta:
@@ -248,14 +258,15 @@ class DemoClassRegistration(models.Model):
 
     name = models.CharField(max_length=255)
     email = models.EmailField()
-    date_of_birth = models.DateField()
-    gender = models.CharField(max_length=100)
+    date_of_birth = models.DateField(default="2020-02-02")
+    gender = models.CharField(max_length=100,default="")
     course = models.ForeignKey(Courses,on_delete=models.PROTECT)
     contact_number = models.CharField(max_length=15)
     alternate_number = models.CharField(max_length=15,null=True,blank=True)
-    time_slot = models.CharField(max_length=80)
+    time_slot = models.ForeignKey(to=TimeSlots,on_delete=models.PROTECT)
+    date_slot = models.CharField(max_length=30,default="")
 
-    
+
 class Batches(models.Model):
     class Meta:
         db_table = "batches"
@@ -302,7 +313,7 @@ class RegisterationForm(models.Model):
     # Emergency Information
     emergency_contact_name = models.CharField(max_length=255)
     emergency_contact_number = models.CharField(max_length=15)
-    emergency_conatct_relationship = models.CharField(max_length=500)
+    emergency_contact_relationship = models.CharField(max_length=500)
     
 
 
