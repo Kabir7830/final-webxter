@@ -13,6 +13,7 @@
 
 #multistepsform {
   width: 100%;
+  height: fit-content;
   margin: 50px auto;
   text-align: center;
   position: relative;
@@ -143,13 +144,17 @@
   text-align: left;
   font-size: 8px;
 }
+
+.wrapper{
+  height: fit-content;
+}
 </style>
 <div class="demo-register-form">
-    <h2>Demo Registeration Form</h2>
+    <h2>Registeration Form</h2>
 </div>
 
 <!-- multistep form -->
-<div>
+<div class="wrapper">
 <form id="multistepsform">
     <!-- progressbar -->
     <ul id="progressbar">
@@ -161,6 +166,7 @@
       <li>Emergency Contact</li>
     </ul>
     <!-- fieldsets -->
+     <!-- personal details -->
     <fieldset>
       {% csrf_token %}
       <h2 class="fs-title">Personal Details</h2>
@@ -182,12 +188,12 @@
       </div>
       <div class="custom-field-grp">
         <span class="field_title">Contact Number <span class="required">*</span></span>
-        <input type="text" maxlength="12" minlength="12" id="id_contact_number" name="contact_number" placeholder="Contact Number" title="Contact Number" required />
+        <input type="text" maxlength="12" minlength="10" id="id_contact_number" name="contact_number" placeholder="Contact Number" title="Contact Number" required />
         <span id="contact_number" class="message error"></span>
       </div>
       <div class="custom-field-grp">
         <span class="field_title">Alternate Number</span>
-        <input type="text" maxlength="12" minlength="12" id="id_alternate_number" name="alternate_number" placeholder="Alternate Number" title="Alternate Number"  />
+        <input type="text" maxlength="12" minlength="10" id="id_alternate_number" name="alternate_number" placeholder="Alternate Number" title="Alternate Number"  />
         <span id="alternate_number" class="message error"></span>
       </div>
       <div class="custom-field-grp">
@@ -201,10 +207,13 @@
         <span id="gender" class="message error"></span>
       </div>
 
-      <input type="button" name="next" class="next action-button" value="Next" />
+      <input type="button" name="next" class="next action-button" value="Next"/>
+      <button type="button" onclick="register_demo_class()" id="id_demo_submit_button" class="submit action-button" >Submit</button>
+      <br>
+      <span class="message error common visually-hidden"></span>
     </fieldset>
   
-
+    <!-- Academic details -->
     <fieldset>
         
         <h2 class="fs-title">Academic Details</h2>
@@ -216,7 +225,7 @@
         </div>
         <div class="custom-field-grp">
           <span class="field_title">Higest Education Qualification <span class="required">*</span></span>
-          <select name="higest_education_qualification" id="id_higest_education_qualification">
+          <select name="highest_education_qualification" id="id_highest_education_qualification">
             <option value="" selected disabled>Qualification</option>
             <option value="10th">10th</option>
             <option value="+1/+2 with IT">+1/+2 (with IT)</option>
@@ -225,7 +234,7 @@
             <option value="masters">Masters</option>
             <option value="phd">Phd.</option>
           </select>
-          <span id="higest_education_qualification" class="message error"></span>
+          <span id="highest_education_qualification" class="message error"></span>
         </div>
         <div class="custom-field-grp">
           <span class="field_title">Institute Name <span class="required">*</span></span>
@@ -235,8 +244,12 @@
         
         <input type="button" name="previous" class="previous action-button" value="Previous" />
         <input type="button" name="next" class="next action-button" value="Next" />
-      </fieldset>
+        <button type="button" onclick="register_demo_class()" id="id_demo_submit_button" class="submit action-button" >Submit</button>
+        <br>
+        <span class="message error common visually-hidden"></span>
+    </fieldset>
 
+    <!-- course details -->
     <fieldset>
       <h2 class="fs-title">Course Details</h2>
       <h3 class="fs-subtitle"></h3>
@@ -275,9 +288,33 @@
       <div class="custom-field-grp">
         <span class="field_title">Batch <span class="required">*</span></span>
         <select name="batch" id="id_batch">
-            <option value="">1</option>
-            <option value="">2</option>
-            <option value="">3</option>
+          <option value="" disabled selected>--</option>
+          <script>
+            function set_batch_values(){
+              let batch_field = document.getElementById('id_batch');
+              $.ajax({
+                url:"{% url 'batches-api' %}",
+                type:"GET",
+                contentType:"application/json",
+                success:function(data){
+                  if (data['status']=='success'){
+                    let batches = data['data'];
+                    for (let batch of batches){
+                      let option = document.createElement('option');
+                      option.value = batch['id'];
+                      option.innerHTML = batch['name'];
+                      batch_field.appendChild(option);
+                    }
+                  }
+                },
+                error:function(xhr,textStatus,errorThrown){
+                  console.error("AJAX ERROR: ",errorThrown);
+                }
+              })
+            }
+            set_batch_values();
+          </script>
+            
         </select>
         <span id="batch" class="message error"></span>
       </div>
@@ -285,12 +322,13 @@
       
       
       <input type="button" name="previous" class="previous action-button" value="Previous" />
-        <input type="button" name="next" class="next action-button" value="Next" />
-      
+      <input type="button" name="next" class="next action-button" value="Next" />
+      <button type="button" onclick="register_demo_class()" id="id_demo_submit_button" class="submit action-button" >Submit</button>
       <br>
-      <span class="message success" id="id_message_success"></span>
+      <span class="message error common visually-hidden"></span>
     </fieldset>
-    
+
+    <!-- prerequisite information -->
     <fieldset>
         <h2 class="fs-title">Prerequisite Information</h2>
         <h3 class="fs-subtitle"></h3>
@@ -307,17 +345,20 @@
         
         <input type="button" name="previous" class="previous action-button" value="Previous" />
         <input type="button" name="next" class="next action-button" value="Next" />
-      </fieldset>
+        <button type="button" onclick="register_demo_class()" id="id_demo_submit_button" class="submit action-button" >Submit</button>
+        <br>
+        <span class="message error common visually-hidden"></span>
+    </fieldset>
 
+    <!-- returning student -->
     <fieldset>
         <h2 class="fs-title">Returning Student</h2>
         <h3 class="fs-subtitle"></h3>
         <div class="custom-field-grp">
           <span class="field_title">Have you priviously Enrolled in any Webxter course? <span class="required">*</span></span>
           <select name="is_returning_student" id="id_is_returning_student" title="Have you priviously Enrolled in any Webxter course?" required>
-            <option value="" selected disabled>--</option>
+            <option value="False" selected>No</option>
             <option value="True">Yes</option>
-            <option value="False">No</option>
           </select>
           <span id="is_returning_student" class="message error"></span>
         </div>
@@ -329,9 +370,12 @@
         
         <input type="button" name="previous" class="previous action-button" value="Previous" />
         <input type="button" name="next" class="next action-button" value="Next" />
-      </fieldset>
+        <button type="button" onclick="register_demo_class()" id="id_demo_submit_button" class="submit action-button" >Submit</button>
+        <br>
+        <span class="message error common visually-hidden"></span>
+    </fieldset>
 
-
+    <!-- emergency information -->
     <fieldset>
         <h2 class="fs-title">Emergency Information</h2>
         <h3 class="fs-subtitle"></h3>
@@ -342,12 +386,13 @@
         </div>
         <div class="custom-field-grp">
             <span class="field_title">Contact Number (Emergency)</span>
-            <input type="text" name="emergency_contact_number" id="id_emergency_contact_number" placeholder="Emergency Contact Number" title="Emergency Contact Number" />
+            <input type="text" name="emergency_contact_number" maxlength="12" minlength="10" id="id_emergency_contact_number" placeholder="Emergency Contact Number" title="Emergency Contact Number" />
             <span id="emergency_contact_number" class="message error"></span>
         </div>
         <div class="custom-field-grp">
             <span class="field_title">Relationship</span>
             <select name="emergency_contact_relationship" id="id_emergency_contact_relationship">
+                <option value="" selected disabled>--</option>
                 <option value="father">Father</option>
                 <option value="mother">Mother</option>
                 <option value="sister">Sister</option>
@@ -360,34 +405,104 @@
         
         <input type="button" name="previous" class="previous action-button" value="Previous" />
         <button type="button" onclick="register_demo_class()" id="id_demo_submit_button" class="submit action-button" >Submit</button>
-      </fieldset>
+        <br>
+      <span class="message success" id="id_message_success"></span>
+      <span class="message error common visually-hidden"></span>
+    </fieldset>
   </form>
-
+  
+  
 </div>
   <script>
+    var is_returning = document.getElementById('id_is_returning_student');
+    var webxter_student_id = document.getElementById('id_webxter_student_id');
+    webxter_student_id.disabled = true;
+    webxter_student_id.style.cursor = "no-drop";
+
+    is_returning.addEventListener('change',()=>{
+      if (is_returning.value == "True"){
+        webxter_student_id.disabled = false;
+        webxter_student_id.style.cursor = "";
+      }
+      else{
+        webxter_student_id.disabled = true;
+        webxter_student_id.style.cursor = "no-drop";
+      }
+    })
 
     function prepare_form_data(){
       
+      // personal details
       let name = document.getElementById('id_name');
       let email = document.getElementById('id_email');
       let dob = document.getElementById('id_date_of_birth');
       let gender = document.getElementById('id_gender');
       let contact_number = document.getElementById('id_contact_number');
       let alternate_number = document.getElementById('id_alternate_number');
+
+      // academic details
+      let student_id = document.getElementById('id_student_id');
+      let highest_education_qualifications = document.getElementById('id_highest_education_qualification');
+      let institute_name = document.getElementById('id_institute_name');
+
+      // course details
       let course = document.getElementById('id_course_list_4373');
+      let batch = document.getElementById('id_batch');
+
+      // prerequisite information
+      let privious_courses = document.getElementById('id_privious_courses');
+      let relevant_certifications = document.getElementById('id_relevant_certifications');
+
+      // returning student
+      let is_returning = document.getElementById('id_is_returning_student');
+      let webxter_student_id = document.getElementById('id_webxter_student_id');
+
+      // emergency information
+      let emergency_contact_name = document.getElementById('id_emergency_contact_name');
+      let emergency_contact_number = document.getElementById('id_emergency_contact_number');
+      let emergency_contact_relationship = document.getElementById('id_emergency_contact_relationship')
+
+
       let data = {
+        // personal details
         "name":name.value,
         "email":email.value,
         "date_of_birth":dob.value,
         "gender":gender.value,
         "contact_number":contact_number.value,
         "alternate_number":alternate_number.value,
+
+        // academic details
+        "student_id":student_id.value,
+        "highest_education_qualification":highest_education_qualifications.value,
+        "institute_name":institute_name.value,
+
+        // course details
         "course":course.value,
+        "batch":batch.value,
+
+        // prerequisite information
+        "privious_courses":privious_courses.value,
+        "relevant_certifications":relevant_certifications.value,
+
+        // returning student
+        "is_returning":is_returning.value,
+        "webxter_student_id":webxter_student_id.value,
+
+        // emergency information
+        "emergency_contact_name":emergency_contact_name.value,
+        "emergency_contact_number":emergency_contact_number.value,
+        "emergency_contact_relationship":emergency_contact_relationship.value
       }
       return data;
     }
 
     function register_demo_class(){
+      let error_message_tags = document.querySelectorAll('.message.error.common');
+            for (let tag of error_message_tags){
+              tag.classList.add('visually-hidden');
+              tag.innerHTML = "";
+            }
       let submit_button = document.getElementById('id_demo_submit_button');
       submit_button.innerHTML = `<div class="spinner-border text-light" role="status">
                                   <span class="visually-hidden">Loading...</span>
@@ -419,8 +534,13 @@
             success_message.innerHTML = data['message'];
           }
           else if (data['status'] == "error"){
-            console.log(data)
+            // console.log(data)
             submit_button.innerHTML = "submit";
+            let error_message_tags = document.querySelectorAll('.message.error.common');
+            for (let tag of error_message_tags){
+              tag.classList.remove('visually-hidden');
+              tag.innerHTML = "Please fill all the required fields!";
+            }
             let errors = data['message'];
             // console.log(errors)
             let counter = Object.keys(errors).length

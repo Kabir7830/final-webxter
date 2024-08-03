@@ -93,7 +93,8 @@ urlpatterns = [
     path('enroll/registration-api/',RegisterationFormAPI.as_view(),name="registration-api"), 
     
         # Batch
-    path("batches/add-new-batch/",AdminBatchAPI.as_view(),name="create-new-batch"), 
+    path("batches/add-new-batch-api/",AdminBatchAPI.as_view(),name="create-new-batch"),
+    path("batches/all-api/",BatchAPI.as_view(),name="batches-api"), 
     
     
 

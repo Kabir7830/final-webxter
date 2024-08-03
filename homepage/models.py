@@ -295,7 +295,7 @@ class RegisterationForm(models.Model):
     
     # Academic information
     student_id = models.CharField(max_length=255,null=True,blank=True,default="")
-    higest_education_qualification = models.CharField(max_length=600)
+    highest_education_qualification = models.CharField(max_length=600)
     institute_name = models.CharField(max_length=600)
     
     # course information

@@ -101,40 +101,33 @@ a{
                                         <ul class="dropdown">
                                             <li><a>Programming</a>
                                                 <ul class="dropdown">
-                                                    <li><a href="#">Python</a></li>
-                                                    <li><a href="#">Django</a></li>
-                                                    <li><a href="#">React JS</a></li>
-                                                    <li><a href="#">JavaScript</a></li>
-                                                    <li><a href="#">Java</a></li>
-                                                    <li><a href="#">C/C++</a></li>
-                                                    <li><a href="#">HTML & CSS</a></li>
+                                                    <li><a href="{% url 'course-details' slug="python-course" %} ">Python</a></li>
+                                                    <li><a href="{% url 'course-details' slug="django" %}">Django</a></li>
+                                                    <li><a href="{% url 'course-details' slug="react-js" %}">React JS</a></li>
+                                                    <li><a href="{% url 'course-details' slug="javascript" %}">JavaScript</a></li>
+                                                    <li><a href="{% url 'course-details' slug="java" %}">Java</a></li>
+                                                    <li><a href="{% url 'course-details' slug="c-plus-plus" %}">C++</a></li>
+                                                    <li><a href="{% url 'course-details' slug="html-and-css" %}">HTML & CSS</a></li>
                                                 </ul>
                                             </li>
                                             <li><a>DataBase</a>
                                                 <ul class="dropdown">
-                                                    <li><a href="#">MySQL</a></li>
+                                                    <li><a href="{% url 'course-details' slug="mysql" %}">MySQL</a></li>
                                                     <li><a href="#">MongoDB</a></li>
                                                     <li><a href="#">Postgresql</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a>Web Development</a>
-                                                <ul class="dropdown">
-                                                    <li><a href="#">Full Stack</a></li>
-                                                    <li><a href="#">Front-End</a></li>
-                                                    <li><a href="#">Back-End</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a>Graphic Designing</a></li>
+                                            <li><a href="{% url 'courses'%}?q=web-development">Web Development</a></li>
+                                            <li><a href="{% url 'courses'%}?q=graphic%20designing">Graphic Designing</a></li>
                                             <li><a>Modren Trends</a>
                                                 <ul class="dropdown">
                                                     <li><a>AI</a>
                                                         <ul class="dropdown"><li><a href="#">Comming Soon</a></li></ul>
                                                     </li>
-                                                    <li><a href="#">Data Analysis</a></li>
-                                                    <li><a href="#">API Integrations</a></li>
+                                                    
                                                 </ul>
                                             </li>
-                                            <li><a href="#" data-target="#">Programing</a></li>
+                                            <li><a href="{% url 'courses'%}" data-target="#">All</a></li>
                                             {% if user.is_superuser %}
                                               
                                             <li><a href="{% url 'dashboard' %}" class="position-relative">
@@ -150,8 +143,8 @@ a{
                                     <li><a href="{% url 'validate-certificate'%}" data-target="{% url 'validate-certificate'%}">Certificate Validation</a></li>
                                     <li><a>Enroll</a>
                                         <ul class="dropdown">
-                                            <li><a href="{% url 'book-demo'%}">Book Demo</a></li>
-                                            <li><a href="#">Register to a course</a></li>
+                                            <li><a href="{% url 'course-registration' %}">Course Regestration</a></li>
+                                            <li><a href="{% url 'book-demo'%}">Register Demo Class</a></li>
                                         </ul>
                                     </li>
                                     {% if user.is_superuser %}

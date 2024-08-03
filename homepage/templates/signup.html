@@ -14,6 +14,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding-top:100px;
+            padding-bottom:100px;
         }
         .container-wrapper .container {
             width: 35%;
@@ -207,7 +209,7 @@
         };
         // console.log(JSON.stringify(postData))
         // Define the URL to which the POST request will be sent
-        var url = 'http://127.0.0.1:8000/send-otp/';
+        var url = '{% url "send-otp" %}';
 
         // Perform the AJAX POST request
         $.ajax({
@@ -260,7 +262,7 @@
         };
         // console.log(JSON.stringify(postData))
         // Define the URL to which the POST request will be sent
-        var url = 'http://127.0.0.1:8000/verify-otp/';
+        var url = '{% url "verify-otp" %}';
         $.ajax({
         url: url,
         type: 'POST',

@@ -345,6 +345,10 @@ def editCourse(request,course_id):
 def allCourses(request):
     if request.user.is_superuser:
         courses = Courses.objects.all()
+        category = request.GET.get('category')
+        if category:
+            print(category)
+            courses = courses.filter(category__name__icontains = category)
         return render(request,"all-courses.html",{'courses':courses})
     return redirect(request.META.get('HTTP_REFERER'))
 
@@ -1105,7 +1109,16 @@ class AdminBatchAPI(APIView):
             serializer_class.save()
             return Response({"data":[],"message":"Batch Added","status":"success"})
         return Response({"data":[],"message":serializer_class.errors,"status":"error"})
+
+
+class BatchAPI(APIView):
+    
+    def get(self,request):
         
+        batches = Batches.objects.all().values('id','name')
+        batch_serializer = BatchSerializer(batches,many=True)
+        return Response({"data":batch_serializer.data,"message":"","status":"success"})
+                
 
 
 def RegistrationFormTemplate(request):

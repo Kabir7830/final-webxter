@@ -44,4 +44,9 @@ class AdminBatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Batches
         fields = "__all__"
+        
+class BatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Batches
+        fields = ['id','name']
 

@@ -12,7 +12,7 @@
 
 
 #multistepsform {
-  width: 400px;
+  /* width: 400px; */
   margin: 50px auto;
   text-align: center;
   position: relative;
@@ -149,8 +149,8 @@
 </div>
 
 <!-- multistep form -->
-<div>
-<form id="multistepsform">
+<div id="multistepsform">
+<form >
     <!-- progressbar -->
     <ul id="progressbar">
       <li class="active">Personal Details</li>
@@ -198,6 +198,9 @@
       </div>
 
       <input type="button" name="next" class="next action-button" value="Next" />
+      <button type="button" onclick="register_demo_class()" id="id_demo_submit_button" class="submit action-button" >Submit</button>
+      <br>
+      <span class="message error common visually-hidden"></span>
     </fieldset>
   
     <fieldset>
@@ -354,12 +357,12 @@
       <button type="button" onclick="register_demo_class()" id="id_demo_submit_button" class="submit action-button" >Submit</button>
       <br>
       <span class="message success" id="id_message_success"></span>
+      <span class="message error common visually-hidden"></span>
     </fieldset>
-    
-    
   </form>
-
+  
 </div>
+
   <script>
 
     function prepare_form_data(){
@@ -388,6 +391,11 @@
     }
 
     function register_demo_class(){
+      let error_message_tags = document.querySelectorAll('.message.error.common');
+            for (let tag of error_message_tags){
+              tag.classList.add('visually-hidden');
+              tag.innerHTML = "";
+            }
       let submit_button = document.getElementById('id_demo_submit_button');
       submit_button.innerHTML = `<div class="spinner-border text-light" role="status">
                                   <span class="visually-hidden">Loading...</span>
@@ -419,6 +427,11 @@
             success_message.innerHTML = data['message'];
           }
           else if (data['status'] == "error"){
+            let error_message_tags = document.querySelectorAll('.message.error.common');
+            for (let tag of error_message_tags){
+              tag.classList.remove('visually-hidden');
+              tag.innerHTML = "Please fill all the required fields!";
+            }
             submit_button.innerHTML = "submit";
             let errors = data['message'];
             // console.log(errors)
