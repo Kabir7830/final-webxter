@@ -1,0 +1,43 @@
+.enroll-now{
+    background-color:white;
+    width: 100%;
+    min-height: 380px;
+    height: fit-content;
+  }
+  .webxter-button{
+    padding: 10px;
+    border: none;
+    color: white;
+    background-color: #4da191;
+    border-radius: 10px;
+    width: 150px;
+  }
+  .webxter-button:hover{
+    background-color: #475e88;
+  }
+  .enroll-now {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .enroll-now form{
+    width: 50%;
+  }
+  .enroll-now form input,textarea{
+    max-width: 100%;
+  }
+  .enroll-now form .message{
+    font-size: small;
+    padding: 5px;
+  }
+  .enroll-now form .message.error{
+    color: red;
+  }
+  .enroll-now form .message.success{
+    color: green;
+  }
+  @media screen and (min-width:200px) and (max-width:550px) {
+      .enroll-now form{
+    width: 95%;
+  }
+  }

@@ -11,7 +11,7 @@ class courseForm(forms.ModelForm):
         model = Courses
         fields = [
             "course_name",
-            "course_description",
+            "details",
             "course_short_description",
             "course_image",
             'course_syllabus',

@@ -1,0 +1,108 @@
+.brand-name{
+    position: absolute;
+    font-size: 66px;
+    color:white;
+    top: 50px;
+    width: 100%;
+    text-align: center;
+    font-weight: bolder;
+
+  }
+  .mobile_slides{
+    display: block;
+    margin-top:-45px;
+  }
+  .heading{
+    font-size: 2em;
+    font-weight: bold;
+    color :#4da191;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: white;
+  }
+  .heading hr{
+    height: 2px;
+    width: 30%;
+    background-color:#475e88;
+    color: #475e88;
+    border-color: #475e88;
+  }
+  .card-grp{
+      display: flex;
+      column-gap: 50px;
+      justify-content: center !important;
+      margin-left: 0px;
+    }
+    .card{
+      width: 100%;
+      padding: 10px;
+      border-radius: 20px;
+    }
+    .card-img-top{
+      width: 50% !important;
+      max-height: 210px;
+    }
+    .btn{
+      width: 100px !important;
+    }
+    .card-footer{
+      display: block;
+      width: 100%;
+      background-color: white;
+      border: none;
+    }
+    .card-header{
+      height: 200px;
+      border: none;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  .center-div{
+      width: 100%;
+      text-align: center;
+    }
+    .why-webxter {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+  }
+  .why-webxter ul{
+    width: 82%;
+    line-height: 40px;
+  }
+  .why-webxter ul{
+    list-style: none;
+    font-size: 16px;
+  }
+  .why-webxter ul li strong{
+    font-size: 20px;
+    color: #475e88;
+    text-transform: uppercase;
+  }
+  .offline-tuitions{
+    background-color: white;
+  }
+  @media screen and (min-width:200px) and (max-width:550px) {
+    
+    .desktop_slides{
+      display:none;
+    }
+    .heading{
+      font-size: 1.5em;
+    }
+    .heading hr{
+      width: 10%;
+    }
+  }
+  @media screen and (min-width:551px){
+    .mobile_slides{
+      display:none;
+    }
+  }

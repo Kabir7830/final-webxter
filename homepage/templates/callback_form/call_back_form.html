@@ -1,0 +1,110 @@
+<div class="enroll-now">
+    <form action="{% url 'request-callback'%}" method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <input type="text" placeholder="Full Name" name="name" id="id_name" required class="form-control">
+        <span class="message error visually-hidden" id="id_error_name"></span>
+      </div>
+      <br>
+      <div class="form-group">
+        <input type="email" placeholder="user@example.com" name="email" id="id_email" required class="form-control">
+        <span class="message error visually-hidden" id="id_error_email"></span>
+      </div>
+      <br>
+      <div class="form-group">
+        <input type="text" placeholder="Phone Number" name="phone_number" id="id_phone_number" maxlength="10" minlength="10" required class="form-control">
+        <span class="message error visually-hidden" id="id_error_phone_number"></span>
+      </div>
+      <br>
+      <div class="form-group">
+        <textarea name="message" cols="80" rows="4" placeholder="Message" id="id_message" class="form-control" required></textarea>
+        <span class="message error visually-hidden" id="id_error_message"></span>
+      </div>
+      <br>
+      <button type="button" class="webxter-button" id="id_request_call_back_submit_button" onclick="send_request_call_back()">submit</button>
+      <br>
+      <span class="message success visually-hidden" id="id_message_success_call_back_request"></span>
+      <span class="message error visually-hidden" id="id_message_error_call_back_request"></span>
+      <script>
+
+        function prepare_request_call_back_data(){
+
+          let name = document.getElementById('id_name');
+          let message = document.getElementById('id_message');
+          let email = document.getElementById('id_email');
+          let phone_number = document.getElementById('id_phone_number');
+          const date = new Date()
+          let day = date.getDate();
+          let month = date.getMonth();
+          let year = date.getFullYear();
+          let current_date = `${day}-${month+1}-${year}`;
+          let hours = date.getHours();
+          let minutes = date.getMinutes();
+          let current_time = `${hours}:${minutes}`;
+          let data = {
+            "name":name.value,
+            "email":email.value,
+            "message":message.value,
+            "phone_number":phone_number.value,
+            "date":current_date,
+            "time":current_time,
+          }
+          return data
+        }
+
+        function send_request_call_back(){
+          let submit_btn = document.getElementById('id_request_call_back_submit_button');
+          submit_btn.innerHTML = `<div class="spinner-border text-success" role="status">
+                                      <span class="visually-hidden">Loading...</span>
+                                  </div>`;
+          
+          
+          let success_message = document.getElementById('id_message_success_call_back_request');
+          success_message.classList.add('visually-hidden');
+          let error_message = document.getElementById('id_message_error_call_back_request');
+          error_message.classList.add('visually-hidden');
+
+          let messages = document.querySelectorAll(".message.error")
+          for (let message of messages){
+            message.classList.add('visually-hidden');
+          }
+
+          let postData = prepare_request_call_back_data()
+          var csrftoken = $('input[name="csrfmiddlewaretoken"]').val();
+          $.ajax({
+            url:"{% url 'request-callback-api' %}",
+            type:"POST",
+            contentType:"application/json",
+            data:JSON.stringify(postData),
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            success:function(data){
+              if (data['status']=="success"){
+                submit_btn.innerHTML = "submit";
+                submit_btn.disabled = true;
+                submit_btn.style.cursor = "no-drop";
+                success_message.classList.remove('visually-hidden');
+                success_message.innerHTML = data['message'];
+              }
+              else if (data['status']=="error"){
+                let errors = data['message']
+                let counter = Object.keys(errors).length
+                let keys = Object.keys(errors);
+                for(let i=0;i<counter;i++){
+                  let ele = document.getElementById(`id_error_${keys[i]}`);
+                  ele.classList.remove('visually-hidden');
+                  ele.innerHTML = errors[keys[i]];
+                }
+                submit_btn.innerHTML = "submit";
+              }
+            },
+            error:function(xhr,textStatus,errorThrown){
+              console.error("AJAX ERROR: ",errorThrown);
+            }
+          })
+        }
+
+      </script>
+    </form>
+  </div>

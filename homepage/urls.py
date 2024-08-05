@@ -13,6 +13,7 @@ urlpatterns = [
     path("courses/",getAllCourses,name="courses"),
     path("courses/<slug:slug>/",getCourseDetails,name="course-details"),
     path('coachings/',getCoachings,name="coachings"),
+    path('course-deatils/',CoursedetailsTemplate,name="course-dtls"),
     
     # authentication
     path("signup/",SignUp,name="signup"),
@@ -79,6 +80,8 @@ urlpatterns = [
         # courses
     path('courses-api/',CoursesAPI.as_view(),name="courses-api"),
     path('course-form-api/',CourseForFormAPI.as_view(),name="courses-form-api"),
+    
+    path("admin/courses-api/",AdminCourses.as_view(),name="admin-courses-api"),
     
         # Time Slots
     path('create-new-time-slot/',AdminTimeSlotsAPI.as_view(),name="admin-create-new-time-slots"),

@@ -98,7 +98,13 @@ class Courses(models.Model):
         db_table = "Courses"
     
     course_name = models.CharField(max_length=300,unique=True)
-    course_description = models.TextField()
+    summary = models.CharField(max_length=200,default="")
+    overview = models.TextField(default="")
+    details = models.TextField(default="")
+    curriculum = models.TextField(default="")
+    benefits = models.TextField(default="")
+    featured_image = models.ImageField(upload_to="featured_images/",default="")
+
     course_short_description = models.CharField(max_length=350)
     course_image = models.ImageField(upload_to="thumbnails/")
     course_syllabus = models.FileField(upload_to="course_syllabus/",default="")

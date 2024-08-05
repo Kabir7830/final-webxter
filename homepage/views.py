@@ -217,34 +217,6 @@ class CoursesAPI(APIView):
         return paginator.get_paginated_response({"data":serializer.data,"message":"","status":"success","page_size":page_size})
 
 
-        # courses = Courses.objects.filter(is_published = True)
-        
-        # serializer_class = CoursesSerializer(courses,many=True)
-
-        # courses_per_page = 6
-        # paginator = Paginator(courses, courses_per_page)
-        # page = request.GET.get('page')
-        # try:
-        #     objects = paginator.page(page)
-        # except PageNotAnInteger:
-        #     # If page is not an integer, deliver first page.
-        #     objects = paginator.page(1)
-        # except EmptyPage:
-        #     # If page is out of range (e.g. 9999), deliver last page of results.
-        #     objects = paginator.page(paginator.num_pages)
-        # number_of_courses = len(courses)
-        # current_number_of_courses = len(objects)
-        # return render(request, 'courses/courses.html', {'courses': objects,
-        #                                                 "number_of_courses":number_of_courses,
-        #                                                 "current_number_of_courses":current_number_of_courses,
-        #                                                 "courses_per_page":courses_per_page,
-        #                                                 "query":query,
-        #                                                 "ctgry":category,
-        #                                                 })
-
-        # return Response({"data":serializer_class.data,"message":"","status":"success"})
-
-
 class CourseForFormAPI(APIView):
     
     def get(self,request):
@@ -316,6 +288,46 @@ def addCourse(request):
         return render(request,"add-course.html")
     else:
         return render(request,"access-denied.html")
+
+
+class AdminCourses(APIView):
+    
+    def get(self,request):
+        courses = Courses.objects.all()
+        serializer_class = CoursesSerializer(courses,many=True)
+        return Response({"data":serializer_class.data,"message":"","status":"success"})
+    
+    def post(self,request):
+        
+        data = request.data
+        serializer_class = CoursesSerializer(data=data)
+        if serializer_class.is_valid():
+            serializer_class.save()
+            return Response({"data":serializer_class.data,"message":"course Added","status":"success"})
+        return Response({"data":[],"message":serializer_class.errors,"status":"error"})
+    
+    def put(sel,request):
+        
+        data = request.data
+        course = Courses.objects.filter(id = data.get('course_id')).first()
+        serializer_class = CoursesSerializer(instance=course,data=data)
+        if serializer_class.is_valid():
+            serializer_class.save()
+            return Response({"data":serializer_class.data,"message":"Updated","status":"success"})
+        return Response({"data":[],"message":serializer_class.errors,"status":"error"})
+    
+    def delete(self,request):
+        
+        data = request.data
+        course = Courses.objects.filter(id = data.get('course_id')).first()
+        if course is None:
+            return Response({"data":[],"message":"No Course found to delete","status":"success"})
+        try:
+            course.delete()
+            return Response({"data":[],"message":"Deleted","status":"success"})
+        except Exception as e:
+            return Response({"data":[],"message":f"{e}","status":"error"})
+            
 
 
 def editCourse(request,course_id):
@@ -1137,6 +1149,8 @@ class RegisterationFormAPI(APIView):
         return Response({"data":[],"message":serializer_class.errors,"status":"error"})
         
 
+def CoursedetailsTemplate(request):
+    return render(request,"courses/course-details.html")
     
             
 

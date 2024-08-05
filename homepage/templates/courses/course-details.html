@@ -1,0 +1,261 @@
+{% extends "index-master.html"%}
+{% load static %}
+{% block title%}
+Course Details
+{% endblock title%}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/callback-request.css'%}">
+{% endblock styles %}
+
+{% block mainarea %}
+    <style>
+        .course-details-summary{
+            width: 100%;
+            height: fit-content;
+            padding: 40px;
+            background:linear-gradient(-120deg,#4da191,#559e91);
+        }
+        .course-details-summary-wrapper .course-details-summary .summary-wrapper button{
+            background-color:#40557e;
+            color: white;
+        }
+        .text-light{
+            color: white;
+        }
+        .course-details-summary .summary{
+           text-align: justify;
+        }
+        .course-details-summary .featured-image-wrapper{
+            /* width: 40%; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .course-overview-section-wrapper ,.course-outline-section-wrapper,.course-curriculum-section-wrapper,.course-benefits-section-wrapper{
+            padding: 40px;
+        }
+        .heading-underlined{
+            font-size: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            color: #4ea292;
+        }
+        .heading-underlined::after{
+            content:"";
+            width: 40px;
+            height: 4px;
+            background-color: #4ea292;
+            position: relative;
+            margin-left: 4px;
+            
+        }
+        .course-overview-section-wrapper .course-overview-section .overview{
+            text-align: justify;
+        }
+        .course-overview-section-wrapper .course-overview-section .enquiry-heading{
+            text-align: center;
+            font-size: 22px;
+        }
+        .enroll-now-overlay-button{
+            position: fixed;
+            bottom: 2px;
+            right: 100px;
+            
+        }
+        .enroll-now-overlay-button button{
+            background-color: #4ea292;
+            transition: 0.3s;
+        }
+        .enroll-now-overlay-button button:hover{
+            background-color: #303030;
+            color:#4ea292 ;
+        }
+        @media screen and (max-width:500px){
+            .course-details-summary-wrapper .course-details-summary .featured-image{
+                order: -1 !important;
+            }
+            .course-details-summary-wrapper .course-details-summary .featured-image-wrapper img{
+                width: 50%;
+            }
+        }
+    </style>
+
+    <div class="course-details-summary-wrapper">
+        <div class="course-details-summary">
+            <div class="row ">
+                <div class="col col-12 col-sm-12 col-lg-6 summary-wrapper" >
+                    <h2 class="heading text-light">Web development In Python</h2>
+                    <p class="summary text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                         Harum molestias optio iusto impedit expedita soluta culpa animi inventore rerum consectetur? 
+                         Eveniet praesentium possimus quisquam eos veniam totam officia id consectetur eligendi quod incidunt 
+                         vero qui alias, obcaecati inventore animi corporis quia quibusdam sapiente expedita at reiciendis. 
+                         Impedit delectus, laborum et eos, suscipit sint inventore, ab mollitia placeat atque nulla 
+                         exercitationem enim aperiam quod sunt quam. Excepturi in atque aperiam hic qui natus reiciendis 
+                         inventore deleniti veniam, a maiores cupiditate sunt laboriosam quae alias iure eius aspernatur. 
+                        </p>
+                        <p>
+                            <button class="btn ">Download Syllabus</button>
+                        </p>
+                </div>
+                <div class="col col-0 col-lg-1 col-sm-0">
+
+                </div>
+                <div class="col col-12 col-lg-4 col-sm-12 featured-image">
+                    <div class="featured-image-wrapper">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Python.svg/2048px-Python.svg.png" width="100%" height="auto" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="course-overview-section-wrapper">
+        <div class="course-overview-section">
+            <h2 class="heading heading-underlined">Overview</h2>
+            <div class="row">
+                <div class="col col-12 col-sm-12 col-lg-6">
+                    <p class="overview">Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, hic quaerat. 
+                        Amet exercitationem consectetur beatae sed nulla eum illo, facilis quos odit quibusdam ea 
+                        laboriosam reprehenderit illum aperiam unde, voluptatem assumenda quam necessitatibus id rerum
+                         alias rem soluta ratione? Rerum porro in optio, natus reprehenderit tenetur animi asperiores ea 
+                         neque! At eveniet porro quaerat exercitationem provident sed inventore magni ducimus nulla corporis 
+                         facilis praesentium ipsum, labore voluptatem cumque illo fuga corrupti soluta aut! Maiores nihil porro 
+                         sit obcaecati ipsa quos libero quod vel temporibus praesentium 
+                        repudiandae facilis reiciendis consequuntur qui optio beatae, mollitia
+                         unde molestias animi necessitatibus? Iusto, asperiores eaque.</p>
+                </div>
+                <div class="col col-lg-5 col-12 col-sm-12">
+                    <h2 class="enquiry-heading">Have Any Enquiry?</h2>
+                    {% include "callback_form/call_back_form.html"%}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .course-outline-section-wrapper .course-outline-section .course-outline{
+            column-count: 2;
+            text-align: justify;
+        }
+        @media screen and (max-width:500px){
+            .course-outline-section-wrapper .course-outline-section .course-outline{
+            column-count: 1;
+        }
+        }
+    </style>
+    <div class="course-outline-section-wrapper">
+        <div class="course-outline-section">
+            <h2 class="heading heading-underlined">Course details</h2>
+            <p class="course-outline">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo nihil repudiandae inventore, esse numquam laborum natus 
+                voluptatibus animi illum magnam cupiditate, at quos vel neque soluta placeat debitis corporis ipsum excepturi voluptatem? 
+                Impedit quibusdam assumenda maiores voluptates repellendus explicabo soluta laborum, ullam sint accusamus enim vero ut 
+                inventore officia odio aspernatur minus delectus beatae. Nesciunt possimus laboriosam omnis corrupti qui earum ut sunt accusamus, 
+                pariatur nihil deleniti neque quas iure voluptatem incidunt labore quis repudiandae rem eum eos perferendis autem illo voluptatum. 
+                Ipsa temporibus autem dignissimos neque accusantium, expedita voluptas commodi obcaecati ea numquam doloremque quaerat quisquam 
+                aspernatur adipisci! Nesciunt officia error ipsam. Autem non consectetur odit quaerat nulla in illum temporibus architecto id atque 
+                iusto odio corrupti dicta eaque natus, perferendis ullam veniam aliquam sint error vero necessitatibus nihil? Voluptas quos consequatur 
+                quae sunt a illo eius assumenda! Deleniti consequatur facere dolores quia dolorum, odio optio rerum laudantium amet ipsam vero odit 
+                dolor, praesentium, impedit reprehenderit unde voluptate quis nisi. Dolorum temporibus accusamus atque animi 
+                rem pariatur magnam commodi molestiae totam aut, in consectetur placeat tenetur molestias odio numquam tempora earum rerum 
+                voluptas laborum unde! Nulla numquam magni nobis placeat ex. Quia nihil ex hic modi, quam eum voluptas?
+            </p>
+        </div>
+    </div>
+
+    <style>
+        .course-curriculum-section-wrapper .course-curriculum-section .curriculum-list{
+            line-height: 50px;
+            padding: 0px;
+            column-count: 2;
+        }
+        .course-curriculum-section-wrapper .course-curriculum-section  .curriculum-list .curriculum-list-item{
+            position: relative;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .course-curriculum-section-wrapper .course-curriculum-section  .curriculum-list .curriculum-list-item::before{
+            content: "✔";
+            aspect-ratio: 1 / 1;
+            position: relative;
+        }
+        @media screen and (max-width:500px){
+            .course-curriculum-section-wrapper .course-curriculum-section .curriculum-list{
+                column-count: 1;
+            }
+        }
+    </style>
+    <div class="course-curriculum-section-wrapper">
+        <div class="course-curriculum-section">
+            <h2 class="heading heading-underlined">Course Curriculum</h2>
+            <p class="course-curriculum"> 
+                <ul class="curriculum-list">
+                    <li class="curriculum-list-item">Module</li>
+                    <li class="curriculum-list-item">Module</li>
+                    <li class="curriculum-list-item">Module</li>
+                    <li class="curriculum-list-item">Module</li>
+                    <li class="curriculum-list-item">Module</li>
+                    <li class="curriculum-list-item">Module</li>
+                    <li class="curriculum-list-item">Module</li>
+                    <li class="curriculum-list-item">Module</li>
+                    <li class="curriculum-list-item">Module</li>
+                    <li class="curriculum-list-item">Module</li>
+                    <li class="curriculum-list-item">Module</li>
+                    <li class="curriculum-list-item">Module</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+
+    <style>
+        .course-benefits-section-wrapper .course-benefita-section .benefits-list{
+            line-height: 50px;
+            column-count: 2;
+            padding: 0px;
+        }
+        .course-benefits-section-wrapper .course-benefita-section .benefits-list .benefits-list-item{
+            position: relative;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .course-benefits-section-wrapper .course-benefita-section .benefits-list .benefits-list-item::before{
+            content: "🖊";
+            aspect-ratio: 1 / 1;
+            /* z-index: 9999999; */
+            position: relative;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+    </style>
+    <div class="course-benefits-section-wrapper">
+        <div class="course-benefita-section">
+            <h2 class="heading heading-underlined">Course Benefits</h2>
+            <ul class="benefits-list">
+                <li class="benefits-list-item">Benefits</li>
+                <li class="benefits-list-item">Benefits</li>
+                <li class="benefits-list-item">Benefits</li>
+                <li class="benefits-list-item">Benefits</li>
+                <li class="benefits-list-item">Benefits</li>
+                <li class="benefits-list-item">Benefits</li>
+                <li class="benefits-list-item">Benefits</li>
+                <li class="benefits-list-item">Benefits</li>
+                <li class="benefits-list-item">Benefits</li>
+                <li class="benefits-list-item">Benefits</li>
+                <li class="benefits-list-item">Benefits</li>
+                <li class="benefits-list-item">Benefits</li>
+            </ul>
+        </div>
+    </div>
+
+
+
+
+    <div class="enroll-now-overlay-button">
+        <a href="{% url 'course-registration' %}"><button class="btn btn-success">Enroll Now</button></a>
+    </div>
+
+{% endblock mainarea %}

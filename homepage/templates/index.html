@@ -1,87 +1,17 @@
 {% extends "index-master.html" %}
+{% load static %}
 
 {% block title %}
-  Webxter | Homepage | Coaching and Web Dev Platform
+  Webxter | Coaching and Tarining
 {% endblock title %}
-{% load static %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'css/callback-request.css'%}">
+  <link rel="stylesheet" href="{% static 'css/index.css'%}">
+{% endblock styles %}
+
 {% block mainarea %}
-  <style>
-    
-    .about-us{
-      width: 100%;
-      height: fit-content;
-      background-color: white;
-    }
-    .about-us .heading{
-      font-size: 46px;
-      font-weight: bold;
-      color:#4da191;
-      width: 100%;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .about-us .about{
-      width: 100%;
-      display:flex;
-      align-items: center;
-      justify-content: center;
-      column-gap: 10px;
-      flex-wrap: wrap;
-      /* height: 200px; */
-    }
-    .about-us .about p{
-      font-size: 18px;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      width: 100%;
-      text-align: justify;
-    }
-    .brand-name{
-      position: absolute;
-      font-size: 66px;
-      color:white;
-      top: 50px;
-      width: 100%;
-      text-align: center;
-      font-weight: bolder;
 
-    }
-    .about-us .section-left{
-      width: 30%;
-      height:400px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .about-us .section-left img{
-      max-height: 400px;
-      width: 100%;
-      border-radius: 20px;
-    }
-    .about-us .section-right{
-      width: 60%;
-      height: 300px;
-    }
-    .mobile_slides{
-      display: block;
-      margin-top:-45px;
-    }
-
-    @media screen and (min-width:200px) and (max-width:550px) {
-      #about-us-heading, #about-us-body{
-        display: none;
-      }
-      .desktop_slides{
-        display:none;
-      }
-    }
-    @media screen and (min-width:551px){
-      .mobile_slides{
-        display:none;
-      }
-    }
-  </style>
   <div id="carouselExampleCaptions" class="carousel slide desktop_slides">
     <div class="carousel-indicators">
       {% for banner in desktop_banners %}
@@ -138,95 +68,13 @@
   </div>
 
   <br><br>
-  <!--<div class="heading" id="about-us-heading">-->
-  <!--  <hr>-->
-  <!--  <label>About Us</label>-->
-  <!--  <hr>-->
-  <!--</div>-->
-  <!--<div class="card text-bg-dark" id="about-us-body" style="height: 500px;">-->
-    <!-- <img src="{%static 'images/bg04.jpg'%}" class="card-img" alt="..." style="max-height: 500px;"> -->
-  <!--  <div class="card-img-overlay" style="font-size: 1em;">-->
-  <!--    <p class="about-us-text">{{company.company_about_us | safe}}</p>-->
-      
-  <!--    <p class="card-text"><small><button class="btn btn-success"><i class="fa fa-arrow-right"></i></button></small></p>-->
-  <!--  </div>-->
-  <!--</div>-->
-  <!--<br><br>-->
-
-  <style>
-
-    .heading{
-      font-size: 2em;
-      font-weight: bold;
-      color :#4da191;
-      width: 100%;
-      text-align: center;
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-      background-color: white;
-    }
-    .heading hr{
-      height: 2px;
-      width: 30%;
-      background-color:#475e88;
-      color: #475e88;
-      border-color: #475e88;
-    }
-    @media screen and (min-width:200px) and (max-width:550px) {
-      .heading{
-        font-size: 1.5em;
-      }
-      .heading hr{
-        width: 10%;
-      }
-      }
-  </style>
   <div class="courses">
     <div class="heading">
       <hr>
       <label for="">Training Courses</label>
       <hr>
     </div>
-    <style>
-      .card-grp{
-        /* display: grid; */
-        display: flex;
-        column-gap: 50px;
-        justify-content: center !important;
-        margin-left: 0px;
-      }
-      .card{
-        width: 100%;
-        padding: 10px;
-        border-radius: 20px;
-      }
-      .card-img-top{
-        width: 50% !important;
-        max-height: 210px;
-      }
-      .btn{
-        width: 100px !important;
-      }
-      .card-footer{
-        display: block;
-        width: 100%;
-        background-color: white;
-        border: none;
-      }
-      .card-header{
-        height: 200px;
-        border: none;
-        background-color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    .center-div{
-        width: 100%;
-        text-align: center;
-      }
-    </style>
+
     <div class="row row-cols-1 row-cols-md-4 g-4 card-grp" style="width:100%">
       {% for course in courses %}        
       <div class="col">
@@ -246,7 +94,7 @@
     {% endfor %}
     <div class="center-div">
       <br> 
-      <a href="/courses/"><button class="btn btn-outline-success">View All</button></a>
+      <a href="{% url 'courses' %}"><button class="btn btn-outline-success">View All</button></a>
     </div>
     </div>
 
@@ -278,19 +126,14 @@
           </div>
         </div>
       </div>
-    {% endfor %}
+      {% endfor %}
     </div>
     <div class="center-div">
       <br> 
-      <a href="/coachings/"><button class="btn btn-outline-success">View All</button></a>
+      <a href="{% url 'coachings'%}"><button class="btn btn-outline-success">View All</button></a>
     </div>
   </div>
-  
-  <style>
-    .offline-tuitions{
-      background-color: white;
-    }
-  </style>
+
   
   <br><br>
   <div class="heading">
@@ -298,162 +141,9 @@
     <label for="">Request A Call Back <span class="fa fa-phone"></span></label>
     <hr>
   </div>
-  <style>
-    .enroll-now{
-      background-color:white;
-      width: 100%;
-      min-height: 380px;
-      height: fit-content;
-    }
-    .webxter-button{
-      padding: 10px;
-      border: none;
-      color: white;
-      background-color: #4da191;
-      border-radius: 10px;
-      width: 150px;
-    }
-    .webxter-button:hover{
-      background-color: #475e88;
-    }
-    .enroll-now {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .enroll-now form{
-      width: 50%;
-    }
-    .enroll-now form input,textarea{
-      max-width: 100%;
-    }
-    .enroll-now form .message{
-      font-size: small;
-      padding: 5px;
-    }
-    .enroll-now form .message.error{
-      color: red;
-    }
-    .enroll-now form .message.success{
-      color: green;
-    }
-    @media screen and (min-width:200px) and (max-width:550px) {
-        .enroll-now form{
-      width: 95%;
-    }
-    }
-  </style>
-  <div class="enroll-now">
-    <form action="{% url 'request-callback'%}" method="POST">
-      {% csrf_token %}
-      <div class="form-group">
-        <input type="text" placeholder="Full Name" name="name" id="id_name" required class="form-control">
-        <span class="message error visually-hidden" id="id_error_name"></span>
-      </div>
-      <br>
-      <div class="form-group">
-        <input type="email" placeholder="user@example.com" name="email" id="id_email" required class="form-control">
-        <span class="message error visually-hidden" id="id_error_email"></span>
-      </div>
-      <br>
-      <div class="form-group">
-        <input type="text" placeholder="Phone Number" name="phone_number" id="id_phone_number" maxlength="10" minlength="10" required class="form-control">
-        <span class="message error visually-hidden" id="id_error_phone_number"></span>
-      </div>
-      <br>
-      <div class="form-group">
-        <textarea name="message" cols="80" rows="4" placeholder="Message" id="id_message" class="form-control" required></textarea>
-        <span class="message error visually-hidden" id="id_error_message"></span>
-      </div>
-      <br>
-      <button type="button" class="webxter-button" id="id_request_call_back_submit_button" onclick="send_request_call_back()">submit</button>
-      <br>
-      <span class="message success visually-hidden" id="id_message_success_call_back_request"></span>
-      <span class="message error visually-hidden" id="id_message_error_call_back_request"></span>
-      <script>
+  
+  {% include 'callback_form/call_back_form.html'%}
 
-        function prepare_request_call_back_data(){
-
-          let name = document.getElementById('id_name');
-          let message = document.getElementById('id_message');
-          let email = document.getElementById('id_email');
-          let phone_number = document.getElementById('id_phone_number');
-          const date = new Date()
-          let day = date.getDate();
-          let month = date.getMonth();
-          let year = date.getFullYear();
-          let current_date = `${day}-${month+1}-${year}`;
-          let hours = date.getHours();
-          let minutes = date.getMinutes();
-          let current_time = `${hours}:${minutes}`;
-          let data = {
-            "name":name.value,
-            "email":email.value,
-            "message":message.value,
-            "phone_number":phone_number.value,
-            "date":current_date,
-            "time":current_time,
-          }
-          return data
-        }
-
-        function send_request_call_back(){
-          let submit_btn = document.getElementById('id_request_call_back_submit_button');
-          submit_btn.innerHTML = `<div class="spinner-border text-success" role="status">
-                                      <span class="visually-hidden">Loading...</span>
-                                  </div>`;
-          
-          
-          let success_message = document.getElementById('id_message_success_call_back_request');
-          success_message.classList.add('visually-hidden');
-          let error_message = document.getElementById('id_message_error_call_back_request');
-          error_message.classList.add('visually-hidden');
-
-          let messages = document.querySelectorAll(".message.error")
-          for (let message of messages){
-            message.classList.add('visually-hidden');
-          }
-
-          let postData = prepare_request_call_back_data()
-          var csrftoken = $('input[name="csrfmiddlewaretoken"]').val();
-          $.ajax({
-            url:"{% url 'request-callback-api' %}",
-            type:"POST",
-            contentType:"application/json",
-            data:JSON.stringify(postData),
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            },
-            success:function(data){
-              if (data['status']=="success"){
-                submit_btn.innerHTML = "submit";
-                submit_btn.disabled = true;
-                submit_btn.style.cursor = "no-drop";
-                success_message.classList.remove('visually-hidden');
-                success_message.innerHTML = data['message'];
-              }
-              else if (data['status']=="error"){
-                let errors = data['message']
-                let counter = Object.keys(errors).length
-                let keys = Object.keys(errors);
-                for(let i=0;i<counter;i++){
-                  let ele = document.getElementById(`id_error_${keys[i]}`);
-                  ele.classList.remove('visually-hidden');
-                  ele.innerHTML = errors[keys[i]];
-                }
-                submit_btn.innerHTML = "submit";
-              }
-            },
-            error:function(xhr,textStatus,errorThrown){
-              console.error("AJAX ERROR: ",errorThrown);
-            }
-          })
-        }
-
-      </script>
-    </form>
-  </div>
-  </div>
   <br><br>
   <div class="heading">
     <hr>
@@ -461,26 +151,7 @@
     <hr>
   </div>
   <style>
-    .why-webxter {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: white;
-    }
-    .why-webxter ul{
-      width: 82%;
-      line-height: 40px;
-    }
-    .why-webxter ul{
-      list-style: none;
-      font-size: 16px;
-    }
-    .why-webxter ul li strong{
-      font-size: 20px;
-      color: #475e88;
-      text-transform: uppercase;
-    }
+    
   </style>
 
   <div class="accordion accordion-flush" id="accordionFlushExample">
