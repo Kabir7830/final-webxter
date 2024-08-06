@@ -49,4 +49,10 @@ class BatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Batches
         fields = ['id','name']
+        
+        
+class CourseCategoriesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseCategories
+        fields = "__all__"
 

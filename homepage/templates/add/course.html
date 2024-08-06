@@ -1,0 +1,285 @@
+{% extends "admin-master.html"%}
+{% load static %}
+{% block title %}
+    Add Course
+{% endblock title %}
+
+{% block styles %}
+    
+    <link rel="stylesheet" href="{% static 'css/messages.css'%}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        #course-section-34736 .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        #course-section-34736 h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        #course-section-34736 label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        #course-section-34736 input[type="text"],
+        #course-section-34736 input[type="file"],
+        #course-section-34736 textarea,
+        #course-section-34736 select {
+            width: 100%;
+            padding: 10px;
+            padding-bottom:0px ;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        
+        #course-section-34736 input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        
+        #course-section-34736 button {
+            width: 100%;
+            padding: 10px;
+            background: #5cb85c;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        #course-section-34736 button:hover {
+            background: #4cae4c;
+        }
+        
+        @media (max-width: 600px) {
+            #course-section-34736 .container {
+                padding: 10px;
+            }
+        
+            #course-section-34736 button {
+                font-size: 14px;
+            }
+        }
+        .cke_notifications_area{
+            display: none !important;
+        }
+        
+    </style>
+{% endblock styles %}
+
+{% block headscripts %}
+    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+{% endblock headscripts %}
+
+
+
+
+
+{% block adminarea %}
+    <div id="course-section-34736">
+    {% csrf_token %}
+    
+        <div class="container">
+            <form id="courseForm">
+                <h2>Course Form</h2>
+
+                <label for="course_name">Course Name</label>
+                <input type="text" id="course_name" name="course_name" required>
+                <span class="message error visually-hidden" id="id_course_name_error_message"></span>
+                <br>
+                <br>
+                <label for="summary">Summary</label>
+                <textarea id="summary" name="summary" rows="3" required></textarea>
+                <span class="message error visually-hidden" id="id_summary_error_message"></span>
+                <br>
+                <br>
+                <label for="">Overview</label>
+                <textarea id="id_overview" name="overview"></textarea>
+                <span class="message error visually-hidden" id="id_overview_error_message"></span>
+                <script>
+                    CKEDITOR.replace('id_overview');
+                    </script>
+                <br>
+                <br>
+                <label for="">Details</label>
+                <textarea id="id_details" name="details"></textarea> 
+                <span class="message error visually-hidden" id="id_details_error_message"></span>
+                <script>
+                    CKEDITOR.replace('id_details');
+                    </script>
+                <br>
+                <br>
+                <label for="curriculum">Curriculum</label>
+                <textarea id="id_curriculum" name="curriculum" rows="5" required></textarea>
+                <span class="message error visually-hidden" id="id_curriculum_error_message"></span>
+                <script>
+                    CKEDITOR.replace('id_curriculum');
+                </script>
+                <br>
+                <br>
+                <label for="benefits">Benefits</label>
+                <textarea id="id_benefits" name="benefits" rows="3" required></textarea>
+                <span class="message error visually-hidden" id="id_benefits_error_message"></span>
+                <script>
+                    CKEDITOR.replace('id_benefits');
+                    </script>
+                <br>
+                <br>
+                <label for="featured_image">Featured Image</label>
+                <input type="file" id="id_featured_image" name="featured_image" accept="image/*">
+                <span class="message error visually-hidden" id="id_featured_image_error_message"></span>
+                <br>
+                <br>
+                <label for="course_short_description">Course Short Description</label>
+                <textarea id="id_course_short_description" name="course_short_description" rows="3" required></textarea>
+                <span class="message error visually-hidden" id="id_course_short_description_error_message"></span>
+                <br>
+                <br>
+                <label for="course_image">Course Image</label>
+                <input type="file" id="id_course_image" name="course_image" accept="image/*">
+                <span class="message error visually-hidden" id="id_course_image_error_message"></span>
+                <br>
+                <br>
+                <label for="course_syllabus">Course Syllabus</label>
+                <input type="file" id="id_course_syllabus" name="course_syllabus">
+                <span class="message error visually-hidden" id="id_course_syllabus_error_message"></span>
+                <br>
+                <br>
+                <label for="is_published">Status</label>
+                <select name="is_published" id="id_is_published">
+                    <option value="True">Published</option>
+                    <option value="False">Draft</option>
+                </select>
+                <span class="message error visually-hidden" id="id_is_published_error_message"></span>
+                <br>
+                <br>
+                <label for="slug">Slug</label>
+                <input type="text" id="id_slug" name="slug" required>
+                <span class="message error visually-hidden" id="id_slug_error_message"></span>
+                <br>
+                <br>
+                <label for="tags">Tags</label>
+                <input type="text" id="id_tags" name="tags">
+                <span class="message error visually-hidden" id="id_tags_error_message"></span>
+                <br>
+                <br>
+                <label for="category">Category</label>
+                <select id="id_category" name="category" required>
+                    <option value="" disabled selected>Select a category</option>
+                    
+                    <!-- Add more categories as needed -->
+                </select>
+                <span class="message error visually-hidden" id="id_category_error_message"></span>
+                <script>
+
+                    function get_course_categories(){
+                        $.ajax({
+                            url:"{% url 'course-categories' %}",
+                            type:"GET",
+                            contentType:"application/json",
+                            success:function(data){
+                                if (data['status'] == "success"){
+                                    let select = document.getElementById('id_category');
+                                    let categories = data['data'];
+                                    for (let category of categories){
+                                        let option = document.createElement('option');
+                                        option.value = category['id'];
+                                        option.innerHTML = category['name'];
+                                        select.appendChild(option);
+                                    }
+                                }
+
+                                else if (data['status'] == "error"){
+                                    let category_error_message = document.getElementById("id_category_error_message");
+                                    category_error_message.classList.remove('visually-hidden');
+                                    category_error_message.innerHTML = data['message'];
+                                }
+                                console.log("categories: ",data);
+                            },
+                            error:function(xhr,textStatus,errorThrown){
+                                console.error('AJAX ERROR: ',errorThrown);
+                            }
+
+                        })
+                    }
+                    get_course_categories();
+
+                </script>
+                <br>
+                <br>
+                <button type="button" onclick="add_new_course()">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function add_new_course(){
+
+            let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+            let course_name = document.getElementById('id_course_name');
+            let summary = document.getElementById('id_summary');
+            let overview = document.getElementById('id_overview');
+            let details = document.getElementById('id_details');
+            let curriculum = document.getElementById('id_curriculum');
+            let benefits = document.getElementById('id_benefits');
+            let featured_image = document.getElementById('id_featured_image');
+            let course_short_description = document.getElementById('id_course_short_description');
+            let course_image = document.getElementById('id_course_image');
+            let course_syllabus = document.getElementById('id_course_syllabus');
+            let is_published = document.getElementById('id_is_published');
+            let slug = document.getElementById('id_slug');
+            let tags = document.getElementById('id_tags');
+            let category = document.getElementById('id_category');
+
+            let postData = {};
+            $.ajax({
+                url:"{% url 'admin-courses-api' %}",
+                type:"POST",
+                contentType:"application/json",
+                data:JSON.stringify(postData),
+                beforeSend:function(xhr){
+                    xhr.setRequestHeader("X-CSRFToken",csrftoken);
+                },
+                success:function(data){
+                    if (data['status']=="success"){
+                        console.log(data)
+                    }
+                    else if (data['status'] =="error"){
+                        console.log(data);
+                        let errors = data['message'];
+                        let keys = Object.keys(errors);
+                        errors_length = Object.keys(errors).length
+                        for (let key of keys){
+                            let mesg = document.getElementById(`id_${key}_error_message`);
+                            mesg.classList.remove('visually-hidden');
+                            mesg.innerHTML = errors[key];
+                        }
+                    }
+                },
+                error:function(xhr,textStatus,errorThrown){
+                    console.log("AJAX ERROR: ",errorThrown);
+                }
+            })
+        }
+
+    </script>
+
+{% endblock adminarea %}
+
+{% block footerscripts%}
+    <script src="scripts.js"></script>
+{% endblock footerscripts%}
+</body>
+</html>

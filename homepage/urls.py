@@ -14,6 +14,7 @@ urlpatterns = [
     path("courses/<slug:slug>/",getCourseDetails,name="course-details"),
     path('coachings/',getCoachings,name="coachings"),
     path('course-deatils/',CoursedetailsTemplate,name="course-dtls"),
+    path('add/course/',addCourseTemplate,name="admin-add-course"),
     
     # authentication
     path("signup/",SignUp,name="signup"),
@@ -82,6 +83,9 @@ urlpatterns = [
     path('course-form-api/',CourseForFormAPI.as_view(),name="courses-form-api"),
     
     path("admin/courses-api/",AdminCourses.as_view(),name="admin-courses-api"),
+    
+        # course categories
+    path('categories/all-api/',CourseCategoryAPI.as_view(),name="course-categories"),
     
         # Time Slots
     path('create-new-time-slot/',AdminTimeSlotsAPI.as_view(),name="admin-create-new-time-slots"),

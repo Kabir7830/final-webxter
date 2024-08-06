@@ -300,6 +300,7 @@ class AdminCourses(APIView):
     def post(self,request):
         
         data = request.data
+        print(data)
         serializer_class = CoursesSerializer(data=data)
         if serializer_class.is_valid():
             serializer_class.save()
@@ -327,7 +328,12 @@ class AdminCourses(APIView):
             return Response({"data":[],"message":"Deleted","status":"success"})
         except Exception as e:
             return Response({"data":[],"message":f"{e}","status":"error"})
-            
+
+
+def addCourseTemplate(request):
+    
+    if is_admin(request):
+        return render(request,"add/course.html")            
 
 
 def editCourse(request,course_id):
@@ -380,6 +386,19 @@ def deleteCourse(request,course_id):
         return redirect(request.META.get("HTTP_REFERER"))
     else:
         return render(request,"access-denied.html")
+
+
+class CourseCategoryAPI(APIView):
+    
+    def get(self,request):
+        
+        categories = CourseCategories.objects.all()
+        if categories is None:
+            return Response({"data":[],"message":"No Categories. Add one to select.","status":"error"})
+            
+        serializer_class = CourseCategoriesSerializer(categories,many=True)
+        
+        return Response({"data":serializer_class.data,"message":"","status":"success"})
 
 
 def addCourseCategory(request):

@@ -98,16 +98,15 @@ class Courses(models.Model):
         db_table = "Courses"
     
     course_name = models.CharField(max_length=300,unique=True)
-    summary = models.CharField(max_length=200,default="")
-    overview = models.TextField(default="")
-    details = models.TextField(default="")
-    curriculum = models.TextField(default="")
-    benefits = models.TextField(default="")
-    featured_image = models.ImageField(upload_to="featured_images/",default="")
-
+    summary = models.CharField(max_length=200)
+    overview = models.TextField()
+    details = models.TextField()
+    curriculum = models.TextField()
+    benefits = models.TextField()
+    featured_image = models.ImageField(upload_to="featured_images/")
     course_short_description = models.CharField(max_length=350)
     course_image = models.ImageField(upload_to="thumbnails/")
-    course_syllabus = models.FileField(upload_to="course_syllabus/",default="")
+    course_syllabus = models.FileField(upload_to="course_syllabus/")
     is_published = models.BooleanField(default=True)
     slug = models.SlugField(unique=True, blank=True)  # Ensure unique slugs and allow blank
     tags = models.TextField(default="",blank=True)
