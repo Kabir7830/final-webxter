@@ -311,9 +311,15 @@ class AdminCourses(APIView):
         
         data = request.data
         course = Courses.objects.filter(id = data.get('course_id')).first()
-        serializer_class = CoursesSerializer(instance=course,data=data)
+        serializer_class = AdminCoursefrom(request.POST,request.FILES,instance=course)
+        
         if serializer_class.is_valid():
+            categories = eval(request.POST.get('category'))
             serializer_class.save()
+            for category in categories:
+                catgry = CourseCategories.objects.filter(id = category).first()
+                course.category.add(catgry)
+                course.save()   
             return Response({"data":serializer_class.data,"message":"Updated","status":"success"})
         return Response({"data":[],"message":serializer_class.errors,"status":"error"})
     
@@ -355,7 +361,7 @@ def editCourse(request,course_id):
                 print(form.errors)
                 messages.error(request,f"{form.errors}")
                 return redirect(request.META.get("HTTP_REFERER"))
-        return render(request,"edit-course.html",{"course":course.first()})
+        return render(request,"edit/course.html",{"course":course.first()})
     else:
         return render(request,"access-denied.html")
 
@@ -569,31 +575,14 @@ class RequestCallbackAPI(APIView):
 
     def post(self,request):
         data = request.data
-        is_required_error = False
-        required_error = {}
-        # if data.get('phone_number') == "" or data.get('phone_number') == None:
-        #     required_error['phone_number'] = "This field is required"
-        #     is_required_error = True
-        # if data.get('email') == "" or data.get('email') == None:
-        #     required_error['email'] = "This field is required"
-        #     is_required_error = True
-        # if data.get('message') == "" or data.get('message') == None:
-        #     required_error['message'] = "This field is required"
-        #     is_required_error = True
-        # if data.get('name') == "" or data.get('name') == None:
-        #     required_error['name'] = "This field is required"
-        #     is_required_error = True
-
-        # if is_required_error:
-        #     return Response({"data":[],"message":f"invalid data","status":"error","required_error":required_error})
         form = RequestCallbackAPIForm(data=data)
 
         if form.is_valid():
             form.save()
             body = CallbackRequestTemplate(name=data.get('name'),email=data.get('email'),phone_number=data.get('phone_number'),message=data.get('message'))
             studentbody = callbackSentTemplate(name=data.get('name'))
-            send_email(subject="New Callback Request",body=body,recipients=["kabir.behal7830@gmail.com"],sender_name="Webxter Callback Request")
-            send_email(subject="Thankyou for Callback Request",body=studentbody,recipients=[data.get('email')],sender_name="Webxter Callback Request")
+            # send_email(subject="New Callback Request",body=body,recipients=["kabir.behal7830@gmail.com"],sender_name="Webxter Callback Request")
+            # send_email(subject="Thankyou for Callback Request",body=studentbody,recipients=[data.get('email')],sender_name="Webxter Callback Request")
             return Response({"data":[],"message":"Form Submitted","status":"success"})
         # return Response({"data":[],"message":f"{dict(form.errors)}","status":"error"})
         return Response({"data":[],"message":form.errors,"status":"error"})
@@ -659,7 +648,8 @@ def getCourseDetails(request,slug):
     if request.user.is_authenticated:
         student = EnrolledStudents.objects.filter(student_id = request.user.id).filter(course_id__slug = slug).first()
     course = Courses.objects.filter(slug = slug).first()
-    return render(request,"course-details.html",{'course':course,'student':student})
+    # return render(request,"course-details.html",{'course':course,'student':student})
+    return render(request,"details/course.html",{'course':course,'student':student})
 
 
 def addCoaching(request):

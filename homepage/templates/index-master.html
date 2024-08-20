@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
   <link rel="stylesheet" href="{% static 'css/messages.css' %}">
+  <link rel="stylesheet" href="{% static 'css/roboto_font.css' %}">
   
   <meta charset="UTF-8">
   <meta name="description" content="Unlock the world of web development at Webxter! Learn HTML and master the building blocks of the internet. Our institute offers expert-led classes in Django, CSS, Python, React JS, C/C+, Java, and Graphic Designing. From 6th-grade basics to advanced graduation-level programming, Webxter is your gateway to a comprehensive tech education.">
@@ -45,7 +46,31 @@
       }
       body{
           overflow-x:hidden;
+          font-family:"Roboto", sans-serif;
       }
+      /* Define the animation */
+      @keyframes fadeInUp {
+          from {
+              opacity: 0;
+              transform: translateY(100px);
+          }
+          to {
+              opacity: 1;
+              transform: translateY(0);
+          }
+      }
+
+      /* Set initial state */
+      .animated-element {
+          opacity: 1;
+          transition: opacity 0.5s, transform 0.5s;
+      }
+
+      /* Set the animation when the class is added */
+      .animated-element.in-view.fade-in-up {
+          animation: fadeInUp 1s ease forwards;
+      }
+
   </style>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap');
@@ -89,12 +114,17 @@
 
   <style>
     .main-area{
-        min-height: 550px;
-        /* margin-top: 60px; */
+        min-height: 100vh;
+        margin-top: 110px; 
         /* background-color: red; */
     }
+    @media screen and (max-width:550px){
+      .main-area{
+        margin-top:70px;
+      }
+    }
   </style>
-  <div class="main-area" style="margin-top:100px">
+  <div class="main-area" >
 
     {% block mainarea %}
       
@@ -188,5 +218,28 @@
     <script src="{% static 'js/plugins/plugins.js' %}"></script>
     <!-- Active js -->
     <script src="{% static 'js/active.js' %}"></script>
+
+    <script>
+
+      document.addEventListener("DOMContentLoaded", function() {
+        const animatedElements = document.querySelectorAll('.animated-element');
+    
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, {
+            threshold: 0.1 // Trigger when 10% of the element is in view
+        });
+    
+        animatedElements.forEach(element => {
+            observer.observe(element);
+        });
+    });
+    
+
+    </script>
 </body>
 </html>

@@ -1,0 +1,466 @@
+{% extends "index-master.html" %}
+
+{% block title %}
+{{course.course_name}} | Webxter
+{% endblock title %}
+
+{% block styles %}
+<style>
+    .hero-heading{
+        background-image: url(https://www.microsoft.com/en-us/research/uploads/prod/2019/11/Programming-Languages-and-Software-Engineering-page-header_1920x720_1.31.2024.png);
+        width: 100%;
+        height: 500px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .hero-heading .heading{
+        font-size: 2rem;
+        font-size: 8rem;
+        color: white;
+        font-family: roboto;
+        text-transform: uppercase;
+        font-weight: 800;
+        text-align: center;
+    }
+    .hero-heading .summary p{
+        color: white;
+    }
+    .course-information-section .section-heading{
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        padding: 40px;
+    }
+    .course-information-section .section-heading .section-heading-text{
+        width: 60%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .course-information-section .section-heading .section-heading-text .heading{
+        align-self: flex-start;
+    }
+    .course-information-section .section-heading .section-heading-text .heading h2{
+        font-size: 3rem;
+        position: relative;
+    }
+    .course-information-section .section-heading .section-heading-text .heading h2::after{
+        content: "";
+        width: 50%;
+        height: 4px;
+        background-color: #4da191;
+        position: absolute;
+        bottom: 0px;
+        left: 2px;
+
+    }
+    .course-information-section .section-heading .section-heading-text p{
+        text-align: justify;
+        text-align: justify;
+        font-size: 1.2rem;
+        font-family: "Roboto", sans-serif;
+        margin-top: 30px;
+    }
+    .course-information-section .section-heading .featured-image{
+        width: 40%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .course-information-section .section-heading .featured-image img{
+        width: 40%;
+    }
+    .align-self-start{
+        align-self: flex-start;
+    }
+    .justify-content-start{
+        justify-content: start;
+    }
+    .justify-content-center{
+        justify-content: center;
+    }
+    .align-items-center{
+        align-items: center;
+    }
+    .course-information-section .get-quote-section{
+        width: 40%;
+    }
+    .get-quote-form{
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+        gap: 20px;
+        background-color: white;
+        box-shadow: 0px 0px 30px 0px rgba(5.999999999999997, 30.00000000000003, 98.00000000000001, 0.08);
+        border-radius: 20px;
+        padding: 40px;
+        justify-content: center;
+    }
+    .get-quote-form .heading{
+        width: 100%;
+        text-align: center;
+    }
+    .get-quote-form .heading h2{
+        color: #4da191;
+    }
+    .get-quote-form input{
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        padding: 20px;
+    }
+    .get-quote-form input:not([disabled]):focus{
+        outline: none;
+        border-color: #4da191;
+    }
+    .get-quote-form input:not([disabled]):hover{
+        border-color: #4da191;
+    }
+    .get-quote-form textarea{
+        border-radius: 5px;
+        padding: 20px;
+    }
+    .get-quote-form textarea:not([disabled]):focus, .get-quote-form textarea:not([disabled]):hover{
+        border-color: #4da191;
+        outline: none;
+    }
+    .get-quote-form .get-quote-submit-btn{
+        padding: 10px;
+        background-color: #4da191;
+        color: white;
+        border: none;
+    }
+    .get-quote-form .get-quote-submit-btn:hover{
+        background-color: #388577;
+    }
+    .text-align-center{
+        text-align: center;
+    }
+    .group{
+        display: flex;
+        flex-wrap: nowrap;
+    }
+    .group .currency-symbol{
+        width: 70px;
+    }
+    .section-heading-text.w-100{
+        width: 100%;
+    }
+    .section-heading-text.curriculum ul{
+        align-self: flex-start;
+        margin-top: 30px;
+        list-style: none;
+        column-count: 2;
+        width: 100%;
+        font-size: 1.2rem;
+    }
+    .section-heading-text.curriculum ul li{
+        padding: 10px;
+
+    }
+    .section-heading-text.curriculum ul li::before{
+        content: "✔️";
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+    .syllabus{
+        padding: 40px;
+    }
+    .syllabus .syllabus-download-button{
+        padding: 20px;
+        background-color:#4da191;
+        color: white;
+        text-decoration: none;
+        border: none;
+        border-radius: 10px;
+    }
+    .syllabus .syllabus-download-button:hover{
+        text-decoration: none;
+        color: white !important;
+    }
+    .registeration-section{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+    .registeration-section .registeration-buttons{
+        padding: 20px;
+        color: #4da191;
+        background-color: white;
+        border: none;
+        text-decoration: underline;
+        border-radius: 10px;
+    }
+    .registeration-section .registeration-buttons:hover{
+        text-decoration: none;
+        background-color: #2e4368;
+        color: white !important;
+    }
+    @media screen and (max-width:884px){
+        .hero-heading .heading{
+            font-size: 6rem;
+        }
+        .course-information-section .section-heading{
+            flex-wrap: wrap;
+            padding: 10px;
+        }
+        .course-information-section .section-heading .section-heading-text{
+            width: 100%;
+        }
+        .course-information-section .section-heading .featured-image{
+            width: 100%;
+        }
+        .course-information-section .section-heading .featured-image img{
+            width: 90%;
+        }
+        .course-information-section .get-quote-section{
+            width: 100%;
+        }
+        .get-quote-form{
+            width: 100%;
+        }
+        .section-heading-text.curriculum ul{
+            column-count: 1;
+        }
+        
+    }
+    @media screen and (max-width:1280px){
+        .get-quote-form{
+            width: 100%;
+        }
+        .course-information-section .section-heading .featured-image img{
+            width: 90%;
+        }
+    }
+    @keyframes slide_in_left{
+        from{
+            transform: translateX(400px);
+        }
+        to{
+            transform: translateX(0px);
+        }
+    }
+    .in-view.slide-in-left{
+        animation: slide_in_left 1s ease;
+    }
+    
+
+</style>
+
+{% endblock styles %}
+
+
+{% block mainarea %}
+    {% csrf_token %}
+    <div class="hero-heading">
+        <div>
+            <h2 class="heading">{{course.course_name}}</h2>
+        </div>
+        <div class="summary">
+            <p>{{course.summary}}</p>
+        </div>
+    </div>
+
+    <div class="course-information-section animated-element">
+
+        <div class="section-heading">
+            <div class="section-heading-text">
+                <div class="heading roboto-black">
+                    <h2>
+                        Overview
+                    </h2>
+                </div>
+                <p>{{course.overview}}</p>
+            </div>
+
+            <div class="featured-image animated-element slide-in-left">
+                <img src="/media/{{course.course_image}}" alt="{{course.course_name}}">
+            </div>
+        </div>
+
+    </div>
+    
+    
+    <div class="course-information-section animated-element">
+
+        <div class="section-heading justify-content-start">
+            <div class="section-heading-text ">
+                <div class="heading roboto-black">
+                    <h2>
+                        Details
+                    </h2>
+                </div>
+                <p>{{course.details}}</p>
+            </div>
+
+            <div class="get-quote-section d-flex align-items-center justify-content-center">
+                <form class="get-quote-form animated-element">
+                    <div class="heading">
+                        <h2>Get Quote</h2>
+                    </div>
+                    <input type="text" name="name" placeholder="Name" id="id_name">
+                    <span class="message error" id="id_name_error"></span>
+                    
+                    <input type="email" placeholder="Email" name="email" id="id_email">
+                    <span class="message error" id="id_email_error"></span>
+                    
+                    <div class="group">
+                        <input type="text" disabled value="+91" class="currency-symbol">
+                        <input type="tel" placeholder="Phone Number" name="phone_number" id="id_phone_number" style="width: 100%;">
+                    </div>
+                    <span class="message error" id="id_phone_number_error"></span>
+                    
+                    <input type="text" disabled value="{{course.course_name}}" id="id_course">
+                    
+                    <textarea name="message" id="id_message" placeholder="Message"></textarea>
+                    <span class="message error" id="id_message_error"></span>
+                    
+                    <button class="get-quote-submit-btn" type="button" onclick="submit_get_quote_query()" id="id_submit_btn">Submit</button>
+                    <p class="message error text-align-center visually-hidden" id="id_error_message">Error message</p>
+                    <p class="message success text-align-center visually-hidden" id="id_success_message">Success message</p>
+
+                    <div class="registeration-section">
+                        <a href="{% url 'course-registration' %}" class="registeration-buttons">Enroll Now</a>
+                        <a href="{% url 'book-demo' %}" class="registeration-buttons">Book For Demo</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="course-information-section animated-element fade-in-up">
+        <div class="section-heading justify-content-start">
+            <div class="section-heading-text curriculum w-100">
+                <div class="heading roboto-black">
+                    <h2>
+                        Curriculum
+                    </h2>
+                </div>
+
+                <div class="align-self-start w-100">
+                    {{course.curriculum | safe}}
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="course-information-section animated-element fade-in-up">
+        <div class="section-heading justify-content-start">
+            <div class="section-heading-text curriculum w-100">
+                <div class="heading roboto-black">
+                    <h2>
+                        Benefits
+                    </h2>
+                </div>
+
+                <div class="align-self-start w-100">
+                    {{course.benefits |safe }}
+                    
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+    <div class="syllabus">
+        <a href="/media/{{course.course_syllabus}}" class="syllabus-download-button">Download Syllabus</a>
+    </div>
+
+
+
+<script>
+
+    function submit_get_quote_query(){
+        let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+        let success_message = document.getElementById('id_success_message');
+        let error_message = document.getElementById('id_error_message');
+        let error_messages = document.querySelectorAll('.message.error');
+        let submit_button = document.getElementById('id_submit_btn');
+        let date = new Date();
+        let current_date = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+        let current_time = `${date.getHours()}:${date.getMinutes()}`;
+
+
+        submit_button.innerHTML = `
+        <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>`;
+
+        success_message.classList.add('visually-hidden');
+        error_message.classList.add('visually-hidden');
+
+        for (let message of error_messages){
+            message.classList.add('visually-hidden');
+        }
+
+        let postData;
+
+        postData = {
+            "name":document.getElementById('id_name').value,
+            "email":document.getElementById('id_email').value,
+            "message":document.getElementById('id_message').value,
+            "phone_number":document.getElementById('id_phone_number').value,
+            "course":document.getElementById('id_course').value,
+            "time":current_time,
+            "date":current_date,
+        }
+
+        $.ajax({
+            url:"{% url 'request-callback-api' %}",
+            type:"POST",
+            contentType:"application/json",
+            data:JSON.stringify(postData),
+            beforeSend:function(xhr){
+                xhr.setRequestHeader("X-CSRFToken",csrftoken)
+            },
+            success:function(data){
+                console.log("data: ",data);
+                if (data['status'] == "success"){
+                    success_message.classList.remove('visually-hidden');
+                    success_message.innerHTML = data['message'];
+                    submit_button.innerHTML = "Submitted";
+                    submit_button.disabled = true;
+                    submit_button.style.cursor = "no-drop";
+                }
+                else if (data['status'] == "error"){
+                    submit_button.innerHTML = "Submit";
+                    let errors = data['message'];
+                    let keys = Object.keys(errors);
+                    let errors_length = keys.length;
+
+                    for (let key of keys){
+                        let msg = document.getElementById(`id_${key}_error`);
+                        msg.classList.remove('visually-hidden');
+                        msg.innerHTML = errors[key];
+                    }
+                }
+            },
+            error:function(xhr,textStatus,errorThrown){
+                console.error("AJAX ERROR: ",errorThrown);
+            }
+        })
+    }
+
+</script>
+
+
+{% endblock mainarea %}

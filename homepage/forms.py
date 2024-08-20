@@ -102,3 +102,11 @@ class CourseCategoryForm(forms.ModelForm):
         fields = [
             'name'
         ]
+
+
+class AdminCoursefrom(forms.ModelForm):
+    class Meta:
+        model = Courses
+        fields = "__all__"
+        exclude = ['category']
+        slug = forms.SlugField()

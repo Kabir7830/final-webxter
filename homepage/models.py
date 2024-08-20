@@ -149,6 +149,7 @@ class RequestCallBack(models.Model):
     phone_number = models.CharField(max_length=15)
     date = models.CharField(max_length=30)
     time = models.CharField(max_length=30)
+    course= models.CharField(max_length=255,default="",blank=True)
     is_opened = models.BooleanField(default=False)
 
 
