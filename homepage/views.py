@@ -285,7 +285,7 @@ def addCourse(request):
                 print(e)
                 messages.error(request,"something went wrong! Try again")
                 return redirect(request.META.get('HTTP_REFERER'))
-        return render(request,"add-course.html")
+        return render(request,"add/course.html")
     else:
         return render(request,"access-denied.html")
 

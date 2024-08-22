@@ -1,4 +1,4 @@
-{% extends "index-master.html" %}
+{% extends "masters/index-master.html" %}
 {% load static %}
 
 {% block title %}
@@ -11,13 +11,14 @@
 {% endblock styles %}
 
 {% block mainarea %}
-
-  <div id="carouselExampleCaptions" class="carousel slide desktop_slides">
+  <!-- Desktop Slides -->
+  <div id="webxter_carousel_162" class="carousel slide desktop_slides">
     <div class="carousel-indicators">
       {% for banner in desktop_banners %}
-      <button type="button" data-bs-target="#carouselExampleCaptions" style="background-color: black;" data-bs-slide-to="{{forloop.counter0}}" {% if forloop.first %} class="active" {% endif %} aria-current="true" aria-label="Slide {{forloop.counter}}"></button>
+      <button type="button" data-bs-target="#webxter_carousel_162" style="background-color: black;" data-bs-slide-to="{{forloop.counter0}}" {% if forloop.first %} class="active" {% endif %} aria-current="true" aria-label="Slide {{forloop.counter}}"></button>
       {%endfor%}
     </div>
+    
     <div class="carousel-inner">
       {% for banner in desktop_banners %}
       <div class="carousel-item {% if forloop.first %} active {% endif %}">
@@ -29,23 +30,28 @@
       </div>
       {% endfor %}
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    
+    <button class="carousel-control-prev" type="button" data-bs-target="#webxter_carousel_162" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    
+    <button class="carousel-control-next" type="button" data-bs-target="#webxter_carousel_162" data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
+  
   </div>
 
-  <!-- mobile -->
-  <div id="carouselExampleCaptions_mobile" class="carousel slide mobile_slides">
+  <!-- Mobile Slides -->
+  <div id="webxter_carousel_162_mobile" class="carousel slide mobile_slides">
+    
     <div class="carousel-indicators">
       {% for banner in mobile_banners %}
-      <button type="button" data-bs-target="#carouselExampleCaptions_mobile" style="background-color: black;" data-bs-slide-to="{{forloop.counter0}}" {% if forloop.first %} class="active" {% endif %} aria-current="true" aria-label="Slide {{forloop.counter}}"></button>
+      <button type="button" data-bs-target="#webxter_carousel_162_mobile" style="background-color: black;" data-bs-slide-to="{{forloop.counter0}}" {% if forloop.first %} class="active" {% endif %} aria-current="true" aria-label="Slide {{forloop.counter}}"></button>
       {%endfor%}
     </div>
+    
     <div class="carousel-inner">
       {% for banner in mobile_banners %}
       <div class="carousel-item {% if forloop.first %} active {% endif %}">
@@ -57,111 +63,81 @@
       </div>
       {% endfor %}
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions_mobile" data-bs-slide="prev">
+    
+    <button class="carousel-control-prev" type="button" data-bs-target="#webxter_carousel_162_mobile" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions_mobile" data-bs-slide="next">
+    
+    <button class="carousel-control-next" type="button" data-bs-target="#webxter_carousel_162_mobile" data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
+
   </div>
 
   <br><br>
+  
+  <!-- Courses -->
   <div class="courses">
-    <div class="heading">
-      <hr>
-      <label for="">Training Courses</label>
-      <hr>
-    </div>
+    <div class="heading"><hr><label for="">Training Courses</label><hr></div>
 
     <div class="row row-cols-1 row-cols-md-4 g-4 card-grp" style="width:100%">
-      {% for course in courses %}        
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-header">
-            <img src="/media/{{course.course_image}}" class="card-img-top" alt="...">
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">{{course.course_name}}</h5>
-            <p class="card-text" style="text-align:justify;">{{course.course_short_description}}</p>
-          </div>
-          <div class="card-footer">
-            <small class="text-body-secondary"><a href="{% url 'course-details' slug=course.slug%}"><button type="button" class="btn btn-success">View</button></a></small>
-          </div>
-        </div>
+      {% for course in courses %}   
+        {% url 'course-details' slug=course.slug as course_url %}
+        {% include 'loop/courses/cardv1.html' with image=course.course_image title=course.name preview_text=course.course_short_description url=course_url %}
+      {% endfor %}
+      
+      <div class="center-div">
+        <br> 
+        <a href="{% url 'courses' %}"><button class="btn btn-outline-success">View All</button></a>
       </div>
-    {% endfor %}
-    <div class="center-div">
-      <br> 
-      <a href="{% url 'courses' %}"><button class="btn btn-outline-success">View All</button></a>
-    </div>
+    
     </div>
 
 
   </div>
 
   <br><br>
+  
   <!-- Coaching -->
   <div class="courses" id="training_courses">
-    <div class="heading">
-      <hr>
-      <label for="">Coaching Available For</label>
-      <hr>
-    </div>
+    <div class="heading"><hr><label for="">Coaching Available For</label><hr></div>
+    
     <br>
+    
     <div class="row row-cols-1 row-cols-md-4 g-4 card-grp" style="width:100%">
-      {% for coaching in coachings %}        
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-header">
-            <img src="/media/{{coaching.image}}" class="card-img-top" alt="...">
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">{{coaching.subject}}</h5>
-            <p class="card-text" style="text-align:justify;">{{coaching.short_description}}</p>
-          </div>
-          <div class="card-footer">
-            <small class="text-body-secondary"><a href="/coaching/{{coaching.slug}}/"><button type="button" class="btn btn-success">View</button></a></small>
-          </div>
-        </div>
-      </div>
+      {% for coaching in coachings %}
+        {% url 'coaching-details' slug=coaching.slug as coaching_url %}
+        {% include 'loop/courses/cardv1.html' with image=coaching.image title=coaching.subject preview_text=coaching.short_description url=coaching_url %}
       {% endfor %}
-    </div>
-    <div class="center-div">
-      <br> 
-      <a href="{% url 'coachings'%}"><button class="btn btn-outline-success">View All</button></a>
+    
+      <div class="center-div">
+        <br> 
+        <a href="{% url 'coachings'%}"><button class="btn btn-outline-success">View All</button></a>
+      </div>
+  
     </div>
   </div>
 
-  
   <br><br>
-  <div class="heading">
-    <hr>
-    <label for="">Request A Call Back <span class="fa fa-phone"></span></label>
-    <hr>
-  </div>
+  
+  <div class="heading"><hr><label for="">Request A Call Back <span class="fa fa-phone"></span></label><hr></div>
   
   {% include 'callback_form/call_back_form.html'%}
 
   <br><br>
-  <div class="heading">
-    <hr>
-    <label for="">Why Choose Webxter?</label>
-    <hr>
-  </div>
-  <style>
-    
-  </style>
+  
+  <div class="heading"><hr><label for="">Why Choose Webxter?</label><hr></div>
 
-  <div class="accordion accordion-flush" id="accordionFlushExample">
+  <div class="accordion accordion-flush" id="id_webxter_why_choose_us_236623">
     <div class="accordion-item">
       <h2 class="accordion-header">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
           <strong>Expertise</strong>
         </button>
       </h2>
-      <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#id_webxter_why_choose_us_236623">
         <div class="accordion-body">Our team's vast knowledge and experience in the IT industry ensure that you receive the highest quality education and industry-relevant insights.</div>
       </div>
     </div>
@@ -171,7 +147,7 @@
           <strong>Practical Approach</strong>
         </button>
       </h2>
-      <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#id_webxter_why_choose_us_236623">
         <div class="accordion-body">We focus on hands-on projects and real-world scenarios, giving you the confidence to apply your skills in real-life situations.</div>
       </div>
     </div>
@@ -181,7 +157,7 @@
           <strong>Industry Connections</strong>
         </button>
       </h2>
-      <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#id_webxter_why_choose_us_236623">
         <div class="accordion-body">Our network of professionals and alumni provides valuable connections and potential opportunities for your future career.</div>
       </div>
      </div>
@@ -191,7 +167,7 @@
           <strong>Flexible Learning Options</strong>
         </button>
       </h2>
-      <div id="flush-collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div id="flush-collapseFour" class="accordion-collapse collapse" data-bs-parent="#id_webxter_why_choose_us_236623">
         <div class="accordion-body">Choose from a range of courses and schedules that suit your needs, whether you're a school student or a working professional.</div>
       </div>
     </div>
@@ -201,7 +177,7 @@
           <strong>Supportive Community</strong>
         </button>
       </h2>
-      <div id="flush-collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div id="flush-collapseFive" class="accordion-collapse collapse" data-bs-parent="#id_webxter_why_choose_us_236623">
         <div class="accordion-body">Join a community of like-minded individuals passionate about technology and learning. Collaborate, grow, and inspire together.</div>
       </div>
     </div>

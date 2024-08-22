@@ -1,7 +1,7 @@
 {% extends "admin-master.html"%}
 {% load static %}
 {% block title %}
-    Add Course
+    Edit | {{course.course_name}}
 {% endblock title %}
 
 {% block styles %}
@@ -75,7 +75,27 @@
         .cke_notifications_area{
             display: none !important;
         }
-        
+        .submit-button{
+            position: sticky;
+            bottom: 10px;
+        }
+        .floating-message{
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 999999;
+            box-shadow: 0px 0px 8px rgba(0,0,0,0.3);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .floating-message .message{
+            background-color: white;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0px;
+        }
     </style>
 {% endblock styles %}
 
@@ -88,9 +108,13 @@
 
 
 {% block adminarea %}
+
     <div id="course-section-34736">
     {% csrf_token %}
-    
+        
+        <div class="floating-message visually-hidden" id="id_floating_messages">
+            <p class="message"></p>
+        </div>
         <div class="container">
             <form id="courseForm">
                 <h2>Course Form</h2>
@@ -98,66 +122,57 @@
                 <label for="course_name">Course Name</label>
                 <input type="text" id="id_course_name" name="course_name" value="{{course.course_name}}" required>
                 <span class="message error visually-hidden" id="id_course_name_error_message"></span>
+                
                 <br>
                 <br>
+                
                 <label for="summary">Summary</label>
                 <textarea id="id_summary" name="summary" rows="3" required>{{course.summary}}</textarea>
                 <span class="message error visually-hidden" id="id_summary_error_message"></span>
+                
                 <br>
                 <br>
+                
                 <label for="">Overview</label>
                 <textarea id="id_overview" name="overview">{{course.overview | safe }}</textarea>
                 <span class="message error visually-hidden" id="id_overview_error_message"></span>
                 <script>
                     CKEDITOR.replace('id_overview');
                     </script>
+                
                 <br>
                 <br>
+                
                 <label for="">Details</label>
                 <textarea id="id_details" name="details">{{course.details | safe}}</textarea> 
                 <span class="message error visually-hidden" id="id_details_error_message"></span>
                 <script>
                     CKEDITOR.replace('id_details');
                     </script>
+                
                 <br>
                 <br>
+                
                 <label for="curriculum">Curriculum</label>
                 <textarea id="id_curriculum" name="curriculum" rows="5" required>{{course.curriculum | safe}}</textarea>
                 <span class="message error visually-hidden" id="id_curriculum_error_message"></span>
                 <script>
                     CKEDITOR.replace('id_curriculum');
                 </script>
+                
                 <br>
                 <br>
+                
                 <label for="benefits">Benefits</label>
                 <textarea id="id_benefits" name="benefits" rows="3" required>{{course.benefits | safe}}</textarea>
                 <span class="message error visually-hidden" id="id_benefits_error_message"></span>
                 <script>
                     CKEDITOR.replace('id_benefits');
                     </script>
+                
                 <br>
                 <br>
-                <label for="benefits">Benefits</label>
-                <textarea id="id_benefits1"></textarea>
-                <textarea id="id_benefits2"></textarea>
-                <textarea id="id_benefits3"></textarea>
-                <script src="https://htmeditor.com/js/htmeditor.min.js"></script>
-    <script>
-        // Initialize HTMEditor for each textarea
-        document.addEventListener('DOMContentLoaded', function() {
-            const textareas = ['id_benefits1', 'id_benefits2', 'id_benefits3'];
-            
-            textareas.forEach(id => {
-                new HTMEditor(id, {
-                    fullScreen: 'no',
-                    editorHeight: 380,
-                    runLocal: 'no'
-                });
-            });
-        });
-    </script>
-                <br>
-                <br>
+                
                 <label for="featured_image">Featured Image</label>
                 <input type="file" id="id_featured_image" name="featured_image" accept="image/*">
                 <img src="/media/{{course.featured_image}}" alt="image preview" id="id_featured_image_preview" style="width: 100%;">
@@ -168,13 +183,17 @@
                     }
                   </script>
                 <span class="message error visually-hidden" id="id_featured_image_error_message"></span>
+                
                 <br>
                 <br>
+                
                 <label for="course_short_description">Course Short Description</label>
                 <textarea id="id_course_short_description" name="course_short_description" rows="3" required>{{course.course_short_description | safe}}</textarea>
                 <span class="message error visually-hidden" id="id_course_short_description_error_message"></span>
+                
                 <br>
                 <br>
+                
                 <label for="course_image">Course Image</label>
                 <input type="file" id="id_course_image" name="course_image" accept="image/*" >
                 <img src="/media/{{course.course_image}}" alt="image preview" id="id_course_image_preview" style="width: 100%;">
@@ -185,31 +204,46 @@
                     }
                   </script>
                 <span class="message error visually-hidden" id="id_course_image_error_message"></span>
+                
                 <br>
                 <br>
+                
                 <label for="course_syllabus">Course Syllabus</label>
                 <input type="file" id="id_course_syllabus" name="course_syllabus">
+                {% if course.course_syllabus %}
+                <span>Currently selected file <a href="/media/{{course.course_syllabus}}">{{course.course_syllabus}}</a></span>
+                {% else %}
+                <span>No File is uploaded <a href="/media/{{course.course_syllabus}}">{{course.course_syllabus}}</a></span>
+                {% endif %}
                 <span class="message error visually-hidden" id="id_course_syllabus_error_message"></span>
+                
                 <br>
                 <br>
+                
                 <label for="is_published">Status</label>
                 <select name="is_published" id="id_is_published">
                     <option value="True" {% if course.is_published == True%}selected{%endif%}>Published</option>
                     <option value="False" {% if course.is_published == True %}{%else%}selected{%endif%}>Draft</option>
                 </select>
                 <span class="message error visually-hidden" id="id_is_published_error_message"></span>
+                
                 <br>
                 <br>
+                
                 <label for="slug">Slug</label>
                 <input type="text" id="id_slug" name="slug" required value="{{course.slug}}">
                 <span class="message error visually-hidden" id="id_slug_error_message"></span>
+                
                 <br>
                 <br>
+                
                 <label for="tags">Tags</label>
                 <input type="text" id="id_tags" name="tags" value="{{course.tags}}">
                 <span class="message error visually-hidden" id="id_tags_error_message"></span>
+                
                 <br>
                 <br>
+                
                 <input type="hidden" id="id_category" name="category">
                 <label for="categories">Course Categories</label>
                 {% for category in course_categories %}
@@ -218,43 +252,56 @@
                     <label for="">{{category.name}}</label><br>
                 </div>
                 {% endfor %}
-
-                <script>
-                    function define_categories_value(){
-                        let category = document.getElementById('id_category');
-                        let checkboxes = document.querySelectorAll("input[name='categories']");
-                       
-                        let arr = new Array();
-                        for (let cb of checkboxes){
-                            
-                            if(cb.checked){
-                                arr.push(cb.value);
-                            }
-                        }
-                        console.log(arr);
-                        category.value = arr;
-                    }
-                    define_categories_value();
-                </script>
                 <span class="message error visually-hidden" id="id_category_error_message"></span>
+
+                
+                
                 <br>
                 <br>
-                <button type="button" onclick="edit_course()" id="id_edit_submit_button">Submit</button>
+                
+                <button type="button" onclick="edit_course()" id="id_edit_submit_button" class="submit-button">Submit</button>
+            
             </form>
         </div>
     </div>
 
+    
+
+{% endblock adminarea %}
+
+{% block footerscripts%}
+    <!-- defining categories values -->
+    <script>
+        function define_categories_value(){
+            let category = document.getElementById('id_category');
+            let checkboxes = document.querySelectorAll("input[name='categories']");
+        
+            let arr = new Array();
+            for (let cb of checkboxes){
+                
+                if(cb.checked){
+                    arr.push(cb.value);
+                }
+            }
+            console.log(arr);
+            category.value = arr;
+        }
+        define_categories_value();
+    </script>
+
+    <!-- ajax put request -->
     <script>
         function edit_course(){
-
+            for (var instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+            }
+            
             let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
             let course_name = document.getElementById('id_course_name').value;
             let summary = document.getElementById('id_summary').value;
             let overview = document.getElementById('id_overview').value;
             let details = document.getElementById('id_details').value;
-            // let curriculum = document.getElementById('id_curriculum').value;
-            let curriculum = document.querySelector("iframe[title='Rich Text Editor, id_benefits']").innerHTML;
-            console.log("curriculum",curriculum);
+            let curriculum = document.getElementById('id_curriculum').value;
             let benefits = document.getElementById('id_benefits').value;
             let featured_image = document.getElementById('id_featured_image').files[0];
             let course_short_description = document.getElementById('id_course_short_description').value;
@@ -318,16 +365,26 @@
                     console.log(data);
                     if (data['status']=="success"){
                         submit_button.innerHTML = "submit";
+                        show_floating_message(data['message'],'success',5000);
                     }
                     else if (data['status'] =="error"){
                         submit_button.innerHTML = "submit";
-                        let errors = data['message'];
-                        let keys = Object.keys(errors);
-                        errors_length = Object.keys(errors).length
-                        for (let key of keys){
-                            let mesg = document.getElementById(`id_${key}_error_message`);
-                            mesg.classList.remove('visually-hidden');
-                            mesg.innerHTML = errors[key];
+                        if (typeof data['message'] === 'object' && data['message'] !== null && !Array.isArray(data['message'])) {
+                            
+                            let errors = data['message'];
+                            let keys = Object.keys(errors);
+                            errors_length = Object.keys(errors).length
+                            
+                            for (let key of keys){
+                                
+                                let mesg = document.getElementById(`id_${key}_error_message`);
+                                mesg.classList.remove('visually-hidden');
+                                mesg.innerHTML = errors[key];
+                            }
+                        }
+                        else{
+                            
+                            show_floating_message(data['message'],'error',5000);
                         }
                     }
                 },
@@ -337,12 +394,25 @@
             })
         }
 
+        function show_floating_message(message,responseType,timeOut=2000){
+            let floating_message = document.getElementById('id_floating_messages');
+            let message_area = floating_message.querySelector('p');
+            const class_to_keep = "message";
+            let classes = message_area.classList;
+            classes.forEach(cls=>{
+                if (cls !== class_to_keep){
+                    message_area.classList.remove(cls);
+                }
+            });
+            floating_message.classList.remove('visually-hidden','success');
+            message_area.classList.add(responseType);
+            message_area.innerHTML = message;
+            setTimeout(() => {
+                floating_message.classList.add('visually-hidden');
+            }, timeOut);
+        }
+
     </script>
-
-{% endblock adminarea %}
-
-{% block footerscripts%}
-    <script src="scripts.js"></script>
 {% endblock footerscripts%}
 </body>
 </html>

@@ -27,6 +27,8 @@
         width:20px;
       }
     </style>
+    {% block styles %}{% endblock styles %}
+    {% block headscripts %}{% endblock headscripts %}
 </head>
 <body>
     
@@ -139,176 +141,184 @@
           </div>
         </div>
       </nav>
-<style>
-  @import url('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css');
-  @font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 300;
-    font-stretch: normal;
-    src: url(https://fonts.gstatic.com/s/opensans/v35/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsiH0B4gaVc.ttf) format('truetype');
-  }
-  @font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-stretch: normal;
-    src: url(https://fonts.gstatic.com/s/opensans/v35/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
-  }
-  @font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 700;
-    font-stretch: normal;
-    src: url(https://fonts.gstatic.com/s/opensans/v35/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1x4gaVc.ttf) format('truetype');
-  }
-  body {
-    color: #5D5F63;
-    background: #293949;
-    font-family: 'Open Sans', sans-serif;
-    padding: 0;
-    margin: 0;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-  }
-  .sidebar-toggle {
-    margin-left: -240px;
-  }
-  .sidebar {
-    width: 100%;
-    height: 100%;
-    /* background: #293949; */
-    position: relative;
-    -webkit-transition: all 0.3s ease-in-out;
-    -moz-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    -ms-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-    z-index: 100;
-  }
-  .sidebar #leftside-navigation ul,
-  .sidebar #leftside-navigation ul ul {
-    margin: -2px 0 0;
-    padding: 0;
-  }
-  .sidebar #leftside-navigation ul li {
-    list-style-type: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  }
-  .sidebar #leftside-navigation ul li.active > a {
-    color: #1abc9c;
-  }
-  .sidebar #leftside-navigation ul li.active ul {
-    display: block;
-  }
-  .sidebar #leftside-navigation ul li a {
-    color: #aeb2b7;
-    text-decoration: none;
-    display: block;
-    padding: 18px 0 18px 25px;
-    font-size: 12px;
-    outline: 0;
-    -webkit-transition: all 200ms ease-in;
-    -moz-transition: all 200ms ease-in;
-    -o-transition: all 200ms ease-in;
-    -ms-transition: all 200ms ease-in;
-    transition: all 200ms ease-in;
-  }
-  .sidebar #leftside-navigation ul li a:hover {
-    color: #1abc9c;
-  }
-  .sidebar #leftside-navigation ul li a span {
-    display: inline-block;
-  }
-  .sidebar #leftside-navigation ul li a i {
-    width: 20px;
-  }
-  .sidebar #leftside-navigation ul li a i .fa-angle-left,
-  .sidebar #leftside-navigation ul li a i .fa-angle-right {
-    padding-top: 3px;
-  }
-  .sidebar #leftside-navigation ul ul {
-    display: none;
-  }
-  .sidebar #leftside-navigation ul ul li {
-    /* background: #23313f; */
-    margin-bottom: 0;
-    margin-left: 0;
-    margin-right: 0;
-    border-bottom: none;
-  }
-  .sidebar #leftside-navigation ul ul li a {
-    font-size: 12px;
-    padding-top: 13px;
-    padding-bottom: 13px;
-    color: #aeb2b7;
-  }
-  .admin-area{
-      margin-top: 70px;
-  }
-  .admin-content{
-    color:white;
-  }
-  .admin-content .heading{
-    width: 100%;
-    text-align: center;
-  }
-  .admin-content .highlight{
-    color: #62c7b4;
-  }
-  .admin-content .options{
-    display: flex;
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-    min-height: 300px;
-    column-gap: 25%;
-  }
-  .admin-content .options .option-button{
-    width: 150px;
-    height: 50px;
-    border:none;
-    border-radius: 20px;
-    background-color: #4ea292;
-    color: white;
-    box-shadow: 0px 0px 5px rgba(0,0,0,0.4);
-    /* padding: 15px; */
-  }
-  .admin-content .options .option-button:hover{
-    background-color: #60cbb7;
-  }
-</style>
+  <style>
+    @import url('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css');
+    @font-face {
+      font-family: 'Open Sans';
+      font-style: normal;
+      font-weight: 300;
+      font-stretch: normal;
+      src: url(https://fonts.gstatic.com/s/opensans/v35/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsiH0B4gaVc.ttf) format('truetype');
+    }
+    @font-face {
+      font-family: 'Open Sans';
+      font-style: normal;
+      font-weight: 400;
+      font-stretch: normal;
+      src: url(https://fonts.gstatic.com/s/opensans/v35/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
+    }
+    @font-face {
+      font-family: 'Open Sans';
+      font-style: normal;
+      font-weight: 700;
+      font-stretch: normal;
+      src: url(https://fonts.gstatic.com/s/opensans/v35/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1x4gaVc.ttf) format('truetype');
+    }
+    body {
+      color: #5D5F63;
+      background: #293949;
+      font-family: 'Open Sans', sans-serif;
+      padding: 0;
+      margin: 0;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+    .sidebar-toggle {
+      margin-left: -240px;
+    }
+    .sidebar {
+      width: 100%;
+      height: 100%;
+      /* background: #293949; */
+      position: relative;
+      -webkit-transition: all 0.3s ease-in-out;
+      -moz-transition: all 0.3s ease-in-out;
+      -o-transition: all 0.3s ease-in-out;
+      -ms-transition: all 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
+      z-index: 100;
+    }
+    .sidebar #leftside-navigation ul,
+    .sidebar #leftside-navigation ul ul {
+      margin: -2px 0 0;
+      padding: 0;
+    }
+    .sidebar #leftside-navigation ul li {
+      list-style-type: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .sidebar #leftside-navigation ul li.active > a {
+      color: #1abc9c;
+    }
+    .sidebar #leftside-navigation ul li.active ul {
+      display: block;
+    }
+    .sidebar #leftside-navigation ul li a {
+      color: #aeb2b7;
+      text-decoration: none;
+      display: block;
+      padding: 18px 0 18px 25px;
+      font-size: 12px;
+      outline: 0;
+      -webkit-transition: all 200ms ease-in;
+      -moz-transition: all 200ms ease-in;
+      -o-transition: all 200ms ease-in;
+      -ms-transition: all 200ms ease-in;
+      transition: all 200ms ease-in;
+    }
+    .sidebar #leftside-navigation ul li a:hover {
+      color: #1abc9c;
+    }
+    .sidebar #leftside-navigation ul li a span {
+      display: inline-block;
+    }
+    .sidebar #leftside-navigation ul li a i {
+      width: 20px;
+    }
+    .sidebar #leftside-navigation ul li a i .fa-angle-left,
+    .sidebar #leftside-navigation ul li a i .fa-angle-right {
+      padding-top: 3px;
+    }
+    .sidebar #leftside-navigation ul ul {
+      display: none;
+    }
+    .sidebar #leftside-navigation ul ul li {
+      /* background: #23313f; */
+      margin-bottom: 0;
+      margin-left: 0;
+      margin-right: 0;
+      border-bottom: none;
+    }
+    .sidebar #leftside-navigation ul ul li a {
+      font-size: 12px;
+      padding-top: 13px;
+      padding-bottom: 13px;
+      color: #aeb2b7;
+    }
+    .admin-area{
+        margin-top: 70px;
+    }
+    .admin-content{
+      color:white;
+    }
+    .admin-content .heading{
+      width: 100%;
+      text-align: center;
+    }
+    .admin-content .highlight{
+      color: #62c7b4;
+    }
+    .admin-content .options{
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      align-items: center;
+      min-height: 300px;
+      gap:50px;
+    }
+    .admin-content .options .option-button{
+      width: 150px;
+      height: 50px;
+      border:none;
+      border-radius: 20px;
+      background-color: #4ea292;
+      color: white;
+      box-shadow: 0px 0px 5px rgba(0,0,0,0.4);
+      /* padding: 15px; */
+    }
+    .admin-content .options .option-button:hover{
+      background-color: #60cbb7;
+    }
+  </style>
 
 
 
-<div class="admin-area">
-{% block adminarea %}
-  <div class="admin-content">
-    <h2 class="heading"><span class="highlight">{{request.user.first_name | upper}}{% if request.user.first_name %} {{request.user.last_name | upper}}{% endif %}'s</span> Dashboard</h2>
-    <div class="options">
-      <a data-target="add-course" name="link-button" title="add course" href="/add-course/" class="link"><button class="option-button">Add course</button></a>
-      <a data-target="add-banner" name="link-button" title="add banner" href="/add-banner/" class="link"><button class="option-button">Add Banner</button></a>
-      <a data-target="add-company-info" name="link-button" title="add company info" href="/add-company-info/" class="link"><button class="option-button">Add Company Details</button></a>
-      <a data-target="add-coaching" name="link-button" title="add coaching" href="/add-coaching/" class="link"><button class="option-button">Add Coaching</button></a>
-      <a data-target="add-category" name="link-button" title="add category" href="{% url 'add_course_category' %}" class="link"><button class="option-button">Add Coaching</button></a>
-      <a data-target="all-courses" name="link-button" title="all courses" href="/all-courses/" class="link"><button class="option-button">All Course</button></a>
-      <a data-target="all-enrolled-students" name="link-button" title="all enrolled students" href="/all-enrolled-students/" class="link"><button class="option-button">All Enrolled Students</button></a>
-      <a data-target="all-requests" name="link-button" title="all requests" href="/all-requests/" class="link"><button class="option-button">All Requests</button></a>
-      <a data-target="all-banners" name="link-button" title="all banners" href="/all-banners/" class="link"><button class="option-button">All Banners</button></a>
-      <a data-target="all-coachings" name="link-button" title="all coachings" href="/all-coachings/" class="link"><button class="option-button">All Coachings</button></a>
-      <a data-target="edit-company-info" name="link-button" title="edit company info" href="/edit-company-info/" class="link"><button class="option-button">Edit Company Info</button></a>
+  <div class="admin-area">
+  {% block adminarea %}
+    <div class="admin-content">
+      <h2 class="heading"><span class="highlight">{{request.user.first_name | upper}}{% if request.user.first_name %} {{request.user.last_name | upper}}{% endif %}'s</span> Dashboard</h2>
+      <div class="options">
+        <a data-target="add-course" name="link-button" title="add course" href="{% url 'add-course' %}" class="link"><button class="option-button">Add course</button></a>
+        <a data-target="add-banner" name="link-button" title="add banner" href="/add-banner/" class="link"><button class="option-button">Add Banner</button></a>
+        <a data-target="add-company-info" name="link-button" title="add company info" href="/add-company-info/" class="link"><button class="option-button">Add Company Details</button></a>
+        <a data-target="add-coaching" name="link-button" title="add coaching" href="/add-coaching/" class="link"><button class="option-button">Add Coaching</button></a>
+        <a data-target="add-category" name="link-button" title="add category" href="{% url 'add_course_category' %}" class="link"><button class="option-button">Add Category</button></a>
+        <a data-target="all-courses" name="link-button" title="all courses" href="/all-courses/" class="link"><button class="option-button">All Course</button></a>
+        <a data-target="all-enrolled-students" name="link-button" title="all enrolled students" href="/all-enrolled-students/" class="link"><button class="option-button">All Enrolled Students</button></a>
+        <a data-target="all-requests" name="link-button" title="all requests" href="/all-requests/" class="link"><button class="option-button">All Requests</button></a>
+        <a data-target="all-banners" name="link-button" title="all banners" href="/all-banners/" class="link"><button class="option-button">All Banners</button></a>
+        <a data-target="all-coachings" name="link-button" title="all coachings" href="/all-coachings/" class="link"><button class="option-button">All Coachings</button></a>
+        <a data-target="edit-company-info" name="link-button" title="edit company info" href="/edit-company-info/" class="link"><button class="option-button">Edit Company Info</button></a>
+      </div>
     </div>
-  </div>
 
-{% endblock adminarea %}
-</div>
-<script>
-    $("#leftside-navigation .sub-menu > a").click(function(e) {
-  $("#leftside-navigation ul ul").slideUp(), $(this).next().is(":visible") || $(this).next().slideDown(),
-  e.stopPropagation()
-})
-</script>
+  {% endblock adminarea %}
+  </div>
+  <script>
+      $("#leftside-navigation .sub-menu > a").click(function(e) {
+    $("#leftside-navigation ul ul").slideUp(), $(this).next().is(":visible") || $(this).next().slideDown(),
+    e.stopPropagation()
+  })
+  </script>
+  <script src="{% static 'js/jquery/jquery-2.2.4.min.js' %}"></script>
+    <!-- Popper js -->
+    <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
+    <!-- Bootstrap js -->
+    <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+  {% block footerscripts %}
+
+  {% endblock footerscripts %}
 
 </body>
 </html>

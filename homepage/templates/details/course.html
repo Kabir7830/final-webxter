@@ -1,4 +1,4 @@
-{% extends "index-master.html" %}
+{% extends "masters/index-master.html" %}
 
 {% block title %}
 {{course.course_name}} | Webxter
@@ -45,6 +45,9 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
+        padding: 40px;
+        background-color: whitesmoke;
+        border-radius: 20px;
     }
     .course-information-section .section-heading .section-heading-text .heading{
         align-self: flex-start;
@@ -212,8 +215,12 @@
         color: white !important;
     }
     @media screen and (max-width:884px){
+        .hero-heading{
+            padding: 10px;
+            height: fit-content;
+        }
         .hero-heading .heading{
-            font-size: 6rem;
+            font-size: 4rem;
         }
         .course-information-section .section-heading{
             flex-wrap: wrap;
@@ -221,6 +228,11 @@
         }
         .course-information-section .section-heading .section-heading-text{
             width: 100%;
+            padding: 20px;
+            font-size: 1rem;
+        }
+        .course-information-section .section-heading .section-heading-text p{
+            font-size: 1rem;
         }
         .course-information-section .section-heading .featured-image{
             width: 100%;
@@ -236,8 +248,11 @@
         }
         .section-heading-text.curriculum ul{
             column-count: 1;
+            font-size: 1rem;
         }
-        
+        .hero-heading .summary p{
+            text-align: center;
+        }
     }
     @media screen and (max-width:1280px){
         .get-quote-form{
