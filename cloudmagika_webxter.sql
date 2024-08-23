@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Aug 01, 2024 at 07:21 AM
+-- Generation Time: Aug 23, 2024 at 12:51 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `auth_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   KEY `auth_permission_content_type_id_2f476e4b` (`content_type_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=73 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=93 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `auth_permission`
@@ -146,7 +146,46 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 (69, 'Can add course categories', 18, 'add_coursecategories'),
 (70, 'Can change course categories', 18, 'change_coursecategories'),
 (71, 'Can delete course categories', 18, 'delete_coursecategories'),
-(72, 'Can view course categories', 18, 'view_coursecategories');
+(72, 'Can view course categories', 18, 'view_coursecategories'),
+(73, 'Can add demo class registration', 19, 'add_democlassregistration'),
+(74, 'Can change demo class registration', 19, 'change_democlassregistration'),
+(75, 'Can delete demo class registration', 19, 'delete_democlassregistration'),
+(76, 'Can view demo class registration', 19, 'view_democlassregistration'),
+(77, 'Can add batches', 20, 'add_batches'),
+(78, 'Can change batches', 20, 'change_batches'),
+(79, 'Can delete batches', 20, 'delete_batches'),
+(80, 'Can view batches', 20, 'view_batches'),
+(81, 'Can add time slots', 21, 'add_timeslots'),
+(82, 'Can change time slots', 21, 'change_timeslots'),
+(83, 'Can delete time slots', 21, 'delete_timeslots'),
+(84, 'Can view time slots', 21, 'view_timeslots'),
+(85, 'Can add student id', 22, 'add_studentid'),
+(86, 'Can change student id', 22, 'change_studentid'),
+(87, 'Can delete student id', 22, 'delete_studentid'),
+(88, 'Can view student id', 22, 'view_studentid'),
+(89, 'Can add registeration form', 23, 'add_registerationform'),
+(90, 'Can change registeration form', 23, 'change_registerationform'),
+(91, 'Can delete registeration form', 23, 'delete_registerationform'),
+(92, 'Can view registeration form', 23, 'view_registerationform');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `batches`
+--
+
+DROP TABLE IF EXISTS `batches`;
+CREATE TABLE IF NOT EXISTS `batches` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `start_time` time(6) NOT NULL,
+  `end_time` time(6) NOT NULL,
+  `duration` date NOT NULL,
+  `is_expired` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -191,14 +230,14 @@ CREATE TABLE IF NOT EXISTS `carousel_images` (
   `carousel_redirect_link` longtext NOT NULL,
   `is_mobile` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `carousel_images`
 --
 
 INSERT INTO `carousel_images` (`id`, `carousel_image`, `carousel_title`, `carousel_description`, `carousel_redirect_link`, `is_mobile`) VALUES
-(1, 'carousel_images/web_development_banner_Mesa_de_trabajo_1.png', 'web', 'None', '#', 0),
+(1, 'carousel_images/web_development_banner_Mesa_de_trabajo_1.png', 'web dev', 'None', '<p>#</p>', 0),
 (2, 'carousel_images/Graphic_Design_Training_Banner-01-01.png', 'Graphic', 'None', '#', 0),
 (4, 'carousel_images/3D_Artist_Banner_Mesa_de_trabajo_1_Mesa_de_trabajo_1.png', '3D', '', '#', 0),
 (5, 'carousel_images/web_development_banner_mobile-02.png', 'Mobile Banner', 'None', '#', 1);
@@ -320,34 +359,43 @@ DROP TABLE IF EXISTS `courses`;
 CREATE TABLE IF NOT EXISTS `courses` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `course_name` varchar(300) NOT NULL,
-  `course_description` longtext NOT NULL,
   `course_short_description` varchar(350) NOT NULL,
   `course_image` varchar(100) NOT NULL,
   `course_syllabus` varchar(100) NOT NULL,
   `is_published` tinyint(1) NOT NULL,
   `slug` varchar(50) NOT NULL,
   `tags` longtext NOT NULL,
+  `benefits` longtext NOT NULL,
+  `curriculum` longtext NOT NULL,
+  `details` longtext NOT NULL,
+  `featured_image` varchar(100) NOT NULL,
+  `overview` longtext NOT NULL,
+  `summary` varchar(200) NOT NULL,
+  `is_featured` tinyint(1) NOT NULL,
+  `is_new` tinyint(1) NOT NULL,
+  `duration` int(11) NOT NULL,
+  `number_of_projects` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `course_name` (`course_name`),
   UNIQUE KEY `Courses_slug_50cd5cd5_uniq` (`slug`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `course_name`, `course_description`, `course_short_description`, `course_image`, `course_syllabus`, `is_published`, `slug`, `tags`) VALUES
-(1, 'Python', '<p>In this comprehensive Python Programming Course, we will take you from the fundamentals of coding to more advanced concepts, providing you with a strong foundation to build upon. Whether you are an absolute beginner with no prior coding experience or an intermediate learner seeking to enhance your skills, this course will meet you at your current level and guide you towards proficiency.</p>\r\n<p><strong>What You\'ll Learn:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Python Basics:</strong> We\'ll start from scratch, introducing you to the basic syntax, data types, and control structures of Python. You\'ll gain a solid understanding of how to write and run Python programs.</p>\r\n</li>\r\n<li>\r\n<p><strong>Data Manipulation:</strong> Learn to work with variables, lists, dictionaries, and other data structures to store and manipulate information efficiently.</p>\r\n</li>\r\n<li>\r\n<p><strong>Functions and Modules:</strong> Explore the world of functions and modules to organize your code and make it more reusable and maintainable.</p>\r\n</li>\r\n<li>\r\n<p><strong>Object-Oriented Programming (OOP):</strong> Delve into the principles of OOP, a crucial paradigm in modern programming, and discover how to create and utilize classes and objects.</p>\r\n</li>\r\n<li>\r\n<p><strong>File Handling:</strong> Learn to read from and write to files, enabling you to work with external data seamlessly.</p>\r\n</li>\r\n<li>\r\n<p><strong>Error Handling:</strong> Discover how to handle errors gracefully in your code, ensuring a smooth execution and better user experience.</p>\r\n</li>\r\n<li>\r\n<p><strong>Intermediate Concepts:</strong> Dive into more advanced topics such as working with APIs, web scraping, and data visualization using libraries like NumPy and Matplotlib.</p>\r\n</li>\r\n<li>\r\n<p><strong>Project Development:</strong> Apply your newly acquired knowledge to real-world projects, solidifying your skills and boosting your confidence as a Python programmer.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Why Choose Our Python Course:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Beginner-Friendly:</strong> No prior coding experience? No problem! Our course is crafted with beginners in mind, providing a gentle and supportive learning environment.</p>\r\n</li>\r\n<li>\r\n<p><strong>Experienced Instructors:</strong> Learn from industry-experienced instructors who are passionate about Python and committed to your success.</p>\r\n</li>\r\n<li>\r\n<p><strong>Practical Hands-On Learning:</strong> We emphasize hands-on practice and project-based learning to ensure you can apply your knowledge effectively.</p>\r\n</li>\r\n<li>\r\n<p><strong>Flexibility:</strong> Choose from flexible class schedules that fit your busy lifestyle, enabling you to learn at your own pace.</p>\r\n</li>\r\n<li>\r\n<p><strong>Career Opportunities:</strong> Python is in high demand across various industries, making this course an excellent stepping stone towards rewarding career opportunities.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Get Started Today:</strong></p>\r\n<p>Unleash your coding potential with our Python Programming Course! Whether you aspire to be a software developer, data analyst, or simply want to enhance your problem-solving abilities, Python is the perfect language to begin your journey. Join us now and embark on an enriching learning experience that will shape your future in the world of technology.</p>', 'Are you eager to embark on your coding journey and learn one of the most versatile and beginner-friendly programming languages? Join our Python Programming Essentials course and dive into the exciting world of Python.', 'thumbnails/Python-logo-notext.svg.png', 'course_syllabus/pyrthon-language-syllabus.pdf', 1, 'python-course', 'python, language'),
-(2, 'Django', '<p>Our Django Web Development course is designed for aspiring developers who want to create modern web applications with ease. Django, a high-level Python web framework, enables rapid development while following the \"Don\'t Repeat Yourself\" (DRY) principle.</p>\r\n<p><strong>What You\'ll Learn:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Introduction to Django:</strong> Familiarize yourself with the fundamentals of Django, its architecture, and how it simplifies web development.</p>\r\n</li>\r\n<li>\r\n<p><strong>Creating Models:</strong> Learn to design database models and work with Django\'s Object-Relational Mapping (ORM) to interact with the database.</p>\r\n</li>\r\n<li>\r\n<p><strong>Views and Templates:</strong> Explore views, the logic behind web pages, and leverage templates to render dynamic content.</p>\r\n</li>\r\n<li>\r\n<p><strong>URL Routing:</strong> Understand URL configuration and mapping, ensuring smooth navigation within your Django applications.</p>\r\n</li>\r\n<li>\r\n<p><strong>Forms and Validation:</strong> Master form handling and validation to create user-friendly and secure data input mechanisms.</p>\r\n</li>\r\n<li>\r\n<p><strong>User Authentication and Authorization:</strong> Implement user registration, login, and permissions to secure your web applications.</p>\r\n</li>\r\n<li>\r\n<p><strong>Handling Media and Static Files:</strong> Manage media uploads and static files to deliver a seamless user experience.</p>\r\n</li>\r\n<li>\r\n<p><strong>Django REST Framework (DRF):</strong> Discover how to create RESTful APIs to enable interaction with your applications programmatically.</p>\r\n</li>\r\n<li>\r\n<p><strong>Deployment and Hosting:</strong> Learn the best practices for deploying Django applications to production servers and hosting platforms.</p>\r\n</li>\r\n<li>\r\n<p><strong>Project Development:</strong> Work on practical projects that simulate real-world scenarios, putting your Django skills into action.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Why Choose Our Django Web Development Course:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Comprehensive Learning:</strong> Our course covers all aspects of Django development, empowering you to create end-to-end web applications.</p>\r\n</li>\r\n<li>\r\n<p><strong>Experienced Instructors:</strong> Learn from seasoned Django developers who are passionate about sharing their expertise and industry insights.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hands-On Projects:</strong> Dive into hands-on projects that allow you to apply your knowledge and build a remarkable portfolio.</p>\r\n</li>\r\n<li>\r\n<p><strong>Community Support:</strong> Join a community of Django enthusiasts, collaborate, and grow together.</p>\r\n</li>\r\n<li>\r\n<p><strong>Career Opportunities:</strong> Django\'s versatility and popularity make it a sought-after skill, opening doors to exciting job opportunities.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Enroll Now:</strong><span> Take the first step towards becoming a skilled Django web developer. Join our Django Web Development course and unleash your creativity in building powerful web applications that make an impact in the digital world.</span></p>', 'Are you ready to take your Python skills to the next level and venture into the realm of web development? Join our Django Web Development course and discover the power of building dynamic and robust web applications using the Django framework.', 'thumbnails/django_TOaBRrs.png', 'course_syllabus/django-syllabus.pdf', 1, 'django', 'language, django'),
-(3, 'Javascript', '<p>Our JavaScript Masterclass is designed to cater to individuals with a basic understanding of HTML and CSS who want to take their web development skills to the next level. JavaScript is a versatile and essential programming language that empowers developers to add interactivity and dynamism to websites.</p>\r\n<p><strong>What You\'ll Learn:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>JavaScript Basics:</strong> Get started with the fundamentals of JavaScript, including variables, data types, operators, and control structures.</p>\r\n</li>\r\n<li>\r\n<p><strong>DOM Manipulation:</strong> Master the Document Object Model (DOM) and learn how to interact with web page elements dynamically.</p>\r\n</li>\r\n<li>\r\n<p><strong>Event Handling:</strong> Discover how to respond to user interactions and create interactive web experiences using event listeners.</p>\r\n</li>\r\n<li>\r\n<p><strong>Functions and Scope:</strong> Understand the importance of functions and scoping in JavaScript for writing modular and efficient code.</p>\r\n</li>\r\n<li>\r\n<p><strong>Arrays and Objects:</strong> Explore JavaScript\'s powerful data structures to store and manipulate data effectively.</p>\r\n</li>\r\n<li>\r\n<p><strong>Asynchronous JavaScript:</strong> Dive into asynchronous programming with callbacks, promises, and async/await to handle non-blocking operations.</p>\r\n</li>\r\n<li>\r\n<p><strong>AJAX and API Interaction:</strong> Learn how to fetch data from external APIs and update your web pages dynamically.</p>\r\n</li>\r\n<li>\r\n<p><strong>ES6 and Modern JavaScript:</strong> Embrace the latest features of ES6, including arrow functions, classes, and modules, to write more elegant code.</p>\r\n</li>\r\n<li>\r\n<p><strong>Web Application Development:</strong> Combine HTML, CSS, and JavaScript to build interactive web applications.</p>\r\n</li>\r\n<li>\r\n<p><strong>Project-Based Learning:</strong> Apply your JavaScript knowledge to real-world projects, solidifying your skills and boosting your confidence.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Why Choose Our JavaScript Masterclass:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Intermediate Level Course:</strong> Ideal for learners with a basic understanding of front-end web development, this course will take you deeper into the world of JavaScript.</p>\r\n</li>\r\n<li>\r\n<p><strong>Experienced Instructors:</strong> Learn from skilled web developers who are passionate about empowering others with JavaScript expertise.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hands-On Practice:</strong> We emphasize hands-on coding exercises and projects, allowing you to gain practical experience.</p>\r\n</li>\r\n<li>\r\n<p><strong>Web Development Advancements:</strong> JavaScript is at the forefront of web development, and mastering it will keep you relevant in the industry.</p>\r\n</li>\r\n<li>\r\n<p><strong>Career Growth:</strong> JavaScript developers are in high demand, offering a wide range of career opportunities.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Enroll Now:</strong><span> Elevate your web development skills with our JavaScript Masterclass. Join us and embark on a journey of creating captivating web experiences that delight users and leave a lasting impression.</span></p>', 'Are you ready to breathe life into your web pages and create engaging user experiences? Join our JavaScript Masterclass and discover the fascinating world of front-end web development.', 'thumbnails/js_0y7s07M.png', 'course_syllabus/JAVASCRIPT_SYLLABUS.pdf', 1, 'javascript', 'Language, script, client-side scripting, JS'),
-(4, 'React JS', '<p>Our React.js Essentials course is designed for developers who want to harness the potential of React.js, a popular JavaScript library maintained by Facebook. React.js allows you to create reusable and efficient components that enable seamless updates and user interactions.</p>\r\n<p><strong>What You\'ll Learn:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Introduction to React.js:</strong> Get acquainted with the core concepts of React.js and its component-based architecture.</p>\r\n</li>\r\n<li>\r\n<p><strong>JSX and Virtual DOM:</strong> Discover JSX, a syntax extension for JavaScript, and learn how React efficiently updates the Virtual DOM.</p>\r\n</li>\r\n<li>\r\n<p><strong>Components and Props:</strong> Master the art of building reusable and composable React components, passing data using props.</p>\r\n</li>\r\n<li>\r\n<p><strong>State and Lifecycle Methods:</strong> Understand React component state and lifecycle methods to manage dynamic data and UI updates.</p>\r\n</li>\r\n<li>\r\n<p><strong>Handling Events:</strong> Learn to handle user interactions and events, making your React applications interactive.</p>\r\n</li>\r\n<li>\r\n<p><strong>React Hooks:</strong> Embrace the power of React Hooks to add state and lifecycle capabilities to functional components.</p>\r\n</li>\r\n<li>\r\n<p><strong>Forms and Form Handling:</strong> Explore techniques to manage form data and handle form submissions in React.</p>\r\n</li>\r\n<li>\r\n<p><strong>React Router:</strong> Implement client-side routing with React Router to create single-page applications (SPAs).</p>\r\n</li>\r\n<li>\r\n<p><strong>Styling in React:</strong> Discover different approaches to styling React components, including CSS modules and styled-components.</p>\r\n</li>\r\n<li>\r\n<p><strong>React Context and Redux (Optional):</strong> Delve into advanced state management using React Context API or Redux.</p>\r\n</li>\r\n<li>\r\n<p><strong>Project Development:</strong> Apply your React.js knowledge to real-world projects, building interactive web applications.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Why Choose Our React.js Essentials Course:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Cutting-Edge Web Development:</strong> React.js is at the forefront of modern web development, and our course equips you with essential skills in this dynamic field.</p>\r\n</li>\r\n<li>\r\n<p><strong>Experienced Instructors:</strong> Learn from experienced web developers who are passionate about React.js and its real-world applications.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hands-On Projects:</strong> Engage in hands-on coding projects that allow you to put your knowledge into practice.</p>\r\n</li>\r\n<li>\r\n<p><strong>React Community Support:</strong> Join a vibrant community of React enthusiasts, collaborate, and share knowledge.</p>\r\n</li>\r\n<li>\r\n<p><strong>Career Opportunities:</strong> Mastering React.js opens doors to exciting career opportunities in the front-end development domain.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Enroll Now:</strong><span> Elevate your front-end web development skills with our React.js Essentials course. Join us and discover the thrill of building cutting-edge user interfaces that captivate users and elevate web experiences.</span></p>', 'Are you ready to dive into the world of modern front-end web development? Join our React.js Essentials course and unlock the power of building dynamic and interactive user interfaces.', 'thumbnails/react-logo-1000-transparent_PcHxNZX.png', 'course_syllabus/react-js-syllabus.pdf', 1, 'react-js', ''),
-(5, 'C', '<p>Our C Programming Fundamentals course is designed for individuals with little to no prior coding experience. C is a powerful and versatile programming language that lays the groundwork for various software applications, from operating systems to embedded systems.</p>\r\n<p><strong>What You\'ll Learn:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Introduction to C:</strong> Get started with the basics of C programming, including data types, variables, and operators.</p>\r\n</li>\r\n<li>\r\n<p><strong>Control Structures:</strong> Learn how to control the flow of a program using loops, conditional statements, and branching.</p>\r\n</li>\r\n<li>\r\n<p><strong>Functions:</strong> Understand the significance of functions in C, breaking down code into manageable and reusable modules.</p>\r\n</li>\r\n<li>\r\n<p><strong>Arrays and Pointers:</strong> Explore arrays and pointers, essential concepts for memory management and efficient data manipulation.</p>\r\n</li>\r\n<li>\r\n<p><strong>Strings and Character Handling:</strong> Work with strings and learn how to handle characters effectively in C.</p>\r\n</li>\r\n<li>\r\n<p><strong>File I/O:</strong> Discover file input and output operations, enabling data storage and retrieval from external files.</p>\r\n</li>\r\n<li>\r\n<p><strong>Memory Management:</strong> Gain insight into memory allocation and deallocation to optimize resource usage.</p>\r\n</li>\r\n<li>\r\n<p><strong>Structures and Unions:</strong> Learn how to create user-defined data types with structures and unions.</p>\r\n</li>\r\n<li>\r\n<p><strong>Error Handling:</strong> Explore error handling techniques, ensuring smooth execution of your C programs.</p>\r\n</li>\r\n<li>\r\n<p><strong>Project Development:</strong> Apply your C programming knowledge to practical projects, solidifying your understanding.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Why Choose Our C Programming Fundamentals Course:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Beginner-Friendly:</strong> Our course is designed for beginners, making it the perfect entry point into the world of programming.</p>\r\n</li>\r\n<li>\r\n<p><strong>Experienced Instructors:</strong> Learn from experienced programmers who are passionate about sharing their knowledge and expertise.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hands-On Learning:</strong> We emphasize hands-on practice and coding exercises, allowing you to gain confidence in C programming.</p>\r\n</li>\r\n<li>\r\n<p><strong>Foundation for Software Development:</strong> C is the foundation for many programming languages, giving you a strong base to explore other languages.</p>\r\n</li>\r\n<li>\r\n<p><strong>Career Opportunities:</strong> Mastering C programming can lead to rewarding career opportunities in various domains, including software development and embedded systems.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Enroll Now:</strong><span> Begin your journey into the world of programming with our C Programming Fundamentals course. Join us and unlock the potential to create powerful and efficient software applications.</span></p>', 'Are you eager to step into the world of programming and software development? Join our C Programming Fundamentals course and discover the foundational language that has shaped the modern computing landscape.', 'thumbnails/c_wkd1I9B.png', 'course_syllabus/c_basic_syllabus.pdf', 0, 'c', ''),
-(6, 'C++', '<p>Our C++ Programming Essentials course is designed for individuals with some programming background who want to explore the world of object-oriented programming and gain a deeper understanding of C++.</p>\r\n<p><strong>What You\'ll Learn:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Introduction to C++:</strong> Get acquainted with the basics of C++ programming, including data types, variables, and control structures.</p>\r\n</li>\r\n<li>\r\n<p><strong>Object-Oriented Programming (OOP):</strong> Dive into the principles of OOP, such as classes, objects, inheritance, polymorphism, and encapsulation.</p>\r\n</li>\r\n<li>\r\n<p><strong>C++ Functions and Libraries:</strong> Understand functions in C++ and leverage pre-built libraries to enhance your programs.</p>\r\n</li>\r\n<li>\r\n<p><strong>Pointers and Memory Management:</strong> Explore pointers and dynamic memory allocation, essential for efficient memory usage.</p>\r\n</li>\r\n<li>\r\n<p><strong>C++ Standard Template Library (STL):</strong> Learn how to use the powerful STL to simplify data structures and algorithms.</p>\r\n</li>\r\n<li>\r\n<p><strong>File Handling:</strong> Discover file input and output operations in C++, enabling data storage and retrieval from external files.</p>\r\n</li>\r\n<li>\r\n<p><strong>Exception Handling:</strong> Master the art of handling errors and exceptions gracefully in your C++ programs.</p>\r\n</li>\r\n<li>\r\n<p><strong>Templates and Generic Programming:</strong> Understand templates and create generic functions and classes for reusable code.</p>\r\n</li>\r\n<li>\r\n<p><strong>STL Containers and Algorithms:</strong> Dive deeper into the STL and explore various containers and algorithms it offers.</p>\r\n</li>\r\n<li>\r\n<p><strong>Project Development:</strong> Apply your C++ programming knowledge to real-world projects, solidifying your understanding.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Why Choose Our C++ Programming Essentials Course:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Intermediate Level Course:</strong> Ideal for learners with basic programming knowledge, our course takes you deeper into C++ and object-oriented concepts.</p>\r\n</li>\r\n<li>\r\n<p><strong>Experienced Instructors:</strong> Learn from experienced C++ developers who are passionate about sharing their knowledge and insights.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hands-On Practice:</strong> We prioritize hands-on coding exercises and projects to ensure you gain practical experience.</p>\r\n</li>\r\n<li>\r\n<p><strong>Versatile and Efficient Language:</strong> C++ is widely used in various domains, including system programming, game development, and high-performance applications.</p>\r\n</li>\r\n<li>\r\n<p><strong>Career Opportunities:</strong> Mastering C++ can lead to exciting career opportunities in software development and tech-related industries.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Enroll Now:</strong><span> Elevate your programming skills with our C++ Programming Essentials course. Join us and unlock the potential to build efficient and powerful software applications using the principles of object-oriented programming.</span></p>', 'Are you ready to take your programming skills to the next level? Join our C++ Programming Essentials course and discover the versatility and efficiency of one of the most popular and widely used programming languages.', 'thumbnails/C-Logo.wine_4U3rIDD.png', 'course_syllabus/c_basic_syllabus_HCPxs1T.pdf', 1, 'c-plus-plus', ''),
-(7, 'JAVA', '<p>Our Java Programming Masterclass is designed for individuals with a basic understanding of programming concepts who want to delve into the world of Java, one of the most popular and versatile programming languages.</p>\r\n<p><strong>What You\'ll Learn:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Introduction to Java:</strong> Get acquainted with the fundamentals of Java, including variables, data types, and control structures.</p>\r\n</li>\r\n<li>\r\n<p><strong>Object-Oriented Programming (OOP):</strong> Dive into the principles of OOP, such as classes, objects, inheritance, polymorphism, and encapsulation.</p>\r\n</li>\r\n<li>\r\n<p><strong>Java Standard Library (Java API):</strong> Explore the rich collection of pre-built classes and methods available in the Java API.</p>\r\n</li>\r\n<li>\r\n<p><strong>Exception Handling:</strong> Learn how to handle errors and exceptions gracefully in your Java programs.</p>\r\n</li>\r\n<li>\r\n<p><strong>File I/O:</strong> Discover file input and output operations in Java, enabling data storage and retrieval from external files.</p>\r\n</li>\r\n<li>\r\n<p><strong>Collections Framework:</strong> Master the collections framework to manage and manipulate groups of objects efficiently.</p>\r\n</li>\r\n<li>\r\n<p><strong>Java GUI (Swing and JavaFX):</strong> Create interactive graphical user interfaces using Swing and JavaFX libraries.</p>\r\n</li>\r\n<li>\r\n<p><strong>Multithreading and Concurrency:</strong> Implement multithreading for improved performance and concurrent execution.</p>\r\n</li>\r\n<li>\r\n<p><strong>Database Connectivity (JDBC):</strong> Integrate Java applications with databases using JDBC, enabling seamless data management.</p>\r\n</li>\r\n<li>\r\n<p><strong>Web Development with Java (Optional):</strong> Explore Java web development using frameworks like Spring and Servlets.</p>\r\n</li>\r\n<li>\r\n<p><strong>Project Development:</strong> Apply your Java programming knowledge to practical projects, solidifying your understanding.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Why Choose Our Java Programming Masterclass:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Intermediate Level Course:</strong> Ideal for learners with basic programming knowledge, this course takes you deeper into Java and OOP concepts.</p>\r\n</li>\r\n<li>\r\n<p><strong>Experienced Instructors:</strong> Learn from experienced Java developers who are passionate about sharing their knowledge and expertise.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hands-On Projects:</strong> Engage in hands-on coding projects to apply your learning effectively.</p>\r\n</li>\r\n<li>\r\n<p><strong>Versatile Language:</strong> Java\'s versatility makes it suitable for various domains, from software development to mobile app creation.</p>\r\n</li>\r\n<li>\r\n<p><strong>Career Growth:</strong> Java developers are in high demand, offering diverse and rewarding career opportunities.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Enroll Now:</strong><span> Elevate your programming skills with our Java Programming course. Join us and embark on a journey of creating powerful applications that make an impact in the digital world.</span></p>', 'Are you ready to become a proficient Java developer and unlock endless possibilities in software development? Join our Java Programming Masterclass and embark on a journey of creating versatile and scalable applications.', 'thumbnails/java_p4Gf9rQ.png', 'course_syllabus/Java_syllabus.pdf', 1, 'java', ''),
-(8, 'MySQL', '<p>Our MySQL Database Fundamentals course is designed for individuals with little to no prior experience in databases. MySQL is a powerful and reliable database system that enables efficient data storage, retrieval, and manipulation.</p>\r\n<p><strong>What You\'ll Learn:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Introduction to Databases:</strong> Understand the significance of databases in modern applications and the relational database model.</p>\r\n</li>\r\n<li>\r\n<p><strong>MySQL Installation and Setup:</strong> Learn how to install and configure MySQL on your system for local development.</p>\r\n</li>\r\n<li>\r\n<p><strong>SQL Basics:</strong> Explore the fundamentals of SQL (Structured Query Language), the language used to interact with MySQL databases.</p>\r\n</li>\r\n<li>\r\n<p><strong>Creating and Managing Databases and Tables:</strong> Master the art of creating databases and tables to organize and store your data efficiently.</p>\r\n</li>\r\n<li>\r\n<p><strong>Data Insertion and Retrieval:</strong> Discover how to insert data into MySQL tables and retrieve information using various SQL queries.</p>\r\n</li>\r\n<li>\r\n<p><strong>Data Updating and Deletion:</strong> Learn to update and delete data in MySQL tables to maintain accurate and up-to-date records.</p>\r\n</li>\r\n<li>\r\n<p><strong>Data Constraints and Indexes:</strong> Implement data constraints and indexes to ensure data integrity and optimize query performance.</p>\r\n</li>\r\n<li>\r\n<p><strong>Joins and Relationships:</strong> Understand how to establish relationships between tables and perform powerful joins to fetch related data.</p>\r\n</li>\r\n<li>\r\n<p><strong>Aggregation and Grouping:</strong> Explore advanced SQL concepts, including aggregation functions and grouping of data.</p>\r\n</li>\r\n<li>\r\n<p><strong>Database Backup and Restoration:</strong> Learn how to create database backups and restore them in case of data loss.</p>\r\n</li>\r\n<li>\r\n<p><strong>Project Development:</strong> Apply your MySQL knowledge to practical projects, solidifying your understanding of database management.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Why Choose Our MySQL Database Fundamentals Course:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Beginner-Friendly:</strong> Our course is designed for beginners, making it the perfect starting point for understanding databases and SQL.</p>\r\n</li>\r\n<li>\r\n<p><strong>Experienced Instructors:</strong> Learn from experienced database administrators who are passionate about sharing their knowledge.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hands-On Learning:</strong> We prioritize hands-on practice and interactive exercises, allowing you to gain practical experience.</p>\r\n</li>\r\n<li>\r\n<p><strong>Widely Used Database System:</strong> MySQL is extensively used in web development and various applications, making it a valuable skill in the tech industry.</p>\r\n</li>\r\n<li>\r\n<p><strong>Career Opportunities:</strong> Mastering MySQL opens doors to exciting career opportunities in database administration and data analysis.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Enroll Now:</strong><span> Begin your journey into the world of databases with our MySQL Database Fundamentals course. Join us and unlock the potential to manage and query data effectively.</span></p>', 'Are you eager to dive into the world of databases and data management? Join our MySQL Database Fundamentals course and unlock the power of one of the most popular and widely used relational database management systems.', 'thumbnails/MySQL_logo_logotype_mWbiAYm.png', 'course_syllabus/MySQL_syllabus.pdf', 1, 'mysql', ''),
-(9, 'Computer Basic', '<p>Our Computer Basics course is designed for individuals with little to no prior experience with computers. We aim to demystify technology and equip you with essential skills to navigate computers, operating systems, and common software applications.</p>\r\n<p><strong>What You\'ll Learn:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Introduction to Computers:</strong> Understand the components and functions of a computer system, including hardware and software.</p>\r\n</li>\r\n<li>\r\n<p><strong>Operating Systems:</strong> Learn about different operating systems and get familiar with essential tasks like file management.</p>\r\n</li>\r\n<li>\r\n<p><strong>Internet and Web Browsing:</strong> Navigate the internet with ease, mastering web browsers and conducting online searches.</p>\r\n</li>\r\n<li>\r\n<p><strong>Email and Communication:</strong> Set up and manage email accounts, and explore effective communication through email.</p>\r\n</li>\r\n<li>\r\n<p><strong>Word Processing:</strong> Discover word processing software and learn to create and edit documents professionally.</p>\r\n</li>\r\n<li>\r\n<p><strong>Spreadsheets:</strong> Get introduced to spreadsheets and learn how to use them for data organization and analysis.</p>\r\n</li>\r\n<li>\r\n<p><strong>Presentations:</strong> Create visually appealing and impactful presentations using presentation software.</p>\r\n</li>\r\n<li>\r\n<p><strong>Computer Security and Privacy:</strong> Understand essential practices for ensuring computer security and safeguarding personal information.</p>\r\n</li>\r\n<li>\r\n<p><strong>Troubleshooting and Maintenance:</strong> Learn basic troubleshooting techniques and how to maintain a healthy computer system.</p>\r\n</li>\r\n<li>\r\n<p><strong>Digital Citizenship:</strong> Explore responsible and ethical practices for digital interaction and online presence.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Why Choose Our Computer Basics Course:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Beginner-Friendly:</strong> Our course is tailored for beginners, providing a friendly and supportive learning environment.</p>\r\n</li>\r\n<li>\r\n<p><strong>Patient Instructors:</strong> Learn from patient and knowledgeable instructors who guide you through every step of your learning journey.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hands-On Practice:</strong> We prioritize hands-on exercises and interactive sessions to build your confidence with computer skills.</p>\r\n</li>\r\n<li>\r\n<p><strong>Versatile Knowledge:</strong> Computer basics are fundamental in both personal and professional life, making this course highly practical.</p>\r\n</li>\r\n<li>\r\n<p><strong>Empowerment through Technology:</strong> Mastering computer basics empowers you to embrace technology with ease and opens doors to new opportunities.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Enroll Now:</strong><span> Take your first step into the digital world with our Computer Basics course. Join us and become proficient in essential computer skills, setting yourself on the path to technological success.</span></p>', 'Are you new to the world of computers or seeking to enhance your foundational knowledge? Join our Computer Basics course and embark on a journey to become proficient in navigating the digital landscape with confidence.', 'thumbnails/computer_AFAbkJw.jpg', 'course_syllabus/computer_basic_course_syllabus.pdf', 1, 'computer-basic', ''),
-(10, 'HTML & CSS', '<p>In this beginner-friendly course, we\'ll introduce you to the essential concepts of HTML and CSS. From structuring web content with HTML to styling and layout with CSS, you\'ll gain the foundational knowledge to create stunning web pages from scratch.</p>\r\n<p><strong>What You\'ll Learn:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>HTML Essentials:</strong> Learn the structure and semantics of HTML elements, creating headings, paragraphs, lists, images, and hyperlinks to connect web pages.</p>\r\n</li>\r\n<li>\r\n<p><strong>CSS Styling:</strong> Dive into the world of CSS and explore how to apply colors, fonts, borders, and backgrounds to breathe life into your web pages.</p>\r\n</li>\r\n<li>\r\n<p><strong>Layout and Flexbox:</strong> Master the art of layout design using CSS, and leverage the power of Flexbox to build responsive and flexible web layouts.</p>\r\n</li>\r\n<li>\r\n<p><strong>Responsive Web Design:</strong> Discover techniques to make your websites adapt gracefully to various screen sizes and devices.</p>\r\n</li>\r\n<li>\r\n<p><strong>CSS Transitions and Animations:</strong> Add interactivity to your web pages with CSS transitions and animations, enhancing the user experience.</p>\r\n</li>\r\n<li>\r\n<p><strong>Web Accessibility:</strong> Understand the importance of web accessibility and how to create inclusive websites for all users.</p>\r\n</li>\r\n<li>\r\n<p><strong>Project-based Learning:</strong> Work on hands-on projects that challenge you to apply your knowledge and creativity to real-world scenarios.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Why Choose Our HTML and CSS Course:</strong></p>\r\n<ol>\r\n<li>\r\n<p><strong>Beginner-Friendly:</strong> No prior web design experience required. Our course welcomes individuals from all backgrounds who are eager to learn.</p>\r\n</li>\r\n<li>\r\n<p><strong>Experienced Instructors:</strong> Learn from experienced web developers who will guide you through every step of your learning journey.</p>\r\n</li>\r\n<li>\r\n<p><strong>Hands-On Practice:</strong> We prioritize hands-on practice and interactive exercises, ensuring you build a robust skillset.</p>\r\n</li>\r\n<li>\r\n<p><strong>Portfolio Building:</strong> Showcase your projects and accomplishments in a portfolio that can impress potential employers or clients.</p>\r\n</li>\r\n<li>\r\n<p><strong>Career Opportunities:</strong> Web design is a sought-after skill in today\'s digital world, opening doors to various creative and technical job opportunities.</p>\r\n</li>\r\n</ol>\r\n<p><strong>Enroll Now:</strong><span> Start creating captivating web experiences with our HTML and CSS Fundamentals course. Unlock the art of web design and see your ideas come to life on the digital canvas.</span></p>', 'Are you fascinated by the art of web design? Join our HTML and CSS Fundamentals course to explore the building blocks of the web and unleash your creativity in crafting visually appealing and interactive websites.', 'thumbnails/html_EzI246K.png', 'course_syllabus/html_css_js_syllabus.pdf', 1, 'html-and-css', ''),
-(11, 'Graphic Designing', '<p>Unlock your creative potential and become a master graphic designer with our comprehensive course in Adobe Illustrator, Adobe Photoshop, and Autodesk Maya. Whether you\'re a beginner looking to dive into the world of graphic design or an experienced designer aiming to enhance your skills, this course is tailored to meet your needs.</p>\r\n<p>Course Overview:</p>\r\n<ol>\r\n<li>\r\n<p><strong>Adobe Illustrator Fundamentals (Duration: 4 weeks)</strong></p>\r\n<p>In the Adobe Illustrator section, you will learn:</p>\r\n<ul>\r\n<li>The essentials of vector graphics and how to create stunning illustrations.</li>\r\n<li>Tools and techniques for precise drawing, typography, and logo design.</li>\r\n<li>How to leverage advanced features such as gradient mesh, pattern creation, and 3D effects.</li>\r\n<li>Practical projects to apply your knowledge and develop a strong foundation in vector design.</li>\r\n</ul>\r\n</li>\r\n<li>\r\n<p><strong>Adobe Photoshop Mastery (Duration: 6 weeks)</strong></p>\r\n<p>In the Adobe Photoshop segment, you will explore:</p>\r\n<ul>\r\n<li>Core principles of image editing, photo manipulation, and retouching.</li>\r\n<li>Advanced techniques like compositing, digital painting, and color correction.</li>\r\n<li>Creating compelling web graphics, social media visuals, and print-ready materials.</li>\r\n<li>Real-world projects that challenge your creativity and sharpen your Photoshop skills.</li>\r\n</ul>\r\n</li>\r\n<li>\r\n<p><strong>3D Design and Animation with Autodesk Maya (Duration: 8 weeks)</strong></p>\r\n<p>In the Autodesk Maya section, you will delve into:</p>\r\n<ul>\r\n<li>3D modeling, texturing, and lighting to bring your ideas to life.</li>\r\n<li>Animation principles, rigging characters, and creating dynamic scenes.</li>\r\n<li>Special effects and visual storytelling for game design, film, and more.</li>\r\n<li>Hands-on projects that showcase your 3D design and animation talents.</li>\r\n</ul>\r\n</li>\r\n</ol>\r\n<p>Course Highlights:</p>\r\n<ul>\r\n<li>Interactive, hands-on lessons with practical exercises to reinforce your learning.</li>\r\n<li>Expert guidance from experienced industry professionals.</li>\r\n<li>Personalized feedback and critiques to help you improve your work.</li>\r\n<li>Access to the latest software and tools for graphic design and 3D modeling.</li>\r\n<li>A certificate of completion to showcase your newfound skills to potential clients or employers.</li>\r\n</ul>\r\n<p>By the end of this course, you will have the knowledge and expertise to create stunning visual content, whether it\'s for branding, advertising, animation, or any other creative endeavor. Join us on this exciting journey to become a Graphic Design Master with Adobe Illustrator, Adobe Photoshop, and Autodesk Maya.</p>\r\n<p>Don\'t miss this opportunity to elevate your graphic design skills and open up new career possibilities. Enroll now and start your path to becoming a design virtuoso!</p>', 'Master Adobe Illustrator, Photoshop, and Autodesk Maya. Elevate your graphic design skills with expert guidance. Unlock creative potential and excel in design. Enroll today!', 'thumbnails/pngwing.com_3.png', 'course_syllabus/graphic_designing_syllabus.pdf', 1, 'graphic-designing', '');
+INSERT INTO `courses` (`id`, `course_name`, `course_short_description`, `course_image`, `course_syllabus`, `is_published`, `slug`, `tags`, `benefits`, `curriculum`, `details`, `featured_image`, `overview`, `summary`, `is_featured`, `is_new`, `duration`, `number_of_projects`) VALUES
+(1, 'Python Programming: A Complete Guide', 'Are you eager to embark on your coding journey and learn one of the most versatile and beginner-friendly programming languages? Join our Python Programming Essentials course and dive into the exciting world of Python.', 'thumbnails/python.jpg', 'course_syllabus/pyrthon-language-syllabus.pdf', 1, 'python-programming-a-complete-guide', 'python, language', '<ul>\r\n	<li><strong>Versatility:</strong> Python is a multi-purpose language, useful in web development, data analysis, AI, machine learning, automation, and more.</li>\r\n	<li><strong>Easy to Learn:</strong> Python&rsquo;s simple syntax and readability make it an excellent choice for beginners.</li>\r\n	<li><strong>Large Community Support:</strong> A vast community means plenty of resources, libraries, and frameworks to assist with almost any project.</li>\r\n	<li><strong>High Demand in the Job Market:</strong> Python is widely used in many industries, leading to strong job prospects for Python developers.</li>\r\n	<li><strong>Integration Capabilities:</strong> Python can easily integrate with other languages like C, C++, Java, and more, making it a flexible tool in a developer&rsquo;s toolkit.</li>\r\n	<li><strong>Extensive Libraries and Frameworks:</strong> Python offers libraries like NumPy, Pandas, TensorFlow, and Django, which speed up development and reduce the need for writing code from scratch.</li>\r\n	<li><strong>Support for Automation:</strong> Python is great for automating repetitive tasks, such as web scraping, data entry, and batch file processing.</li>\r\n	<li><strong>Platform Independence: </strong>Python runs on various operating systems, including Windows, macOS, Linux, and others, allowing for cross-platform development.</li>\r\n	<li><strong>Strong Community and Corporate Support:</strong> Major tech companies like Google, Facebook, and Instagram use Python, ensuring ongoing development and stability.</li>\r\n	<li><strong>Open Source and Free:</strong> Python is open-source, meaning it&rsquo;s free to use, distribute, and modify, making it accessible to everyone.</li>\r\n</ul>', '<ul>\r\n	<li>Module 1: Introduction to Python</li>\r\n	<li>Module 2: Numbers, Strings, and Conversions</li>\r\n	<li>Module 3: Dates and String Formatting</li>\r\n	<li>Module 4: Input</li>\r\n	<li>Module 5: Operators</li>\r\n	<li>Module 6: Conditional Statements</li>\r\n	<li>Module 7: Loops (while and for)</li>\r\n	<li>Module 8: Lists</li>\r\n	<li>Module 9: Sets and Tuples</li>\r\n	<li>Module 10: Dictionaries</li>\r\n	<li>Module 11: Functions</li>\r\n	<li>Module 12: Modules</li>\r\n	<li>Module 13: Exception Handling</li>\r\n	<li>Module 14: File Handling</li>\r\n	<li>Module 15: Course Review</li>\r\n	<li>Module 16: Final Projects and Assignments</li>\r\n</ul>', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p>', 'featured_images/bg_image.png', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p>', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.', 1, 0, 18, 2),
+(2, 'Django', 'Are you ready to take your Python skills to the next level and venture into the realm of web development? Join our Django Web Development course and discover the power of building dynamic and robust web applications using the Django framework.', 'thumbnails/django_TOaBRrs.png', 'course_syllabus/django-syllabus.pdf', 1, 'django', 'language, django, long term', '', '', '', '', '', '', 0, 1, 6, 1),
+(3, 'Javascript', 'Are you ready to breathe life into your web pages and create engaging user experiences? Join our JavaScript Masterclass and discover the fascinating world of front-end web development.', 'thumbnails/js_0y7s07M.png', 'course_syllabus/JAVASCRIPT_SYLLABUS.pdf', 1, 'javascript', 'Language, script, client-side scripting, JS', '', '', '', '', '', '', 0, 1, 6, 1),
+(4, 'React JS', 'Are you ready to dive into the world of modern front-end web development? Join our React.js Essentials course and unlock the power of building dynamic and interactive user interfaces.', 'thumbnails/reactjs.jpg', 'course_syllabus/react-js-syllabus.pdf', 1, 'react-js', '', '<ul>\r\n	<li><strong>ersatility:</strong>&nbsp;Python is a multi-purpose language, useful in web development, data analysis, AI, machine learning, automation, and more.</li>\r\n	<li><strong>Easy to Learn:</strong>&nbsp;Python&rsquo;s simple syntax and readability make it an excellent choice for beginners.</li>\r\n	<li><strong>Large Community Support:</strong>&nbsp;A vast community means plenty of resources, libraries, and frameworks to assist with almost any project.</li>\r\n	<li><strong>High Demand in the Job Market:</strong>&nbsp;Python is widely used in many industries, leading to strong job prospects for Python developers.</li>\r\n	<li><strong>Integration Capabilities:</strong>&nbsp;Python can easily integrate with other languages like C, C++, Java, and more, making it a flexible tool in a developer&rsquo;s toolkit.</li>\r\n	<li><strong>Extensive Libraries and Frameworks:</strong>&nbsp;Python offers libraries like NumPy, Pandas, TensorFlow, and Django, which speed up development and reduce the need for writing code from scratch.</li>\r\n	<li><strong>Support for Automation:</strong>&nbsp;Python is great for automating repetitive tasks, such as web scraping, data entry, and batch file processing.</li>\r\n	<li><strong>Platform Independence:&nbsp;</strong>Python runs on various operating systems, including Windows, macOS, Linux, and others, allowing for cross-platform development.</li>\r\n	<li><strong>Strong Community and Corporate Support:</strong>&nbsp;Major tech companies like Google, Facebook, and Instagram use Python, ensuring ongoing development and stability.</li>\r\n	<li><strong>Open Source and Free:</strong>&nbsp;Python is open-source, meaning it&rsquo;s free to use, distribute, and modify, making it accessible to everyone.</li>\r\n</ul>', '<ul>\r\n	<li>Module 1: Introduction to Python</li>\r\n	<li>Module 2: Numbers, Strings, and Conversions</li>\r\n	<li>Module 3: Dates and String Formatting</li>\r\n	<li>Module 4: Input</li>\r\n	<li>Module 5: Operators</li>\r\n	<li>Module 6: Conditional Statements</li>\r\n	<li>Module 7: Loops (while and for)</li>\r\n	<li>Module 8: Lists</li>\r\n	<li>Module 9: Sets and Tuples</li>\r\n	<li>Module 10: Dictionaries</li>\r\n	<li>Module 11: Functions</li>\r\n	<li>Module 12: Modules</li>\r\n	<li>Module 13: Exception Handling</li>\r\n	<li>Module 14: File Handling</li>\r\n	<li>Module 15: Course Review</li>\r\n	<li>Module 16: Final Projects and Assignments</li>\r\n</ul>', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p>', 'featured_images/reactjs.jpg', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc</p>', 'Are you eager to embark on your coding journey and learn one of the most versatile and beginner-friendly programming languages?', 1, 0, 6, 1),
+(5, 'C', 'Are you eager to step into the world of programming and software development? Join our C Programming Fundamentals course and discover the foundational language that has shaped the modern computing landscape.', 'thumbnails/c_wkd1I9B.png', 'course_syllabus/c_basic_syllabus.pdf', 0, 'c', '', '', '', '', '', '', '', 0, 1, 6, 1),
+(6, 'C++', 'Are you ready to take your programming skills to the next level? Join our C++ Programming Essentials course and discover the versatility and efficiency of one of the most popular and widely used programming languages.', 'thumbnails/C-Logo.wine_4U3rIDD.png', 'course_syllabus/c_basic_syllabus_HCPxs1T.pdf', 1, 'c-plus-plus', '', '', '', '', '', '', '', 0, 1, 6, 1),
+(7, 'JAVA', 'Are you ready to become a proficient Java developer and unlock endless possibilities in software development? Join our Java Programming Masterclass and embark on a journey of creating versatile and scalable applications.', 'thumbnails/java_p4Gf9rQ.png', 'course_syllabus/Java_syllabus.pdf', 1, 'java', '', '', '', '', '', '', '', 1, 1, 6, 1),
+(8, 'MySQL', 'Are you eager to dive into the world of databases and data management? Join our MySQL Database Fundamentals course and unlock the power of one of the most popular and widely used relational database management systems.', 'thumbnails/MySQL_logo_logotype_mWbiAYm.png', 'course_syllabus/MySQL_syllabus.pdf', 1, 'mysql', '', '', '', '', '', '', '', 0, 1, 6, 1),
+(9, 'Computer Basic', 'Are you new to the world of computers or seeking to enhance your foundational knowledge? Join our Computer Basics course and embark on a journey to become proficient in navigating the digital landscape with confidence.', 'thumbnails/computer_AFAbkJw.jpg', 'course_syllabus/computer_basic_course_syllabus.pdf', 1, 'computer-basic', '', '', '', '', '', '', '', 0, 1, 6, 1),
+(10, 'HTML & CSS', 'Are you fascinated by the art of web design? Join our HTML and CSS Fundamentals course to explore the building blocks of the web and unleash your creativity in crafting visually appealing and interactive websites.', 'thumbnails/html_EzI246K.png', 'course_syllabus/html_css_js_syllabus.pdf', 1, 'html-and-css', 'short_term, short term', '', '', '', '', '', '', 0, 1, 6, 1),
+(11, 'Graphic Designing', 'Master Adobe Illustrator, Photoshop, and Autodesk Maya. Elevate your graphic design skills with expert guidance. Unlock creative potential and excel in design. Enroll today!', 'thumbnails/pngwing.com_3.png', 'course_syllabus/graphic_designing_syllabus.pdf', 1, 'graphic-designing', '', '', '', '', '', '', '', 0, 1, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -364,14 +412,14 @@ CREATE TABLE IF NOT EXISTS `courses_category` (
   UNIQUE KEY `Courses_category_courses_id_coursecategories_id_75680f62_uniq` (`courses_id`,`coursecategories_id`),
   KEY `Courses_category_courses_id_48e630bf` (`courses_id`),
   KEY `Courses_category_coursecategories_id_e5f85e6e` (`coursecategories_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `courses_category`
 --
 
 INSERT INTO `courses_category` (`id`, `courses_id`, `coursecategories_id`) VALUES
-(7, 2, 2),
+(7, 2, 8),
 (9, 1, 2),
 (8, 1, 1),
 (10, 2, 1),
@@ -390,7 +438,8 @@ INSERT INTO `courses_category` (`id`, `courses_id`, `coursecategories_id`) VALUE
 (23, 10, 1),
 (24, 10, 2),
 (25, 10, 6),
-(26, 11, 4);
+(26, 11, 4),
+(28, 1, 7);
 
 -- --------------------------------------------------------
 
@@ -402,22 +451,50 @@ DROP TABLE IF EXISTS `course_categories`;
 CREATE TABLE IF NOT EXISTS `course_categories` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
+  `image` varchar(100) NOT NULL,
+  `is_featured` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `course_categories`
 --
 
-INSERT INTO `course_categories` (`id`, `name`) VALUES
-(1, 'Programming'),
-(2, 'Language'),
-(3, 'Database'),
-(4, 'Graphics'),
-(5, 'Beginner'),
-(6, 'Front End'),
-(7, 'Back End');
+INSERT INTO `course_categories` (`id`, `name`, `image`, `is_featured`) VALUES
+(1, 'Programming', 'category_thumbnails/default_image.jpg', 0),
+(2, 'Language', 'category_thumbnails/default_image.jpg', 0),
+(3, 'Database', 'category_thumbnails/database.webp', 1),
+(4, 'Graphics', 'category_thumbnails/graphics.jpg', 1),
+(5, 'Beginner', 'category_thumbnails/beginer.jpg', 1),
+(6, 'Front End', 'default_image.jpg', 0),
+(7, 'Back End', 'default_image.jpg', 0),
+(8, 'Web Development', 'category_thumbnails/web-development.jpg', 1),
+(9, '3D Artist', 'category_thumbnails/3D-image.jpeg', 1),
+(10, 'AR/VR', 'category_thumbnails/ar-vr.jpg', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `demo_class_registeration`
+--
+
+DROP TABLE IF EXISTS `demo_class_registeration`;
+CREATE TABLE IF NOT EXISTS `demo_class_registeration` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `contact_number` varchar(15) NOT NULL,
+  `time_slot_id` bigint(20) NOT NULL,
+  `course_id` bigint(20) NOT NULL,
+  `alternate_number` varchar(15) DEFAULT NULL,
+  `date_of_birth` date NOT NULL,
+  `gender` varchar(100) NOT NULL,
+  `date_slot` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `demo_class_registeration_course_id_d7cce3a0` (`course_id`),
+  KEY `demo_class_registeration_time_slot_id_007c460e` (`time_slot_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -453,7 +530,7 @@ CREATE TABLE IF NOT EXISTS `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `django_content_type`
@@ -477,7 +554,12 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (15, 'homepage', 'blogs'),
 (16, 'homepage', 'userotp'),
 (17, 'homepage', 'company'),
-(18, 'homepage', 'coursecategories');
+(18, 'homepage', 'coursecategories'),
+(19, 'homepage', 'democlassregistration'),
+(20, 'homepage', 'batches'),
+(21, 'homepage', 'timeslots'),
+(22, 'homepage', 'studentid'),
+(23, 'homepage', 'registerationform');
 
 -- --------------------------------------------------------
 
@@ -492,7 +574,7 @@ CREATE TABLE IF NOT EXISTS `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `django_migrations`
@@ -530,7 +612,23 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (29, 'homepage', '0011_carouselimages_carousel_redirect_link', '2024-07-26 10:16:18.306715'),
 (30, 'homepage', '0012_carouselimages_is_mobile', '2024-07-27 05:23:39.185501'),
 (31, 'homepage', '0013_courses_tags', '2024-07-27 05:55:11.833969'),
-(32, 'homepage', '0014_coursecategories_courses_category', '2024-07-27 06:17:48.746753');
+(32, 'homepage', '0014_coursecategories_courses_category', '2024-07-27 06:17:48.746753'),
+(33, 'homepage', '0015_democlassregistration', '2024-08-07 06:01:00.398152'),
+(34, 'homepage', '0016_batches_timeslots_and_more', '2024-08-07 06:01:00.505160'),
+(35, 'homepage', '0017_rename_phone_number_democlassregistration_contact_number', '2024-08-07 06:01:00.515344'),
+(36, 'homepage', '0018_rename_time_slot_timeslots_end_slot_and_more', '2024-08-07 06:01:00.536344'),
+(37, 'homepage', '0019_democlassregistration_date_slot', '2024-08-07 06:01:00.552508'),
+(38, 'homepage', '0020_alter_democlassregistration_date_slot', '2024-08-07 06:01:00.560509'),
+(39, 'homepage', '0021_rename_emergency_conatct_relationship_registerationform_emergency_contact_relationship', '2024-08-07 06:01:00.571269'),
+(40, 'homepage', '0022_rename_higest_education_qualification_registerationform_highest_education_qualification', '2024-08-07 06:01:00.581925'),
+(41, 'homepage', '0023_remove_courses_course_description_courses_benefits_and_more', '2024-08-07 06:01:00.648160'),
+(42, 'homepage', '0024_alter_courses_benefits_alter_courses_curriculum_and_more', '2024-08-07 06:01:00.663998'),
+(43, 'homepage', '0025_alter_courses_course_syllabus_and_more', '2024-08-07 06:01:00.677531'),
+(44, 'homepage', '0026_requestcallback_course', '2024-08-20 06:51:07.305251'),
+(45, 'homepage', '0027_courses_is_featured_courses_is_new', '2024-08-23 06:32:26.000314'),
+(46, 'homepage', '0028_coursecategories_image_coursecategories_is_featured', '2024-08-23 07:00:59.755947'),
+(47, 'homepage', '0029_alter_coursecategories_image', '2024-08-23 07:01:44.872591'),
+(48, 'homepage', '0030_courses_duration_courses_number_of_projects', '2024-08-23 11:50:48.974687');
 
 -- --------------------------------------------------------
 
@@ -557,7 +655,8 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('r2chkyzsdcjbwmhyvs1myjqt50rtrv6a', '.eJxVjMsOwiAQRf-FtSG8YVy69xvIwIBUDU1KuzL-uzbpQrf3nHNfLOK2triNssSJ2JlJdvrdEuZH6TugO_bbzPPc12VKfFf4QQe_zlSel8P9O2g42reuZLSwUquCPqBVwmgPoVZXQnXJabRAKThPlXwGEWQ2yYIBQKGyAc3eH9QAN2I:1rwHZz:VTsM4Wtk4bl8SqxdvbDiVM4MgI_kksnLeg_whMjpt7M', '2024-04-29 08:20:43.436002'),
 ('0mlovnu2jzhml9bv8ndjylrc51ukr3vy', '.eJxVjMsOwiAQRf-FtSG8YVy69xvIwIBUDU1KuzL-uzbpQrf3nHNfLOK2triNssSJ2JlJdvrdEuZH6TugO_bbzPPc12VKfFf4QQe_zlSel8P9O2g42reuZLSwUquCPqBVwmgPoVZXQnXJabRAKThPlXwGEWQ2yYIBQKGyAc3eH9QAN2I:1sXFRZ:aCTqSKiw438NiQhRLKqXP1ozqJiH9BJPuXsORjLdWiE', '2024-08-09 07:32:49.757795'),
 ('8rw4x1c8id8n1t2kabrued4mt6g5mu01', '.eJxVjMsOwiAQRf-FtSG8YVy69xvIwIBUDU1KuzL-uzbpQrf3nHNfLOK2triNssSJ2JlJdvrdEuZH6TugO_bbzPPc12VKfFf4QQe_zlSel8P9O2g42reuZLSwUquCPqBVwmgPoVZXQnXJabRAKThPlXwGEWQ2yYIBQKGyAc3eH9QAN2I:1sXZue:aF4SWYwQxasE7A8jstcuWX1qOaHSsIX4zpwntVjUinw', '2024-08-10 05:24:12.229138'),
-('lyj2zezwm3ucbav1dl31m1dlt6vvh208', '.eJxVjMsOwiAQRf-FtSG8YVy69xvIwIBUDU1KuzL-uzbpQrf3nHNfLOK2triNssSJ2JlJdvrdEuZH6TugO_bbzPPc12VKfFf4QQe_zlSel8P9O2g42reuZLSwUquCPqBVwmgPoVZXQnXJabRAKThPlXwGEWQ2yYIBQKGyAc3eH9QAN2I:1sXgAG:G_fM-WNyQkJLc6Y-FnmEvqeskBYr2cWnaXbOoLv2RIo', '2024-08-10 12:04:44.119007');
+('lyj2zezwm3ucbav1dl31m1dlt6vvh208', '.eJxVjMsOwiAQRf-FtSG8YVy69xvIwIBUDU1KuzL-uzbpQrf3nHNfLOK2triNssSJ2JlJdvrdEuZH6TugO_bbzPPc12VKfFf4QQe_zlSel8P9O2g42reuZLSwUquCPqBVwmgPoVZXQnXJabRAKThPlXwGEWQ2yYIBQKGyAc3eH9QAN2I:1sXgAG:G_fM-WNyQkJLc6Y-FnmEvqeskBYr2cWnaXbOoLv2RIo', '2024-08-10 12:04:44.119007'),
+('uns15r2kaygpgxj3gdk1l69xfj4juwqn', '.eJxVjMsOwiAQRf-FtSG8YVy69xvIwIBUDU1KuzL-uzbpQrf3nHNfLOK2triNssSJ2JlJdvrdEuZH6TugO_bbzPPc12VKfFf4QQe_zlSel8P9O2g42reuZLSwUquCPqBVwmgPoVZXQnXJabRAKThPlXwGEWQ2yYIBQKGyAc3eH9QAN2I:1sgHg3:qzadQUp-H6pArPDFRl7_HoFLBJuagYgQiX-dg_g9YSU', '2024-09-03 05:45:07.472899');
 
 -- --------------------------------------------------------
 
@@ -619,7 +718,7 @@ CREATE TABLE IF NOT EXISTS `homepage_companyuser` (
 --
 
 INSERT INTO `homepage_companyuser` (`id`, `password`, `last_login`, `is_superuser`, `is_staff`, `is_active`, `date_joined`, `email`, `first_name`, `last_name`, `date_of_birth`, `security_question_1`, `security_question_2`, `security_question_1_answer`, `security_question_2_answer`, `is_verified`) VALUES
-(1, 'pbkdf2_sha256$390000$tNRNjBnDg1g56QZxPfwdq6$7egjKmrn6cCpKd7WOfMYmEAq3LnJa0LHmJ3NSWCUY4I=', '2024-07-27 12:04:44.116501', 1, 1, 1, '2024-04-09 10:06:53.872460', 'admin@webxter.in', 'admin', 'admin', NULL, '', '', '', '', 0),
+(1, 'pbkdf2_sha256$390000$tNRNjBnDg1g56QZxPfwdq6$7egjKmrn6cCpKd7WOfMYmEAq3LnJa0LHmJ3NSWCUY4I=', '2024-08-20 05:45:07.472899', 1, 1, 1, '2024-04-09 10:06:53.872460', 'admin@webxter.in', 'admin', 'admin', NULL, '', '', '', '', 0),
 (10, 'pbkdf2_sha256$390000$Qc010meWMAu1hR9XZPP2L7$qi5pI5mfKb/IbnpyP5bmXXFiSw24oCaTVUvhO2NP5PI=', '2024-04-10 09:30:34.911481', 1, 1, 1, '2024-04-10 09:30:22.047210', 'kabir.behal7830@gmail.com', 'kabir', 'behal', NULL, 'What was the name of your first pet?', 'What is your favorite movie?', 'dingo', 'harry potter', 0),
 (13, 'pbkdf2_sha256$390000$yTDbSUo4F16igGveXsx9HX$T4F2qim5A/j4exkKssTFvRwmuf3v6no/lWKTUC9+N74=', '2024-04-10 16:26:04.688013', 0, 0, 1, '2024-04-10 16:25:31.994105', 'aman.behal25@gmail.com', 'Aman', 'Behal', NULL, 'What was the name of your first pet?', 'What is your favorite movie?', 'dingo', 'harry potter', 0);
 
@@ -690,6 +789,38 @@ INSERT INTO `notes` (`id`, `notes_title`, `notes`, `written_on`, `edited_on`, `u
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `registeration_form`
+--
+
+DROP TABLE IF EXISTS `registeration_form`;
+CREATE TABLE IF NOT EXISTS `registeration_form` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `date_of_birth` date NOT NULL,
+  `gender` varchar(100) NOT NULL,
+  `contact_number` varchar(15) NOT NULL,
+  `alternate_number` varchar(15) DEFAULT NULL,
+  `student_id` varchar(255) DEFAULT NULL,
+  `highest_education_qualification` varchar(600) NOT NULL,
+  `institute_name` varchar(600) NOT NULL,
+  `privious_courses` longtext,
+  `relevant_certifications` longtext,
+  `is_returning_student` tinyint(1) NOT NULL,
+  `webxter_student_id` varchar(20) DEFAULT NULL,
+  `emergency_contact_name` varchar(255) NOT NULL,
+  `emergency_contact_number` varchar(15) NOT NULL,
+  `emergency_contact_relationship` varchar(500) NOT NULL,
+  `batch_id` bigint(20) NOT NULL,
+  `course_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `registeration_form_batch_id_9f644513` (`batch_id`),
+  KEY `registeration_form_course_id_f300be73` (`course_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `request_call_back`
 --
 
@@ -703,15 +834,51 @@ CREATE TABLE IF NOT EXISTS `request_call_back` (
   `date` varchar(30) NOT NULL,
   `time` varchar(30) NOT NULL,
   `is_opened` tinyint(1) NOT NULL,
+  `course` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `request_call_back`
 --
 
-INSERT INTO `request_call_back` (`id`, `name`, `email`, `message`, `phone_number`, `date`, `time`, `is_opened`) VALUES
-(1, 'veer dharam', 'veerdharam0786@gmail.com', 'sfhsidhfsdhfdshfh hsidfbsu', '7355017830', '10-4-2024', '18:13', 1);
+INSERT INTO `request_call_back` (`id`, `name`, `email`, `message`, `phone_number`, `date`, `time`, `is_opened`, `course`) VALUES
+(1, 'veer dharam', 'veerdharam0786@gmail.com', 'sfhsidhfsdhfdshfh hsidfbsu', '7355017830', '10-4-2024', '18:13', 1, ''),
+(2, 'kabir behal', 'kabir.behal7830@gmail.com', '', '7355017830', '1-8-2024', '21:8', 0, ''),
+(7, 'kabir behal', 'kabir.behal7830@gmail.com', 'Testing', '7355017830', '1-8-2024', '23:42', 0, ''),
+(8, 'veer', 'veerdharam0786@gmail.com', 'Testing', '7355017830', '1-8-2024', '23:48', 0, ''),
+(11, 'kabir behal', 'kabir.behal7830@gmail.com', 'sdasdasdasd', '07355017830', '20-8-2024', '12:54', 0, 'Python');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `students_id`
+--
+
+DROP TABLE IF EXISTS `students_id`;
+CREATE TABLE IF NOT EXISTS `students_id` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `webxter_student_id` int(11) NOT NULL,
+  `student_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `student_id` (`student_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `time_slots`
+--
+
+DROP TABLE IF EXISTS `time_slots`;
+CREATE TABLE IF NOT EXISTS `time_slots` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `end_slot` time(6) NOT NULL,
+  `is_available` tinyint(1) NOT NULL,
+  `is_for_demo` tinyint(1) NOT NULL,
+  `start_slot` time(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
