@@ -103,6 +103,8 @@ urlpatterns = [
     path("batches/add-new-batch-api/",AdminBatchAPI.as_view(),name="create-new-batch"),
     path("batches/all-api/",BatchAPI.as_view(),name="batches-api"), 
     
+        # Banner
+    path('banner/add-banner-api/',AdminBannerAPI.as_view(),name="admin-banner-api"),
     
 
 

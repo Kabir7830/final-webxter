@@ -20,11 +20,15 @@
     }
     .hero-heading .heading{
         font-size: 2rem;
-        font-size: 8rem;
+        font-size: 3rem;
         color: white;
         font-family: roboto;
         text-transform: uppercase;
         font-weight: 800;
+        text-align: center;
+    }
+    .hero-heading .summary{
+        width: 50%;
         text-align: center;
     }
     .hero-heading .summary p{
@@ -80,7 +84,7 @@
         justify-content: center;
     }
     .course-information-section .section-heading .featured-image img{
-        width: 40%;
+        width: 100%;
     }
     .align-self-start{
         align-self: flex-start;
@@ -220,7 +224,10 @@
             height: fit-content;
         }
         .hero-heading .heading{
-            font-size: 4rem;
+            font-size: 2rem;
+        }
+        .hero-heading .summary{
+            width: 90%;
         }
         .course-information-section .section-heading{
             flex-wrap: wrap;
@@ -300,7 +307,7 @@
                         Overview
                     </h2>
                 </div>
-                <p>{{course.overview}}</p>
+                <p>{{course.overview | safe}}</p>
             </div>
 
             <div class="featured-image animated-element slide-in-left">
@@ -320,7 +327,7 @@
                         Details
                     </h2>
                 </div>
-                <p>{{course.details}}</p>
+                <p>{{course.details | safe}}</p>
             </div>
 
             <div class="get-quote-section d-flex align-items-center justify-content-center">

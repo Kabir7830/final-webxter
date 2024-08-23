@@ -12,7 +12,8 @@ def Collection(request):
     mobile_banners = CarouselImages.objects.filter(is_mobile = True)
     new_enrolled_students = EnrolledStudents.objects.filter(is_read = False)
     new_requests = RequestCallBack.objects.filter(is_opened = False)
-
+    categories = CourseCategories.objects.all()
+    courses = Courses.objects.filter(is_published = True)
 
     notifications += len(new_enrolled_students) + len(new_requests)
     context = {
@@ -21,5 +22,7 @@ def Collection(request):
         "mobile_banners":mobile_banners,
         "desktop_banners":desktop_banners,
         "course_categories":course_categories,
+        "categories":categories,
+        "gcourses":courses,
     }
     return context

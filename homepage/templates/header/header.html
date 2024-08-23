@@ -1,3 +1,5 @@
+{% load custom_filter %}
+
 <style>
 a.active, a:hover{
     color:#4ea292 !important;
@@ -28,20 +30,6 @@ a{
 
                             <!-- Top Header Content -->
                             <div class="top-header-meta d-flex">
-                                <!-- Language Dropdown -->
-                                <!-- <div class="language-dropdown">
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle mr-30" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Language</button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#">USA</a>
-                                            <a class="dropdown-item" href="#">UK</a>
-                                            <a class="dropdown-item" href="#">Bangla</a>
-                                            <a class="dropdown-item" href="#">Hindi</a>
-                                            <a class="dropdown-item" href="#">Spanish</a>
-                                            <a class="dropdown-item" href="#">Latin</a>
-                                        </div>
-                                    </div>
-                                </div> -->
                                 <!-- Login -->
                                 <div class="login">
                                 {% if user.is_authenticated %}
@@ -101,24 +89,20 @@ a{
                                         <ul class="dropdown">
                                             <li><a>Programming</a>
                                                 <ul class="dropdown">
-                                                    <li><a href="{% url 'course-details' slug="python-course" %} ">Python</a></li>
-                                                    <li><a href="{% url 'course-details' slug="django" %}">Django</a></li>
-                                                    <li><a href="{% url 'course-details' slug="react-js" %}">React JS</a></li>
-                                                    <li><a href="{% url 'course-details' slug="javascript" %}">JavaScript</a></li>
-                                                    <li><a href="{% url 'course-details' slug="java" %}">Java</a></li>
-                                                    <li><a href="{% url 'course-details' slug="c-plus-plus" %}">C++</a></li>
-                                                    <li><a href="{% url 'course-details' slug="html-and-css" %}">HTML & CSS</a></li>
+                                                    {% for gcourse in gcourses|filter_by_category_and_range:"Programming,6" %}
+                                                    <li><a href="{% url 'course-details' slug=gcourse.slug %} ">{{gcourse.course_name}}</a></li>
+                                                    {% endfor %}
                                                 </ul>
                                             </li>
                                             <li><a>DataBase</a>
                                                 <ul class="dropdown">
-                                                    <li><a href="{% url 'course-details' slug="mysql" %}">MySQL</a></li>
-                                                    <li><a href="#">MongoDB</a></li>
-                                                    <li><a href="#">Postgresql</a></li>
+                                                    {% for gcourse in gcourses|filter_by_category_and_range:"Database,6" %}
+                                                    <li><a href="{% url 'course-details' slug=gcourse.slug %} ">{{gcourse.course_name}}</a></li>
+                                                    {% endfor %}
                                                 </ul>
                                             </li>
-                                            <li><a href="{% url 'courses'%}?q=web-development">Web Development</a></li>
-                                            <li><a href="{% url 'courses'%}?q=graphic%20designing">Graphic Designing</a></li>
+                                            <li><a href="{% url 'courses'%}?category=Web Development ">Web Development</a></li>
+                                            <li><a href="{% url 'courses'%}?category=Graphics">Graphic Designing</a></li>
                                             <li><a>Modren Trends</a>
                                                 <ul class="dropdown">
                                                     <li><a>AI</a>

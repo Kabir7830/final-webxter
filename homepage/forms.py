@@ -110,3 +110,9 @@ class AdminCoursefrom(forms.ModelForm):
         fields = "__all__"
         exclude = ['category']
         slug = forms.SlugField()
+
+
+class BannerForm(forms.ModelForm):
+    class Meta:
+        model = CarouselImages
+        fields = "__all__"

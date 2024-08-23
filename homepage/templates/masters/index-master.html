@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="{% static 'css/messages.css' %}">
   <link rel="stylesheet" href="{% static 'css/roboto_font.css' %}">
   
+  
   <meta charset="UTF-8">
   <meta name="description" content="Unlock the world of web development at Webxter! Learn HTML and master the building blocks of the internet. Our institute offers expert-led classes in Django, CSS, Python, React JS, C/C+, Java, and Graphic Designing. From 6th-grade basics to advanced graduation-level programming, Webxter is your gateway to a comprehensive tech education.">
   <meta name="keywords" content="webxter, webxter.in, Webxter,Web development,HTML,CSS,Python programming,Django framework,React JS,C/C+ programming,Java programming,Graphic designing,Tech education,Programming classes,Web design courses,Computer science education,Coding academy,Education from 6th to graduation">
@@ -218,6 +219,7 @@
     <script src="{% static 'js/plugins/plugins.js' %}"></script>
     <!-- Active js -->
     <script src="{% static 'js/active.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
 
@@ -241,5 +243,7 @@
     
 
     </script>
+
+    {% block footerscripts %}{% endblock footerscripts %}
 </body>
 </html>

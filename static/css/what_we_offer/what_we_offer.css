@@ -1,0 +1,60 @@
+.what_we_offer{
+    min-height: 60vh;
+    height: fit-content;
+    background-color: #393939;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    padding: 70px;
+  }
+  .what_we_offer::before{
+    content: "";
+    position: absolute;
+    background: linear-gradient(180deg, #2ab197, #63cdc9);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    filter: opacity(0.7);
+    z-index: -1;
+  }
+  .what_we_offer .category .thumbnail{
+    overflow: hidden;
+  }
+  .what_we_offer .category .thumbnail img{
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    transition: 0.5s;
+    width: 100%;
+  }
+  .revert-heading{
+    color: white;
+    background-color: transparent;
+    text-align: center;
+    padding: 20px;
+  }
+  .revert-heading hr{
+    color: white;
+    background-color: white;
+    border-color: white;
+  }
+  .what_we_offer a{
+    text-decoration: none;
+  }
+  .what_we_offer a:hover{
+    color: inherit;
+  }
+  .what_we_offer .category{
+    overflow: hidden;
+    border-radius: 20px;
+  }
+  .category:hover .thumbnail img{
+    transform: scale(1.1);
+  }
+  @media screen and (max-width:864px){
+    .what_we_offer{
+      padding: 10px;
+    }
+  }

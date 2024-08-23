@@ -1,0 +1,213 @@
+{% extends "admin-master.html"%}
+{% load static %}
+{% block title %}
+    Add Banner
+{% endblock title %}
+
+{% block styles %}
+    
+    <link rel="stylesheet" href="{% static 'css/messages.css'%}">
+    <link rel="stylesheet" href="{% static 'css/course/course.css'%}">
+
+{% endblock styles %}
+
+{% block headscripts %}
+    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+{% endblock headscripts %}
+
+
+{% block adminarea %}
+
+    <div id="section-34736">
+    {% csrf_token %}
+        
+        <div class="floating-message visually-hidden" id="id_floating_messages">
+            <p class="message"></p>
+        </div>
+        <div class="container">
+            <form id="courseForm">
+                <h2>Banner Form</h2>
+
+                <label for="carousel_title">Carousel Title</label>
+                <input type="text" id="id_carousel_title" name="carousel_title">
+                <span class="message error visually-hidden" id="id_carousel_title_error_message"></span>
+                
+                <br>
+                <br>
+                
+                <label for="carousel_description">Carousel Description</label>
+                <textarea id="id_carousel_description" name="carousel_description" rows="3" ></textarea>
+                <span class="message error visually-hidden" id="id_carousel_description_error_message"></span>
+                
+                <br>
+                <br>
+                
+                <label for="">Link</label>
+                <textarea id="id_carousel_redirect_link" name="carousel_redirect_link"></textarea>
+                <span class="message error visually-hidden" id="id_carousel_redirect_link_error_message"></span>
+                <script>
+                    CKEDITOR.replace('id_carousel_redirect_link');
+                    </script>
+                
+                <br>
+                <br>
+                
+                <label for="carousel_image">Carousel Image</label>
+                <input type="file" id="id_carousel_image" name="carousel_image" accept="image/*">
+                <img src="" alt="image preview" id="id_carousel_image_preview" style="width: 100%;">
+                <script>
+                    document.getElementById('id_carousel_image').onchange = function () {
+                        var src = URL.createObjectURL(this.files[0])
+                        document.getElementById('id_carousel_image_preview').src = src;
+                    }
+                  </script>
+                <span class="message error visually-hidden" id="id_carousel_image_error_message"></span>
+                
+                <br>
+                <br>
+                
+                
+                <label for="is_mobile">For Mobile?</label>
+                <select name="is_mobile" id="id_is_mobile">
+                    <option value="True">Yes</option>
+                    <option value="False">No</option>
+                </select>
+                <span class="message error visually-hidden" id="id_is_mobile_error_message"></span>
+                
+                <br>
+                <br>
+                
+                <button type="button" onclick="add_new_banner()" id="id_edit_submit_button" class="submit-button">Submit</button>
+            
+            </form>
+        </div>
+    </div>
+
+    
+
+{% endblock adminarea %}
+
+{% block footerscripts%}
+    <!-- defining categories values -->
+    <script>
+        function define_categories_value(){
+            let category = document.getElementById('id_category');
+            let checkboxes = document.querySelectorAll("input[name='categories']");
+        
+            let arr = new Array();
+            for (let cb of checkboxes){
+                
+                if(cb.checked){
+                    arr.push(cb.value);
+                }
+            }
+            console.log(arr);
+            category.value = arr;
+        }
+        define_categories_value();
+    </script>
+
+    <!-- ajax put request -->
+    <script>
+        function reset_error_messages(){
+            let error_messages = document.querySelectorAll('.message.error');
+            for (let message of error_messages){
+                message.classList.add('visually-hidden');
+            }
+        }
+
+        function add_new_banner(){
+            for (var instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+            }
+            reset_error_messages();
+            let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+            let carousel_title = document.getElementById('id_carousel_title').value;
+            let carousel_description = document.getElementById('id_carousel_description').value;
+            let carousel_redirect_link = document.getElementById('id_carousel_redirect_link').value;
+            
+            let carousel_image = document.getElementById('id_carousel_image').files[0];
+            
+            let is_mobile = document.getElementById('id_is_mobile').value;
+            
+            let submit_button = document.getElementById('id_edit_submit_button');
+
+            submit_button.innerHTML = `
+            <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>`;
+
+            let formData = new FormData();
+            formData.append("carousel_title", carousel_title);
+            formData.append("carousel_description", carousel_description);
+            formData.append("carousel_redirect_link", carousel_redirect_link);
+            
+            if (carousel_image) {
+                formData.append("carousel_image", carousel_image);
+            } else {
+                console.log('in else')
+                formData.append("carousel_image", "{{ carousel.carousel_image }}"); // Send the existing image if no new one is selected
+            }
+            formData.append("is_mobile", is_mobile);
+            $.ajax({
+                url:"{% url 'admin-banner-api' %}",
+                type:"POST",
+                processData: false,
+                contentType: false,
+                data:formData,
+                beforeSend:function(xhr){
+                    xhr.setRequestHeader("X-CSRFToken",csrftoken);
+                },
+                success:function(data){
+                    console.log(data);
+                    if (data['status']=="success"){
+                        submit_button.innerHTML = "submit";
+                        show_floating_message(data['message'],'success',5000);
+                    }
+                    else if (data['status'] =="error"){
+                        submit_button.innerHTML = "submit";
+                        if (typeof data['message'] === 'object' && data['message'] !== null && !Array.isArray(data['message'])) {
+                            
+                            let errors = data['message'];
+                            let keys = Object.keys(errors);
+                            errors_length = Object.keys(errors).length
+                            for (let key of keys){
+                                let mesg = document.getElementById(`id_${key}_error_message`);
+                                mesg.classList.remove('visually-hidden');
+                                mesg.innerHTML = errors[key];
+                            }
+                        }
+                        else{
+                            
+                            show_floating_message(data['message'],'error',5000);
+                        }
+                    }
+                },
+                error:function(xhr,textStatus,errorThrown){
+                    console.log("AJAX ERROR: ",errorThrown);
+                }
+            })
+        }
+
+        function show_floating_message(message,responseType,timeOut=2000){
+            let floating_message = document.getElementById('id_floating_messages');
+            let message_area = floating_message.querySelector('p');
+            const class_to_keep = "message";
+            let classes = message_area.classList;
+            classes.forEach(cls=>{
+                if (cls !== class_to_keep){
+                    message_area.classList.remove(cls);
+                }
+            });
+            floating_message.classList.remove('visually-hidden','success');
+            message_area.classList.add(responseType);
+            message_area.innerHTML = message;
+            setTimeout(() => {
+                floating_message.classList.add('visually-hidden');
+            }, timeOut);
+        }
+
+    </script>
+{% endblock footerscripts%}
+</body>
+</html>

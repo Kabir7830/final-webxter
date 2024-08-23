@@ -58,3 +58,9 @@ class CourseCategoriesSerializer(serializers.ModelSerializer):
         model = CourseCategories
         fields = "__all__"
 
+
+class BannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CarouselImages
+        fields = "__all__"
+

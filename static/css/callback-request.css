@@ -12,9 +12,6 @@
     border-radius: 10px;
     width: 150px;
   }
-  .webxter-button:hover{
-    background-color: #475e88;
-  }
   .enroll-now {
     display: flex;
     align-items: center;

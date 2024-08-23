@@ -51,3 +51,24 @@ def grt_then(value, arg):
 def subtract(value,arg):
     return value - arg
 
+@register.filter
+def filter_by_category(queryset, category_name):
+    return queryset.filter(category=category_name)
+
+@register.filter
+def filter_featured(queryset):
+    return queryset.filter(is_featured=True)
+
+@register.filter
+def filter_by_tags(queryset,tag):
+    return queryset.filter(tags__icontains = tag)
+
+@register.filter
+def filter_by_category_and_range(queryset,args):
+    category_name , range = args.split(',')
+    range = int(range)
+    queryset = queryset.filter(category__name = category_name)
+    if range>0:
+        queryset = queryset[:range]
+
+    return queryset

@@ -91,6 +91,8 @@ class CourseCategories(models.Model):
         db_table = "course_categories"
 
     name = models.CharField(max_length=255,unique=True)
+    image = models.ImageField(upload_to='category_thumbnails/',default="category_thumbnails/default_image.jpg",blank=True)
+    is_featured = models.BooleanField(default=False,blank=True)
 
 
 class Courses(models.Model):
@@ -107,10 +109,19 @@ class Courses(models.Model):
     course_short_description = models.CharField(max_length=350)
     course_image = models.ImageField(upload_to="thumbnails/")
     course_syllabus = models.FileField(upload_to="course_syllabus/")
-    is_published = models.BooleanField(default=True)
-    slug = models.SlugField(unique=True, blank=True)  # Ensure unique slugs and allow blank
-    tags = models.TextField(default="",blank=True)
     category = models.ManyToManyField(CourseCategories,related_name="categories",blank=True,null=True)
+    duration = models.IntegerField(default=6,blank=False,null=False)
+    number_of_projects = models.IntegerField(default=1,blank=False,null=False)
+    # Tags
+    tags = models.TextField(default="",blank=True)
+    
+    # URL
+    slug = models.SlugField(unique=True, blank=True)  # Ensure unique slugs and allow blank
+    
+    # Boolean Fields
+    is_published = models.BooleanField(default=True)
+    is_featured = models.BooleanField(default=False,blank=True)
+    is_new = models.BooleanField(default=True,blank=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:  # If slug is not set

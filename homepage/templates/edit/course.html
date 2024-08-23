@@ -7,96 +7,7 @@
 {% block styles %}
     
     <link rel="stylesheet" href="{% static 'css/messages.css'%}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        
-        #course-section-34736 .container {
-            width: 100%;
-            max-width: 600px;
-            margin: 20px auto;
-            background: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        #course-section-34736 h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        #course-section-34736 label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        #course-section-34736 input[type="text"],
-        #course-section-34736 input[type="file"],
-        #course-section-34736 textarea,
-        #course-section-34736 select {
-            width: 100%;
-            padding: 10px;
-            padding-bottom:0px ;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        
-        #course-section-34736 input[type="checkbox"] {
-            margin-right: 10px;
-        }
-        
-        #course-section-34736 button {
-            width: 100%;
-            padding: 10px;
-            background: #5cb85c;
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        
-        #course-section-34736 button:hover {
-            background: #4cae4c;
-        }
-        
-        @media (max-width: 600px) {
-            #course-section-34736 .container {
-                padding: 10px;
-            }
-        
-            #course-section-34736 button {
-                font-size: 14px;
-            }
-        }
-        .cke_notifications_area{
-            display: none !important;
-        }
-        .submit-button{
-            position: sticky;
-            bottom: 10px;
-        }
-        .floating-message{
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            z-index: 999999;
-            box-shadow: 0px 0px 8px rgba(0,0,0,0.3);
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        .floating-message .message{
-            background-color: white;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0px;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/course/course.css'%}">
 {% endblock styles %}
 
 {% block headscripts %}
@@ -109,7 +20,7 @@
 
 {% block adminarea %}
 
-    <div id="course-section-34736">
+    <div id="section-34736">
     {% csrf_token %}
         
         <div class="floating-message visually-hidden" id="id_floating_messages">
@@ -237,6 +148,22 @@
                 <br>
                 <br>
                 
+                <label for="duration">Duration (in weeks)</label>
+                <input type="number" id="id_duration" name="duration" value="{{course.duration}}">
+                <span class="message error visually-hidden" id="id_duration_error_message"></span>
+                
+                <br>
+                <br>
+                
+                
+                <label for="number_of_projects">Number Of Projects</label>
+                <input type="number" id="id_number_of_projects" name="number_of_projects" value="{{course.number_of_projects}}">
+                <span class="message error visually-hidden" id="id_number_of_projects_error_message"></span>
+                
+                <br>
+                <br>
+
+
                 <label for="tags">Tags</label>
                 <input type="text" id="id_tags" name="tags" value="{{course.tags}}">
                 <span class="message error visually-hidden" id="id_tags_error_message"></span>
@@ -244,6 +171,16 @@
                 <br>
                 <br>
                 
+                <label for="is_featured">Featured</label>
+                <select name="is_featured" id="id_is_featured">
+                    <option value="True" {% if course.is_featured == True%}selected{%endif%}>Featured</option>
+                    <option value="False" {% if course.is_featured == True %}{%else%}selected{%endif%}>Not Featured</option>
+                </select>
+                <span class="message error visually-hidden" id="id_is_featured_error_message"></span>
+                
+                <br>
+                <br>
+
                 <input type="hidden" id="id_category" name="category">
                 <label for="categories">Course Categories</label>
                 {% for category in course_categories %}
@@ -283,7 +220,6 @@
                     arr.push(cb.value);
                 }
             }
-            console.log(arr);
             category.value = arr;
         }
         define_categories_value();
@@ -291,11 +227,19 @@
 
     <!-- ajax put request -->
     <script>
+
+        function reset_error_messages(){
+            let error_messages = document.querySelectorAll('.message.error');
+            for (let message of error_messages){
+                message.classList.add('visually-hidden');
+            }
+        }
+
         function edit_course(){
             for (var instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].updateElement();
             }
-            
+            reset_error_messages();
             let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
             let course_name = document.getElementById('id_course_name').value;
             let summary = document.getElementById('id_summary').value;
@@ -308,7 +252,10 @@
             let course_image = document.getElementById('id_course_image').files[0];
             let course_syllabus = document.getElementById('id_course_syllabus').files[0];
             let is_published = document.getElementById('id_is_published').value;
+            let is_featured = document.getElementById('id_is_featured').value;
             let slug = document.getElementById('id_slug').value;
+            let duration = document.getElementById('id_duration').value;
+            let number_of_projects = document.getElementById('id_number_of_projects').value;
             let tags = document.getElementById('id_tags').value;
             let category = document.getElementById('id_category').value;
             let submit_button = document.getElementById('id_edit_submit_button');
@@ -348,7 +295,10 @@
             
             
             formData.append("is_published", is_published);
+            formData.append("is_featured", is_featured);
             formData.append("slug", slug);
+            formData.append("duration", duration);
+            formData.append("number_of_projects", number_of_projects);
             formData.append("tags", tags);
             formData.append("category", category);
             formData.append("course_id", "{{course.id}}");
@@ -362,7 +312,6 @@
                     xhr.setRequestHeader("X-CSRFToken",csrftoken);
                 },
                 success:function(data){
-                    console.log(data);
                     if (data['status']=="success"){
                         submit_button.innerHTML = "submit";
                         show_floating_message(data['message'],'success',5000);

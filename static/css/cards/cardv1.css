@@ -1,0 +1,56 @@
+.cardv1 .card{
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+  }
+  .cardv1 .card:hover .card-header .card-img-top{
+    transform: scale(1.1);
+  }
+  .cardv1 .card-img-top{
+    width: 50% !important;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    transition: 0.5s;
+  }
+  .cardv1 .card-body .card-text{
+    justify-content: center;
+  }
+  .cardv1 .btn{
+    width: 100px !important;
+  }
+  .cardv1 .card-footer{
+    display: block;
+    width: 100%;
+    background-color: white;
+    border: none;
+  }
+  .cardv1 .card-header{
+    border: none;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cardv1 .card .card-footer .course_view_button{
+    background-color: #4da191;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    color: white;
+  }
+  
+  .cardv1 .card .card-footer .course_view_button::before{
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+    color: white;
+    background-color: #475e88;
+    transition: 0.5s;
+  }
+  .cardv1 .card .card-footer .course_view_button:hover::before{
+    width: 100%;
+  }

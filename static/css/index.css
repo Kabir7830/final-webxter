@@ -1,3 +1,6 @@
+.color-light{
+  color: white;
+}
 .brand-name{
     position: absolute;
     font-size: 66px;
@@ -36,32 +39,8 @@
       justify-content: center !important;
       margin-left: 0px;
     }
-    .card{
-      width: 100%;
-      padding: 10px;
-      border-radius: 20px;
-    }
-    .card-img-top{
-      width: 50% !important;
-      max-height: 210px;
-    }
-    .btn{
-      width: 100px !important;
-    }
-    .card-footer{
-      display: block;
-      width: 100%;
-      background-color: white;
-      border: none;
-    }
-    .card-header{
-      height: 200px;
-      border: none;
-      background-color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    
+
   .center-div{
       width: 100%;
       text-align: center;
@@ -88,6 +67,37 @@
   }
   .offline-tuitions{
     background-color: white;
+  }
+
+  .webxter_primary_button{
+    background-color: #4da191;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    color: white !important;
+  }
+  
+  .webxter_primary_button::before{
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+    color: white;
+    background-color: #475e88;
+    transition: 0.5s;
+  }
+  .webxter_primary_button:hover::before{
+    width: 100%;
+  }
+  .webxter_wrapper{
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  .webxter_wrapper .heading{
+    padding: 20px;
   }
   @media screen and (min-width:200px) and (max-width:550px) {
     

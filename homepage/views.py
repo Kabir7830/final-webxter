@@ -146,7 +146,7 @@ def openZoho(request):
 def homepage(request):
     coachings = Coaching.objects.all()[:9]
     banners = CarouselImages.objects.all()
-    courses = Courses.objects.filter(is_published = True)[:9]
+    courses = Courses.objects.filter(is_published = True)
     return render(request,"index.html",{"courses":courses,"banners":banners,"coachings":coachings})
 
 
@@ -440,42 +440,40 @@ def editCourseCategory(request,category_id):
 
 def addCarouselImage(request):
     if request.user.is_superuser:
-        if request.method == "POST":
-            try:
-                carouselImage = CarouselImages.objects.create(
-                    carousel_image = request.FILES.get('carousel_image'),
-                    carousel_description = request.POST.get('carousel_description'),
-                    carousel_title= request.POST.get('carousel_title'),
-                    carousel_redirect_link = request.POST.get('carousel_redirect_link'),
-                    is_mobile = request.POST.get('is_mobile'),
-                )
-                carouselImage.save()
-                messages.success(request,"added")
-                return redirect(request.META.get('HTTP_REFERER'))
-            except Exception as e:
-                print(e)
-                messages.error(request,"something went wrong! Try again")
-                return redirect(request.META.get('HTTP_REFERER'))
-        return render(request,"add-banner.html")
+       return render(request,"add/banner.html")
     else:
         return render(request,"access-denied.html")
 
 
+class AdminBannerAPI(APIView):
+
+    def get(self,request):
+        banners = CarouselImages.objects.all()
+        serializer_class = BannerSerializer(banners,many=True)
+        return Response({"data":serializer_class.data,"message":"","status":"success"})
+    
+    def post(self,request):
+        form = BannerForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            return Response({"data":[],"message":"Added","status":"success"})
+        return Response({"data":[],"message":form.errors,"status":"error"})
+
+    def put(self,request):
+        banner = CarouselImages.objects.filter(id = request.POST.get('carousel_image_id')).first()
+        form = BannerForm(request.POST,request.FILES,instance=banner)
+        if form.is_valid():
+            form.save()
+            return Response({"data":[],"message":"updated","status":"success"})
+        return Response({"data":[],"message":form.errors,"status":"error"})
+    
+
+
+
 def editCarouselImage(request,carousel_id):
     if request.user.is_superuser:
-        form = CarouselForm()
-        carousel = CarouselImages.objects.filter(id = carousel_id)
-        if request.method == "POST":
-            form = CarouselForm(request.POST,request.FILES,instance=carousel.first())
-            if form.is_valid():
-                form.save()
-                messages.success(request,"updated")
-                return redirect(request.META.get('HTTP_REFERER'))
-            else:
-                print(form.errors)
-                messages.error(request,f"{form.errors}")
-                return redirect(request.META.get('HTTP_REFERER'))
-        return render(request,"edit-banner.html",{'carousel':carousel.first()})
+        carousel = CarouselImages.objects.filter(id = carousel_id).first()
+        return render(request,"edit/banner.html",{"carousel":carousel})
     else:
         return render(request,"access-denied.html")
 

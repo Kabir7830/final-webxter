@@ -1,5 +1,6 @@
 {% extends "masters/index-master.html" %}
 {% load static %}
+{% load custom_filter %}
 
 {% block title %}
   Webxter | Coaching and Tarining
@@ -8,6 +9,9 @@
 {% block styles %}
   <link rel="stylesheet" href="{% static 'css/callback-request.css'%}">
   <link rel="stylesheet" href="{% static 'css/index.css'%}">
+  <link rel="stylesheet" href="{% static 'css/cards/cardv1.css'%}">
+  <link rel="stylesheet" href="{% static 'css/cards/cardv2.css'%}">
+  <link rel="stylesheet" href="{% static 'css/what_we_offer/what_we_offer.css'%}">
 {% endblock styles %}
 
 {% block mainarea %}
@@ -78,109 +82,205 @@
 
   <br><br>
   
-  <!-- Courses -->
-  <div class="courses">
-    <div class="heading"><hr><label for="">Training Courses</label><hr></div>
+  <style>
+    .webxter_container{
+      width: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+      position: relative;
+    }
+    .category-section{
+      min-height:50vh;
+      height: fit-content;
+      width: 80%;
+      margin: auto;
+    }
+    @media screen and (max-width:550px){
+      .webxter_container{
+        width: 100%;
+      }
+    }
+    @media screen and (max-width:1000px){
+      .category-section{
+        width: 100%;
+      }
+    }
+  </style>
+  <div class="webxter_wrapper">
+  <div class="heading"><hr><label for="">Featured Courses</label><hr></div>
 
-    <div class="row row-cols-1 row-cols-md-4 g-4 card-grp" style="width:100%">
-      {% for course in courses %}   
+    <div class="webxter_container">
+      <div class="owl-carousel owl-theme" id="id_trending_courses_slider_346">
+        
+        {% for course in courses|filter_featured %}   
         {% url 'course-details' slug=course.slug as course_url %}
-        {% include 'loop/courses/cardv1.html' with image=course.course_image title=course.name preview_text=course.course_short_description url=course_url %}
+        <div class="item">
+          {% include 'loop/courses/cardv2.html' with image=course.course_image title=course.course_name preview_text=course.course_short_description url=course_url duration=course.duration projects=course.number_of_projects %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+
+  <div class="webxter_wrapper">
+    <div class="heading"><hr><label for="">Short Term Courses</label><hr></div>
+
+    <div class="webxter_container">
+      <div class="owl-carousel owl-theme" id="id_trending_courses_slider_46234">
+        {% for course in courses|filter_by_tags:"short term" %}   
+        {% url 'course-details' slug=course.slug as course_url %}
+        <div class="item">
+          {% include 'loop/courses/cardv1.html' with image=course.course_image title=course.name preview_text=course.course_short_description url=course_url %}
+        </div>
       {% endfor %}
-      
-      <div class="center-div">
-        <br> 
-        <a href="{% url 'courses' %}"><button class="btn btn-outline-success">View All</button></a>
-      </div>
-    
     </div>
-
-
+    </div>
   </div>
 
+
   <br><br>
+
+  <div class="webxter_wrapper">
+    <div class="what_we_offer">
+      <h2 class="heading revert-heading">
+        <hr>
+        <label for="">
+          Choose By Category
+        </label>
+        <hr>
+      </h2>
+      <div class="row g-4 category-section" style="min-height:50vh; height: fit-content;">
+        
+        {% for category in categories|filter_featured %}
+        {% url 'courses' as category_url%}
+          {% include 'loop/cards/card_style1.html' with title=category.name image_url=category.image url=category_url %}
+        {% endfor %}
+        
+      </div>
+      </div>
+    </div>
+  </div>
+
+
   
-  <!-- Coaching -->
-  <div class="courses" id="training_courses">
-    <div class="heading"><hr><label for="">Coaching Available For</label><hr></div>
-    
-    <br>
-    
-    <div class="row row-cols-1 row-cols-md-4 g-4 card-grp" style="width:100%">
-      {% for coaching in coachings %}
-        {% url 'coaching-details' slug=coaching.slug as coaching_url %}
-        {% include 'loop/courses/cardv1.html' with image=coaching.image title=coaching.subject preview_text=coaching.short_description url=coaching_url %}
+  <div class="webxter_wrapper">
+  <div class="heading"><hr><label for="">Long Term Courses</label><hr></div>
+
+    <div class="webxter_container">
+      <div class="owl-carousel owl-theme" id="id_trending_courses_slider_437346">
+        {% for course in courses|filter_by_tags:"long term" %}   
+        {% url 'course-details' slug=course.slug as course_url %}
+        <div class="item">
+          {% include 'loop/courses/cardv1.html' with image=course.course_image title=course.name preview_text=course.course_short_description url=course_url %}
+        </div>
       {% endfor %}
+    </div>
+    </div>
+  </div>
+
+  <br><br>
+  
+  <div class="webxter_wrapper">
+    <div class="heading"><hr><label for="">Request A Call Back <span class="fa fa-phone"></span></label><hr></div>
     
-      <div class="center-div">
-        <br> 
-        <a href="{% url 'coachings'%}"><button class="btn btn-outline-success">View All</button></a>
-      </div>
-  
-    </div>
+    {% include 'callback_form/call_back_form.html'%}
+    
   </div>
-
+  
   <br><br>
   
-  <div class="heading"><hr><label for="">Request A Call Back <span class="fa fa-phone"></span></label><hr></div>
-  
-  {% include 'callback_form/call_back_form.html'%}
+  <div class="webxter_wrapper">
+    <div class="heading"><hr><label for="">Why Choose Webxter?</label><hr></div>
 
-  <br><br>
+    <div class="accordion accordion-flush" id="id_webxter_why_choose_us_236623">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+            <strong>Expertise</strong>
+          </button>
+        </h2>
+        <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#id_webxter_why_choose_us_236623">
+          <div class="accordion-body">Our team's vast knowledge and experience in the IT industry ensure that you receive the highest quality education and industry-relevant insights.</div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+            <strong>Practical Approach</strong>
+          </button>
+        </h2>
+        <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#id_webxter_why_choose_us_236623">
+          <div class="accordion-body">We focus on hands-on projects and real-world scenarios, giving you the confidence to apply your skills in real-life situations.</div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+            <strong>Industry Connections</strong>
+          </button>
+        </h2>
+        <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#id_webxter_why_choose_us_236623">
+          <div class="accordion-body">Our network of professionals and alumni provides valuable connections and potential opportunities for your future career.</div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+            <strong>Flexible Learning Options</strong>
+          </button>
+        </h2>
+        <div id="flush-collapseFour" class="accordion-collapse collapse" data-bs-parent="#id_webxter_why_choose_us_236623">
+          <div class="accordion-body">Choose from a range of courses and schedules that suit your needs, whether you're a school student or a working professional.</div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+            <strong>Supportive Community</strong>
+          </button>
+        </h2>
+        <div id="flush-collapseFive" class="accordion-collapse collapse" data-bs-parent="#id_webxter_why_choose_us_236623">
+          <div class="accordion-body">Join a community of like-minded individuals passionate about technology and learning. Collaborate, grow, and inspire together.</div>
+        </div>
+      </div>
+    </div>
   
-  <div class="heading"><hr><label for="">Why Choose Webxter?</label><hr></div>
-
-  <div class="accordion accordion-flush" id="id_webxter_why_choose_us_236623">
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-          <strong>Expertise</strong>
-        </button>
-      </h2>
-      <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#id_webxter_why_choose_us_236623">
-        <div class="accordion-body">Our team's vast knowledge and experience in the IT industry ensure that you receive the highest quality education and industry-relevant insights.</div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-          <strong>Practical Approach</strong>
-        </button>
-      </h2>
-      <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#id_webxter_why_choose_us_236623">
-        <div class="accordion-body">We focus on hands-on projects and real-world scenarios, giving you the confidence to apply your skills in real-life situations.</div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-          <strong>Industry Connections</strong>
-        </button>
-      </h2>
-      <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#id_webxter_why_choose_us_236623">
-        <div class="accordion-body">Our network of professionals and alumni provides valuable connections and potential opportunities for your future career.</div>
-      </div>
-     </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-          <strong>Flexible Learning Options</strong>
-        </button>
-      </h2>
-      <div id="flush-collapseFour" class="accordion-collapse collapse" data-bs-parent="#id_webxter_why_choose_us_236623">
-        <div class="accordion-body">Choose from a range of courses and schedules that suit your needs, whether you're a school student or a working professional.</div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
-          <strong>Supportive Community</strong>
-        </button>
-      </h2>
-      <div id="flush-collapseFive" class="accordion-collapse collapse" data-bs-parent="#id_webxter_why_choose_us_236623">
-        <div class="accordion-body">Join a community of like-minded individuals passionate about technology and learning. Collaborate, grow, and inspire together.</div>
-      </div>
-    </div>
   </div>
+
+
 
 {% endblock mainarea %}
+
+
+{% block footerscripts %}
+
+  <script>
+    $('.owl-carousel').owlCarousel({
+      margin:10,
+      autoplay:true,
+      rewind:true,
+      nav:false,
+      dots:false,
+      stagePadding:60,
+      responsive:{
+        0:{
+          items:1,
+          stagePadding:20,
+        },
+        600:{
+            items:2
+          },
+          1000:{
+            items:3
+          },
+          1500:{
+            items:4
+          }
+      }
+    })
+
+  </script>
+{% endblock footerscripts %}

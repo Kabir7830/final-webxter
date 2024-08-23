@@ -30,7 +30,7 @@
               <td>{{banner.carousel_description}}</td>
               <td>{{banner.carousel_redirect_link}}</td>
               <td>{% if banner.is_mobile %} Show {% else %} Do not show {% endif %}</td>
-              <td><a href="/edit-banner/{{banner.id}}/"><button class="btn btn-success">Edit</button></a></td>
+              <td><a href="{% url 'edit-banner' carousel_id=banner.id %}"><button class="btn btn-success">Edit</button></a></td>
               <td><form action="{% url 'delete-banner' carousel_id=banner.id%}" method="post">{% csrf_token %}<button type="submit" class="btn btn-danger">Delete</button></form></td>
             </tr>
             {% endfor %}
