@@ -50,26 +50,29 @@
     align-items: center;
     min-height: 50vh;
     }
+    .shop-page{
+        margin-top:150px;
+    }
+    @media screen and (max-width:550px){
+        .shop-page{
+            margin-top:100px;
+        }
+        .shop-sorting-data{
+            padding:0px;
+        }
+    }
   </style>
     </style>
     <!-- ##### Shop Area Start ##### -->
-    <section class="shop-page section-padding-0-100" style="margin-top:150px;">
+    <section class="shop-page section-padding-0-100">
         <div class="container">
-            <div class="row">
+            <div class="row course_display_section" >
                 <!-- Shop Sorting Data -->
-                <div class="col-12">
+                <div class="col-12 " >
                     <div class="shop-sorting-data d-flex flex-wrap align-items-center justify-content-between">
                         <!-- Shop Page Count -->
                         <div class="shop-page-count">
-                            {% if courses.number == 1 %}
-                            <p>Showing 1–{{current_number_of_courses}} of {{number_of_courses}} results</p>
-                            {% else %}
-                                {% if courses.number < 3 %}
-                                <p>Showing {{courses_per_page}}–{{current_number_of_courses|add:courses_per_page}} of {{number_of_courses}} results</p>
-                                {%else%}
-                                <p>Showing {{courses_per_page|add:courses.number}}–{{current_number_of_courses}} of {{number_of_courses}} results</p>
-                                {% endif %}
-                            {% endif %}
+                            Courses
                         </div>
                         {% if query %}
                         <div>
@@ -77,16 +80,7 @@
                         </div>
                         {% endif %}
                         <!-- Search by Terms -->
-                        <div class="search_by_terms">
-                            <form action="#" method="post" class="form-inline">
-                                <select class="custom-select widget-title">
-                                  <option selected>Short by Popularity</option>
-                                  <option value="1">Short by Newest</option>
-                                  <option value="2">Short by Sales</option>
-                                  <option value="3">Short by Ratings</option>
-                                </select>
-                            </form>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -151,7 +145,7 @@
                                     setTimeout(() => {
                                         
                                         placement_area.innerHTML = "";
-                                    console.log(data['results']['data'])
+                                    
                                     for (course of data['results']['data']){
                                         let col = document.createElement('div')
                                         col.classList.add('col-12','g-4','col-sm-12','col-lg-6','col-md-12')
@@ -271,7 +265,7 @@
                                     
 
                                     for (let i=1;i<=totalPages;i++){
-                                        console.log("page value=",currentPage);
+                                        
                                         let li = document.createElement('li');
                                         li.classList.add('page-item')
                                         
