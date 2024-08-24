@@ -1,288 +1,15 @@
 {% extends "masters/index-master.html" %}
-
+{% load static %}
+{% load custom_filter %}
+{% load markdownify %}
 {% block title %}
 {{course.course_name}} | Webxter
 {% endblock title %}
 
 {% block styles %}
-<style>
-    .hero-heading{
-        background-image: url(https://www.microsoft.com/en-us/research/uploads/prod/2019/11/Programming-Languages-and-Software-Engineering-page-header_1920x720_1.31.2024.png);
-        width: 100%;
-        height: 500px;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-    }
-    .hero-heading .heading{
-        font-size: 2rem;
-        font-size: 3rem;
-        color: white;
-        font-family: roboto;
-        text-transform: uppercase;
-        font-weight: 800;
-        text-align: center;
-    }
-    .hero-heading .summary{
-        width: 50%;
-        text-align: center;
-    }
-    .hero-heading .summary p{
-        color: white;
-    }
-    .course-information-section .section-heading{
-        width: 100%;
-        height: fit-content;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 30px;
-        padding: 40px;
-    }
-    .course-information-section .section-heading .section-heading-text{
-        width: 60%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        padding: 40px;
-        background-color: whitesmoke;
-        border-radius: 20px;
-    }
-    .course-information-section .section-heading .section-heading-text .heading{
-        align-self: flex-start;
-    }
-    .course-information-section .section-heading .section-heading-text .heading h2{
-        font-size: 3rem;
-        position: relative;
-    }
-    .course-information-section .section-heading .section-heading-text .heading h2::after{
-        content: "";
-        width: 50%;
-        height: 4px;
-        background-color: #4da191;
-        position: absolute;
-        bottom: 0px;
-        left: 2px;
-
-    }
-    .course-information-section .section-heading .section-heading-text p{
-        text-align: justify;
-        text-align: justify;
-        font-size: 1.2rem;
-        font-family: "Roboto", sans-serif;
-        margin-top: 30px;
-    }
-    .course-information-section .section-heading .featured-image{
-        width: 40%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .course-information-section .section-heading .featured-image img{
-        width: 100%;
-    }
-    .align-self-start{
-        align-self: flex-start;
-    }
-    .justify-content-start{
-        justify-content: start;
-    }
-    .justify-content-center{
-        justify-content: center;
-    }
-    .align-items-center{
-        align-items: center;
-    }
-    .course-information-section .get-quote-section{
-        width: 40%;
-    }
-    .get-quote-form{
-        display: flex;
-        flex-direction: column;
-        width: 60%;
-        gap: 20px;
-        background-color: white;
-        box-shadow: 0px 0px 30px 0px rgba(5.999999999999997, 30.00000000000003, 98.00000000000001, 0.08);
-        border-radius: 20px;
-        padding: 40px;
-        justify-content: center;
-    }
-    .get-quote-form .heading{
-        width: 100%;
-        text-align: center;
-    }
-    .get-quote-form .heading h2{
-        color: #4da191;
-    }
-    .get-quote-form input{
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        padding: 20px;
-    }
-    .get-quote-form input:not([disabled]):focus{
-        outline: none;
-        border-color: #4da191;
-    }
-    .get-quote-form input:not([disabled]):hover{
-        border-color: #4da191;
-    }
-    .get-quote-form textarea{
-        border-radius: 5px;
-        padding: 20px;
-    }
-    .get-quote-form textarea:not([disabled]):focus, .get-quote-form textarea:not([disabled]):hover{
-        border-color: #4da191;
-        outline: none;
-    }
-    .get-quote-form .get-quote-submit-btn{
-        padding: 10px;
-        background-color: #4da191;
-        color: white;
-        border: none;
-    }
-    .get-quote-form .get-quote-submit-btn:hover{
-        background-color: #388577;
-    }
-    .text-align-center{
-        text-align: center;
-    }
-    .group{
-        display: flex;
-        flex-wrap: nowrap;
-    }
-    .group .currency-symbol{
-        width: 70px;
-    }
-    .section-heading-text.w-100{
-        width: 100%;
-    }
-    .section-heading-text.curriculum ul{
-        align-self: flex-start;
-        margin-top: 30px;
-        list-style: none;
-        column-count: 2;
-        width: 100%;
-        font-size: 1.2rem;
-    }
-    .section-heading-text.curriculum ul li{
-        padding: 10px;
-
-    }
-    .section-heading-text.curriculum ul li::before{
-        content: "✔️";
-        width: 50px;
-        height: 50px;
-        object-fit: contain;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-    }
-    .syllabus{
-        padding: 40px;
-    }
-    .syllabus .syllabus-download-button{
-        padding: 20px;
-        background-color:#4da191;
-        color: white;
-        text-decoration: none;
-        border: none;
-        border-radius: 10px;
-    }
-    .syllabus .syllabus-download-button:hover{
-        text-decoration: none;
-        color: white !important;
-    }
-    .registeration-section{
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 20px;
-    }
-    .registeration-section .registeration-buttons{
-        padding: 20px;
-        color: #4da191;
-        background-color: white;
-        border: none;
-        text-decoration: underline;
-        border-radius: 10px;
-    }
-    .registeration-section .registeration-buttons:hover{
-        text-decoration: none;
-        background-color: #2e4368;
-        color: white !important;
-    }
-    @media screen and (max-width:884px){
-        .hero-heading{
-            padding: 10px;
-            height: fit-content;
-        }
-        .hero-heading .heading{
-            font-size: 2rem;
-        }
-        .hero-heading .summary{
-            width: 90%;
-        }
-        .course-information-section .section-heading{
-            flex-wrap: wrap;
-            padding: 10px;
-        }
-        .course-information-section .section-heading .section-heading-text{
-            width: 100%;
-            padding: 20px;
-            font-size: 1rem;
-        }
-        .course-information-section .section-heading .section-heading-text p{
-            font-size: 1rem;
-        }
-        .course-information-section .section-heading .featured-image{
-            width: 100%;
-        }
-        .course-information-section .section-heading .featured-image img{
-            width: 90%;
-        }
-        .course-information-section .get-quote-section{
-            width: 100%;
-        }
-        .get-quote-form{
-            width: 100%;
-        }
-        .section-heading-text.curriculum ul{
-            column-count: 1;
-            font-size: 1rem;
-        }
-        .hero-heading .summary p{
-            text-align: center;
-        }
-    }
-    @media screen and (max-width:1280px){
-        .get-quote-form{
-            width: 100%;
-        }
-        .course-information-section .section-heading .featured-image img{
-            width: 90%;
-        }
-    }
-    @keyframes slide_in_left{
-        from{
-            transform: translateX(400px);
-        }
-        to{
-            transform: translateX(0px);
-        }
-    }
-    .in-view.slide-in-left{
-        animation: slide_in_left 1s ease;
-    }
-    
-
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism.min.css" integrity="sha512-/mZ1FHPkg6EKcxo0fKXF51ak6Cr2ocgDi5ytaTBjsQZIH/RNs6GF6+oId/vPe3eJB836T36nXwVh/WBl/cWT4w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="{% static 'css/course/course_details.css' %}">
+<link rel="stylesheet" href="{% static 'css/markdown/markdown.css' %}">
 
 {% endblock styles %}
 
@@ -311,7 +38,7 @@
             </div>
 
             <div class="featured-image animated-element slide-in-left">
-                <img src="/media/{{course.course_image}}" alt="{{course.course_name}}">
+                <img src="/media/{{course.course_image}}" alt="{{course.course_name}}" alt="{{course.course_name}}" title="{{course.course_name}}">
             </div>
         </div>
 
@@ -403,8 +130,25 @@
         </div>
     </div>
 
+
+    
+    {% if course.markdown_file.all %}
+    <div class="course-information-section animated-element animated-element fade-in-up">
+        <div class="section-heading justify-content-start">
+            <div class="section-heading-text align-items-baseline w-100">
+                <div id="markdown">
+                    {% for md in course.markdown_file.all %}
+                        <div class="markdown-content">
+                            {{ md.file|render_markdown_file:course|safe }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="syllabus">
-        <a href="/media/{{course.course_syllabus}}" class="syllabus-download-button">Download Syllabus</a>
+        <a href="/media/{{course.course_syllabus}}" class="syllabus-download-button" title="{{course.course_name}}">Download Syllabus</a>
     </div>
 
 
@@ -484,5 +228,9 @@
 
 </script>
 
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js" integrity="sha512-UOoJElONeUNzQbbKQbjldDf9MwOHqxNz49NNJJ1d90yp+X9edsHyJoAs6O4K19CZGaIdjI5ohK+O2y5lBTW6uQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- <script>hljs.highlightAll();</script> -->
 
 {% endblock mainarea %}

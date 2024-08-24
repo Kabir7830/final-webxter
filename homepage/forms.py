@@ -108,11 +108,17 @@ class AdminCoursefrom(forms.ModelForm):
     class Meta:
         model = Courses
         fields = "__all__"
-        exclude = ['category']
+        exclude = ['category','markdown_file']
         slug = forms.SlugField()
 
 
 class BannerForm(forms.ModelForm):
     class Meta:
         model = CarouselImages
+        fields = "__all__"
+
+
+class AdminMarkdownFileForm(forms.ModelForm):
+    class Meta:
+        model = MarkDownFiles
         fields = "__all__"

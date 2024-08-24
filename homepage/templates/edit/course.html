@@ -191,8 +191,19 @@
                 {% endfor %}
                 <span class="message error visually-hidden" id="id_category_error_message"></span>
 
+                <br>
+                <br>
                 
-                
+                <input type="hidden" id="id_markdown_file" name="markdown_file" value="False">
+                <label for="categories">Markdown Files</label>
+                {% for md_file in md_files %}
+                <div class="group" style="display: flex;">
+                    <input type="checkbox" name="markdownfile" value="{{md_file.id}}" class="course_categories_checkbox" {% if md_file in course.markdown_file.all %}checked{% endif %} onclick="define_md_file_value()">
+                    <label for="">{{md_file.title}}</label><br>
+                </div>
+                {% endfor %}
+                <span class="message error visually-hidden" id="id_markdown_file_error_message"></span>
+
                 <br>
                 <br>
                 
@@ -223,6 +234,28 @@
             category.value = arr;
         }
         define_categories_value();
+
+        function define_md_file_value(){
+            let md_field = document.getElementById('id_markdown_file');
+            let checkboxes = document.querySelectorAll("input[name='markdownfile']");
+        
+            let arr = new Array();
+            for (let cb of checkboxes){
+                
+                if(cb.checked){
+                    arr.push(cb.value);
+                }
+            }
+            md_field.value = arr;
+            if (md_field.value){
+                
+            }
+            else{
+                
+                md_field.value = "False"
+            }
+        }
+        define_md_file_value();
     </script>
 
     <!-- ajax put request -->
@@ -258,6 +291,7 @@
             let number_of_projects = document.getElementById('id_number_of_projects').value;
             let tags = document.getElementById('id_tags').value;
             let category = document.getElementById('id_category').value;
+            let markdown_file = document.getElementById('id_markdown_file').value;
             let submit_button = document.getElementById('id_edit_submit_button');
 
             submit_button.innerHTML = `
@@ -301,6 +335,7 @@
             formData.append("number_of_projects", number_of_projects);
             formData.append("tags", tags);
             formData.append("category", category);
+            formData.append("markdown_file", markdown_file);
             formData.append("course_id", "{{course.id}}");
             $.ajax({
                 url:"{% url 'admin-courses-api' %}",

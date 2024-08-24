@@ -134,7 +134,7 @@ def send_email(subject, body, recipients,sender_name="Webxter"):
 
 def adminHomepage(request):
     if request.user.is_superuser:
-        return render(request,"admin-master.html")
+        return render(request,"masters/admin-master.html")
     else:
         return render(request,"access-denied.html")
 
@@ -315,11 +315,26 @@ class AdminCourses(APIView):
         
         if serializer_class.is_valid():
             categories = eval(request.POST.get('category'))
+            print("md = ",request.POST.get('markdown_file'))
+            if request.POST.get('markdown_file'):
+                md = eval(request.POST.get('markdown_file'))
+            else:
+                md=False
             serializer_class.save()
             for category in categories:
                 catgry = CourseCategories.objects.filter(id = category).first()
                 course.category.add(catgry)
-                course.save()   
+                course.save()
+            if (md):
+                if type(md) == int:
+                    file = MarkDownFiles.objects.filter(id = md).first()
+                    course.markdown_file.add(file)
+                    course.save()
+                else:
+                    for md_file in md:
+                        file = MarkDownFiles.objects.filter(id = md_file).first()
+                        course.markdown_file.add(file)
+                        course.save()   
             return Response({"data":serializer_class.data,"message":"Updated","status":"success"})
         return Response({"data":[],"message":serializer_class.errors,"status":"error"})
     
@@ -334,6 +349,38 @@ class AdminCourses(APIView):
             return Response({"data":[],"message":"Deleted","status":"success"})
         except Exception as e:
             return Response({"data":[],"message":f"{e}","status":"error"})
+
+
+class AdminMarkdownAPI(APIView):
+
+    def get(self,request):
+
+        markdown_files = MarkDownFiles.objects.all()
+        serializer_class = AdminMarkdownFileSerializer(markdown_files,many=True)
+        return Response({"data":serializer_class.data,"message":"","status":"success"})
+    
+    def post(self,request):
+
+        form = AdminMarkdownFileForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            return Response({"data":[],"message":"Added","status":"success"})
+        return Response({"data":[],"message":form.errors,"status":"error"})
+    
+    def put(self,request):
+
+        md_file = MarkDownFiles.objects.filter(id = request.POST.get('markdown_file_id')).first()
+        form = AdminMarkdownFileForm(request.POST,request.FILES,instance=md_file)
+        if form.is_valid():
+            form.save()
+            return Response({"data":[],"message":"updated","status":"success"})
+        return Response({"data":[],"message":form.errors,"status":"error"})
+
+
+def addMarkdownFile(request):
+    if is_admin(request):
+        return render(request,"add/markdown.html")
+    return redirect('500')
 
 
 def addCourseTemplate(request):
@@ -645,9 +692,15 @@ def getCourseDetails(request,slug):
     student = 0
     if request.user.is_authenticated:
         student = EnrolledStudents.objects.filter(student_id = request.user.id).filter(course_id__slug = slug).first()
+
     course = Courses.objects.filter(slug = slug).first()
+    markdown_contents = []
+    for md_file in course.markdown_file.all():
+        with md_file.file.open('r') as f:
+            content = f.read()
+            markdown_contents.append(content)
     # return render(request,"course-details.html",{'course':course,'student':student})
-    return render(request,"details/course.html",{'course':course,'student':student})
+    return render(request,"details/course.html",{'course':course,'student':student,'markdown_contents': markdown_contents,})
 
 
 def addCoaching(request):

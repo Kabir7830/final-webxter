@@ -1,5 +1,10 @@
 # templatetags/custom_filters.py
 from django import template
+import markdown
+from django.utils.safestring import mark_safe
+from markdown.extensions.codehilite import CodeHiliteExtension
+from markdown.extensions.extra import ExtraExtension
+from django.template import Template, Context
 
 register = template.Library()
 
@@ -72,3 +77,69 @@ def filter_by_category_and_range(queryset,args):
         queryset = queryset[:range]
 
     return queryset
+
+
+@register.simple_tag
+def render_markdown(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            markdown_content = file.read()
+        html_content = markdown.markdown(markdown_content)
+        return mark_safe(html_content)
+    except FileNotFoundError:
+        return mark_safe("<p>File not found.</p>")
+    
+
+# @register.filter(name='render_markdown_file')
+# def render_markdown_file(file):
+#     with file.open('r') as f:
+#         content = f.read()
+#         extensions = [CodeHiliteExtension(linenums=False, guess_lang=True),
+#                 ExtraExtension(),'fenced_code']
+#         return markdown.markdown(content, extensions=extensions)
+
+
+# @register.filter(name='render_markdown_file')
+# def render_markdown_file(file):
+#     try:
+#         with file.open('r') as f:
+#             content = f.read()
+#             md = markdown.Markdown(extensions=[
+#                 CodeHiliteExtension(linenums=False, guess_lang=True),
+#                 ExtraExtension(),
+#                 'fenced_code'
+#             ])
+#             return md.convert(content)
+#     except Exception as e:
+#         return f"Error rendering Markdown file: {e}"
+
+# @register.filter(name='render_markdown_file')
+# def render_markdown_file(file, context_data):
+#     with file.open('r') as f:
+#         content = f.read()
+
+#         # Render the content as a Django template with context
+#         template = Template(content)
+#         context = Context(context_data)
+#         rendered_content = template.render(context)
+
+#         # Now render the Markdown with the rendered content
+#         extensions = ['extra', 'codehilite', 'fenced_code']
+#         return mark_safe(markdown.markdown(rendered_content, extensions=extensions))
+
+@register.filter(name='render_markdown_file')
+def render_markdown_file(file, context_data):
+    with file.open('r') as f:
+        content = f.read()
+
+        # Render the content as a Django template with context
+        template = Template(content)
+        context = Context({'course': context_data})
+        rendered_content = template.render(context)
+
+        # Debugging: Print the rendered content to the console or log
+        print(rendered_content)
+
+        # Now render the Markdown with the rendered content
+        extensions = ['extra', 'codehilite', 'fenced_code']
+        return mark_safe(markdown.markdown(rendered_content, extensions=extensions))

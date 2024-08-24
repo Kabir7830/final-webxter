@@ -1,0 +1,286 @@
+.hero-heading{
+    background-image: url(https://www.microsoft.com/en-us/research/uploads/prod/2019/11/Programming-Languages-and-Software-Engineering-page-header_1920x720_1.31.2024.png);
+    width: 100%;
+    height: 500px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.hero-heading .heading{
+    font-size: 2rem;
+    font-size: 3rem;
+    color: white;
+    font-family: roboto;
+    text-transform: uppercase;
+    font-weight: 800;
+    text-align: center;
+}
+.hero-heading .summary{
+    width: 50%;
+    text-align: center;
+}
+.hero-heading .summary p{
+    color: white;
+}
+.course-information-section .section-heading{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 40px;
+}
+.course-information-section .section-heading .section-heading-text{
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 40px;
+    /* background-color: whitesmoke; */
+    /* background-color: #2e2e2e; */
+    background:linear-gradient(45deg, #225d63, #45bbaa);
+    border-radius: 20px;
+    color: white;
+}
+.course-information-section .section-heading .section-heading-text .heading{
+    align-self: flex-start;
+}
+.course-information-section .section-heading .section-heading-text .heading h2{
+    font-size: 3rem;
+    position: relative;
+}
+.course-information-section .section-heading .section-heading-text .heading h2::after{
+    content: "";
+    width: 50%;
+    height: 4px;
+    background-color: #4da191;
+    position: absolute;
+    bottom: 0px;
+    left: 2px;
+
+}
+.course-information-section .section-heading .section-heading-text p{
+    text-align: justify;
+    text-align: justify;
+    font-size: 1.2rem;
+    font-family: "Roboto", sans-serif;
+    margin-top: 30px;
+    color: white;
+}
+.course-information-section .section-heading .featured-image{
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.course-information-section .section-heading .featured-image img{
+    width: 100%;
+}
+.align-self-start{
+    align-self: flex-start;
+}
+.justify-content-start{
+    justify-content: start;
+}
+.justify-content-center{
+    justify-content: center;
+}
+.align-items-baseline{
+    align-items: baseline;
+}
+.align-items-center{
+    align-items: center;
+}
+.course-information-section .get-quote-section{
+    width: 40%;
+}
+.get-quote-form{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    gap: 20px;
+    background-color: white;
+    box-shadow: 0px 0px 30px 0px rgba(5.999999999999997, 30.00000000000003, 98.00000000000001, 0.08);
+    border-radius: 20px;
+    padding: 40px;
+    justify-content: center;
+}
+.get-quote-form .heading{
+    width: 100%;
+    text-align: center;
+}
+.get-quote-form .heading h2{
+    color: #4da191;
+}
+.get-quote-form input{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding: 20px;
+}
+.get-quote-form input:not([disabled]):focus{
+    outline: none;
+    border-color: #4da191;
+}
+.get-quote-form input:not([disabled]):hover{
+    border-color: #4da191;
+}
+.get-quote-form textarea{
+    border-radius: 5px;
+    padding: 20px;
+}
+.get-quote-form textarea:not([disabled]):focus, .get-quote-form textarea:not([disabled]):hover{
+    border-color: #4da191;
+    outline: none;
+}
+.get-quote-form .get-quote-submit-btn{
+    padding: 10px;
+    background: linear-gradient(45deg, #225d63, #45bbaa);
+    color: white;
+    border: none;
+}
+.get-quote-form .get-quote-submit-btn:hover{
+    background: linear-gradient(135deg, #225d63, #45bbaa);
+}
+.text-align-center{
+    text-align: center;
+}
+.group{
+    display: flex;
+    flex-wrap: nowrap;
+}
+.group .currency-symbol{
+    width: 70px;
+}
+.section-heading-text.w-100{
+    width: 100%;
+}
+.section-heading-text.curriculum ul{
+    align-self: flex-start;
+    margin-top: 30px;
+    list-style: none;
+    column-count: 2;
+    width: 100%;
+    font-size: 1.2rem;
+}
+.section-heading-text.curriculum ul li{
+    padding: 10px;
+    
+}
+.section-heading-text.curriculum ul li strong{
+    color: #83f3ff;
+}
+.section-heading-text.curriculum ul li::before{
+    content: "\f00c";
+    font: normal normal normal 14px / 1 FontAwesome;
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding-right: 10px;;
+}
+.syllabus{
+    padding: 40px;
+}
+.syllabus .syllabus-download-button{
+    padding: 20px;
+    background:linear-gradient(45deg, #225d63, #45bbaa);
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 10px;
+}
+.syllabus .syllabus-download-button:hover{
+    text-decoration: none;
+    color: white !important;
+}
+.registeration-section{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+.registeration-section .registeration-buttons{
+    padding: 20px;
+    color: #4da191;
+    background: white;
+    border: none;
+    text-decoration: underline;
+    border-radius: 10px;
+}
+.registeration-section .registeration-buttons:hover{
+    text-decoration: none;
+    background:linear-gradient(45deg, #225d63, #45bbaa);
+    color: white !important;
+}
+@media screen and (max-width:884px){
+    .hero-heading{
+        padding: 10px;
+        height: fit-content;
+    }
+    .hero-heading .heading{
+        font-size: 2rem;
+    }
+    .hero-heading .summary{
+        width: 90%;
+    }
+    .course-information-section .section-heading{
+        flex-wrap: wrap;
+        padding: 10px;
+    }
+    .course-information-section .section-heading .section-heading-text{
+        width: 100%;
+        padding: 20px;
+        font-size: 1rem;
+    }
+    .course-information-section .section-heading .section-heading-text p{
+        font-size: 1rem;
+    }
+    .course-information-section .section-heading .featured-image{
+        width: 100%;
+    }
+    .course-information-section .section-heading .featured-image img{
+        width: 90%;
+    }
+    .course-information-section .get-quote-section{
+        width: 100%;
+    }
+    .get-quote-form{
+        width: 100%;
+    }
+    .section-heading-text.curriculum ul{
+        column-count: 1;
+        font-size: 1rem;
+    }
+    .hero-heading .summary p{
+        text-align: center;
+    }
+}
+@media screen and (max-width:1280px){
+    .get-quote-form{
+        width: 100%;
+    }
+    .course-information-section .section-heading .featured-image img{
+        width: 90%;
+    }
+}
+@keyframes slide_in_left{
+    from{
+        transform: translateX(400px);
+    }
+    to{
+        transform: translateX(0px);
+    }
+}
+.in-view.slide-in-left{
+    animation: slide_in_left 1s ease;
+}

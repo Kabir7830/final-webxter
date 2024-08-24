@@ -14,7 +14,7 @@ def Collection(request):
     new_requests = RequestCallBack.objects.filter(is_opened = False)
     categories = CourseCategories.objects.all()
     courses = Courses.objects.filter(is_published = True)
-
+    md_files = MarkDownFiles.objects.all()
     notifications += len(new_enrolled_students) + len(new_requests)
     context = {
         "company":company.first(),
@@ -24,5 +24,6 @@ def Collection(request):
         "course_categories":course_categories,
         "categories":categories,
         "gcourses":courses,
+        "md_files":md_files,
     }
     return context

@@ -5,7 +5,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractUser
 from django.utils.text import slugify
 import random
 import string
-
+import os
 
 
 class Company(models.Model):
@@ -95,6 +95,14 @@ class CourseCategories(models.Model):
     is_featured = models.BooleanField(default=False,blank=True)
 
 
+class MarkDownFiles(models.Model):
+    class Meta:
+        db_table = "markdown_files"
+
+    file = models.FileField(upload_to='course_markdown_files/')
+    title = models.CharField(max_length=255)
+
+
 class Courses(models.Model):
     class Meta:
         db_table = "Courses"
@@ -112,6 +120,7 @@ class Courses(models.Model):
     category = models.ManyToManyField(CourseCategories,related_name="categories",blank=True,null=True)
     duration = models.IntegerField(default=6,blank=False,null=False)
     number_of_projects = models.IntegerField(default=1,blank=False,null=False)
+    markdown_file = models.ManyToManyField(MarkDownFiles,related_name="markdown_files",blank=True,null=True)
     # Tags
     tags = models.TextField(default="",blank=True)
     
@@ -124,8 +133,27 @@ class Courses(models.Model):
     is_new = models.BooleanField(default=True,blank=True)
 
     def save(self, *args, **kwargs):
-        if not self.slug:  # If slug is not set
-            self.slug = slugify(self.title)  # Generate slug from title
+        # Delete the old featured image if a new one is being uploaded
+        if self.pk:
+            existing = Courses.objects.get(pk=self.pk)
+            if self.featured_image and existing.featured_image != self.featured_image:
+                if os.path.isfile(existing.featured_image.path):
+                    os.remove(existing.featured_image.path)
+                    
+            # Delete the old course image if a new one is being uploaded
+            if self.course_image and existing.course_image != self.course_image:
+                if os.path.isfile(existing.course_image.path):
+                    os.remove(existing.course_image.path)
+                    
+            # Delete the old course syllabus if a new one is being uploaded
+            if self.course_syllabus and existing.course_syllabus != self.course_syllabus:
+                if os.path.isfile(existing.course_syllabus.path):
+                    os.remove(existing.course_syllabus.path)
+        
+        # Generate slug from the course_name if not set
+        if not self.slug:
+            self.slug = slugify(self.course_name)
+        
         super().save(*args, **kwargs)
 
 

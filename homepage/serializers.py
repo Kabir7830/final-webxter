@@ -64,3 +64,9 @@ class BannerSerializer(serializers.ModelSerializer):
         model = CarouselImages
         fields = "__all__"
 
+
+class AdminMarkdownFileSerializer(serializers.ModelSerializer):
+    class Meta:
+
+        model = MarkDownFiles
+        fields = "__all__"

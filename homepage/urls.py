@@ -16,6 +16,9 @@ urlpatterns = [
     path('course-deatils/',CoursedetailsTemplate,name="course-dtls"),
     path('add/course/',addCourseTemplate,name="admin-add-course"),
     
+    # markdown
+    path('markdown/new/',addMarkdownFile,name="add-new-markdown"),
+
     # authentication
     path("signup/",SignUp,name="signup"),
     path("login/",loginHandler,name="login"),
@@ -106,6 +109,7 @@ urlpatterns = [
         # Banner
     path('banner/add-banner-api/',AdminBannerAPI.as_view(),name="admin-banner-api"),
     
+    path('markdown/add-markdown-api/',AdminMarkdownAPI.as_view(),name="admin-markdown-api"),
 
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

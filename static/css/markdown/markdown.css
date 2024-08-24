@@ -1,0 +1,39 @@
+#markdown {
+    color: #f8f8f2;
+    width: 100%;
+}
+
+#markdown pre {
+    background-color: #195f5b;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+#markdown code {
+    font-family: Consolas, "Courier New", monospace;
+    color: #f8f8f2;
+    background-color: transparent;
+}
+
+#markdown p {
+    margin-bottom: 1em;
+}
+
+#markdown ul,#markdown ol {
+    margin-left: 2em;
+    line-height: 40px;
+}
+#markdown ul li strong,#markdown ol li strong {
+    color: #83f3ff;
+}
+#markdown h1,#markdown h2,#markdown h3,#markdown h4,#markdown h5,#markdown h6 {
+    border-bottom: 2px solid #2bab9f;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    color: #83f3ff;
+}
+h1,h2,h3,h4,h5,h6{
+    color: #83f3ff;
+
+}
