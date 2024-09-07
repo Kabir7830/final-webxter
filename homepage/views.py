@@ -9,12 +9,14 @@ import random
 from email.mime.multipart import MIMEMultipart
 from .pagination import *
 from .email_templates import (otpTemplate,
-                              AccountCreatedTemplate,
+                              signup_template,
                               EnrollmentTemplate
                               ,CallbackRequestTemplate,
-                              callbackSentTemplate,
                               DemoClassRegestrationTemplate,
-                              AdminDemoClassRegestrationTemplate)
+                              AdminDemoClassRegestrationTemplate,
+                              certificate_validation_template,
+                              certificate_invalidation_template,
+                              admin_template)
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from datetime import datetime,timedelta
@@ -605,8 +607,8 @@ def addRequestCallBack(request):
             callback.save()
             messages.success(request,"Request Made! We Will get in touch with you soon.")
             body = CallbackRequestTemplate(name=request.POST.get('name'),email=request.POST.get('email'),phone_number=request.POST.get('phone_number'),message=request.POST.get('message'))
-            studentbody = callbackSentTemplate(name=request.POST.get('name'))
-            send_email(subject="New Callback Request",body=body,recipients=["kabir.behal7830@gmail.com"],sender_name="Webxter Callback Request")
+            studentbody = CallbackRequestTemplate(name=request.POST.get('name'))
+            # send_email(subject="New Callback Request",body=body,recipients=["kabir.behal7830@gmail.com"],sender_name="Webxter Callback Request")
             send_email(subject="Thankyou for Callback Request",body=studentbody,recipients=[request.POST.get('email')],sender_name="Webxter Callback Request")
             return redirect(request.META.get('HTTP_REFERER'))
         except Exception as e:
@@ -625,9 +627,7 @@ class RequestCallbackAPI(APIView):
         if form.is_valid():
             form.save()
             body = CallbackRequestTemplate(name=data.get('name'),email=data.get('email'),phone_number=data.get('phone_number'),message=data.get('message'))
-            studentbody = callbackSentTemplate(name=data.get('name'))
-            # send_email(subject="New Callback Request",body=body,recipients=["kabir.behal7830@gmail.com"],sender_name="Webxter Callback Request")
-            # send_email(subject="Thankyou for Callback Request",body=studentbody,recipients=[data.get('email')],sender_name="Webxter Callback Request")
+            send_email(subject="Thankyou for Callback Request",body=body,recipients=[data.get('email')],sender_name="Webxter Callback Request")
             return Response({"data":[],"message":"Form Submitted","status":"success"})
         # return Response({"data":[],"message":f"{dict(form.errors)}","status":"error"})
         return Response({"data":[],"message":form.errors,"status":"error"})
@@ -807,7 +807,7 @@ def SignUp(request):
                 user.save()
                 subject = "Account Created - Webxter"
                 otp = random.randint(1000,9999)
-                body = AccountCreatedTemplate(name=f"{request.POST.get('first_name')} {request.POST.get('last_name')}")
+                body = signup_template(name=f"{request.POST.get('first_name')} {request.POST.get('last_name')}")
                 recipients = [request.POST.get('email')]
                 sender_name = "Account Created"
                 send_email(subject, body, recipients,sender_name)
@@ -934,11 +934,15 @@ class CertificateValidation(APIView):
     def post(self,request):
         data = request.data
         certificate_number = data.get('certificate_number')
-        certificate = Certificate_IDS.objects.filter(certificate_number = certificate_number).first()
+        certificate = Certificate_IDS.objects.filter(certificate_number = certificate_number).filter(email = data.get('email')).first()
         if certificate is not None:
-                return Response({"message":"The certificate is valid","status":"success"})
+            email_body = certificate_validation_template(certificate=certificate,status="Valid")
+            send_email(subject="Course Certificate Validation Status",body=email_body,recipients=[certificate.email])
+            return Response({"message":"Verification Details has been sent to your registered email address","status":"success"})
         else:
-            return Response({"message":"The certificate is not valid","status":"error"})
+            email_body = certificate_invalidation_template(email=data.get('email'),certificate_number=data.get('certificate_number'))
+            send_email(subject="Invalid Certificate or No Association Found",body=email_body,recipients=[data.get('email')])
+            return Response({"message":"Verification Details has been sent to your email address","status":"success"})
     
 
 def forgotPassword(request):
@@ -1125,21 +1129,22 @@ class DemoRegisterationAPI(APIView):
         serializer_class = DemoRegisterationSerializer(data=data)
         if serializer_class.is_valid():
             serializer_class.save()
-            body = AdminDemoClassRegestrationTemplate(name=data.get('name'),
-                                                      email=data.get('email'),
-                                                      contact_number=data.get('contact_number'),
-                                                      alternate_number=data.get('alternate_number'),
-                                                      course_name=Courses.objects.filter(id = data.get('course')).first().course_name,
-                                                      time_slot=f"{TimeSlots.objects.filter(id = data.get('time_slot')).first().start_slot}-{TimeSlots.objects.filter(id = data.get('time_slot')).first().end_slot}",
-                                                      date_slot=data.get('date_slot'),
-                                                      date_of_birth = data.get('date_of_birth'),
-                                                      gender = data.get('gender')
-                                                      )
+            # body = AdminDemoClassRegestrationTemplate(name=data.get('name'),
+            #                                           email=data.get('email'),
+            #                                           contact_number=data.get('contact_number'),
+            #                                           alternate_number=data.get('alternate_number'),
+            #                                           course_name=Courses.objects.filter(id = data.get('course')).first().course_name,
+            #                                           time_slot=f"{TimeSlots.objects.filter(id = data.get('time_slot')).first().start_slot}-{TimeSlots.objects.filter(id = data.get('time_slot')).first().end_slot}",
+            #                                           date_slot=data.get('date_slot'),
+            #                                           date_of_birth = data.get('date_of_birth'),
+            #                                           gender = data.get('gender')
+            #                                           )
+            body = admin_template(name=data.get('name'),email=data.get('email'),form_type="Demo Registeration")
             studentbody = DemoClassRegestrationTemplate(name=data.get('name'),
                                                         course_name=Courses.objects.filter(id = data.get('course')).first().course_name,
                                                         time_slot=f"{TimeSlots.objects.filter(id = data.get('time_slot')).first().start_slot}-{TimeSlots.objects.filter(id = data.get('time_slot')).first().end_slot}" ,
                                                         date_slot=data.get('date_slot'))
-            send_email(subject="Confirmation of Your Demo Class Booking",body=studentbody,recipients=[data.get('email')],sender_name="Webxter Demo Confirmation")
+            send_email(subject="Course Demo Registration Confirmation",body=studentbody,recipients=[data.get('email')],sender_name="Webxter Demo Confirmation")
             send_email(subject="New Demo Class Booking",body=body,recipients=["kabir.behal7830@gmail.com"],sender_name="Webxter Demo Request")
             return Response({"data":[],"message":"Demo Booked","status":"success"})
         return Response({"data":[],"message":serializer_class.errors,"status":"error"})

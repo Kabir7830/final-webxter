@@ -230,6 +230,8 @@ class Certificate_IDS(models.Model):
     
     student_id = models.ForeignKey(CompanyUser,on_delete=models.CASCADE,unique=True)
     certificate_number = models.CharField(max_length=40,unique=True)
+    course = models.ForeignKey(Courses,on_delete=models.PROTECT)
+    email = models.EmailField()
     
     
 class Notes(models.Model):

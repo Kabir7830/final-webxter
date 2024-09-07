@@ -1,0 +1,60 @@
+.container-wrapper {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+  }
+
+  .container-wrapper .container {
+    max-width: 400px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .container-wrapper h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .container-wrapper label {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .container-wrapper input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+  }
+
+  .container-wrapper button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .container-wrapper .message {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .container-wrapper .success {
+    color: #4CAF50;
+  }
+
+  .container-wrapper .error {
+    color: #f44336;
+  }
