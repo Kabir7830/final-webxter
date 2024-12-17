@@ -1,0 +1,95 @@
+{% extends "masters/admin-master.html" %}
+
+{% block title %}
+  All Demo Registerations
+{% endblock title %}
+
+
+{% block adminarea %}
+  <style>
+
+  </style>
+
+  <form action="">
+    <input type="text" name="query" placeholder="search">
+    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+  </form>
+  <table class="table">
+    <thead>
+        <tr style="color:white">
+            <th>Student Name</th>
+            <th>Course Enrolled</th>
+            <th>Email</th>
+            <th>contact Number</th>
+            <th>Demo Date</th>
+            <th>Request Received on</th>
+            <th>Request Modified on</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for student in students %}
+        <tr style="color:white">
+            <td>{{student.name}} - ({{student.gender}})</td>
+            <td>{{student.course.course_name}}</td>
+            <td>{{student.email}}</td>
+            <td>Primary - {{student.contact_number}}
+                <br>
+                Alternate - {{student.alternate_number}}
+            </td>
+            <td>{{student.date_slot}} - {{student.time_slot}}</td>
+            <td>{{student.created_at}}</td>
+            <td>{{student.updated_at}}</td>
+            {% if student.is_read %}
+            <td>✅</td>
+            {% else %}
+            <td>
+              <form action="{% url 'read-demo-registeration-api'%}" method="post">
+                {% csrf_token %}
+                <!-- <input type="hidden" id="id_student_id" value="{{student.id}}"> -->
+                <button class="btn btn-success" type="button" onclick='mark_as_read("{{student.id}}")'>Mark as read</button>
+                <span class="message error" id="error_message_{{student.id}}"></span>
+              </form>
+            </td> 
+            {% endif %}
+          </tr>
+        {% endfor %}
+              <script>
+                function mark_as_read(demo_id){
+                  var csrftoken = $('input[name="csrfmiddlewaretoken"]').val();
+                  let postData;
+                  postData = {
+                    "demo_id":demo_id,
+                  }
+                  $.ajax({
+                    url:"{% url 'read-demo-registeration-api'%}",
+                    type:"POST",
+                    contentType:"application/json",
+                    data:JSON.stringify(postData),
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    },
+                    success:function(data){
+                      console.log("data",data);
+                      if (data['status'] == 'success'){
+                        window.location.reload();
+                      }
+                      else if (data['status'] == "error"){
+                        document.getElementById(`error_message_${student_id}`).innerHTML = data['message']; 
+                      }
+                    },
+                    error:function(xhr,textStatus,errorThrown){
+                      console.error("AJAX ERROR:",errorThrown);
+                    }
+
+                  })
+                }
+
+              </script>
+    </tbody>
+  </table>
+  <script>
+    document.querySelector('li[data-target="all"]').classList.add('active')
+    document.querySelector('a[data-target="all-enrolled-students"]').classList.add('active-a')
+  </script>
+{% endblock adminarea %}

@@ -72,7 +72,7 @@ urlpatterns = [
     path('edit-company/',EditCompany,name="edit-company"),
     path('add-category/',addCourseCategory,name="add_course_category"),
     path('edit-category/<int:category_id>/',editCourseCategory,name="edit_course_category"),
-    
+    path('demo-registered-students/',getDemoClassStudents,name="demo-registered-students"),
     # error pages
     path('404/',Error404,name='404'),
     path('500/',Error500,name='500'),
@@ -98,6 +98,9 @@ urlpatterns = [
     
         # Demo Register
     path('enroll/demo-api/',DemoRegisterationAPI.as_view(),name="book-demo-api"),
+
+        # Demo read
+    path('read-demo-registeration/',AdminDemoClassRegisterationAPI.as_view(),name="read-demo-registeration-api"),
     
         # Registration
     path('enroll/registration-api/',RegisterationFormAPI.as_view(),name="registration-api"), 

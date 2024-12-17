@@ -90,6 +90,7 @@
                           <a href="javascript:void(0);"><i class="fa fa-table"></i><span>All</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                           <ul>
                             <li><a href="/all-courses/" data-target="all-courses">All Course</a>
+                            <li><a href="{% url 'demo-registered-students' %}" data-target="all-courses">All Demo Registered Students</a>
                             <li><a href="/all-banners/" data-target="all-banners">All Banners</a>
                             <li><a href="/all-requests/" data-target="all-requests">All Requests</a>
                             <li><a href="/all-coachings/" data-target="all-coachings">All Coachings</a>
@@ -298,6 +299,7 @@
         <a data-target="all-courses" name="link-button" title="all courses" href="/all-courses/" class="link"><button class="option-button">All Course</button></a>
         <a data-target="all-enrolled-students" name="link-button" title="all enrolled students" href="/all-enrolled-students/" class="link"><button class="option-button">All Enrolled Students</button></a>
         <a data-target="all-requests" name="link-button" title="all requests" href="/all-requests/" class="link"><button class="option-button">All Requests</button></a>
+        <a data-target="demo-registered-students" name="link-button" title="all demo students" href="{% url 'demo-registered-students' %}" class="link"><button class="option-button">All Demo Students</button></a>
         <a data-target="all-banners" name="link-button" title="all banners" href="/all-banners/" class="link"><button class="option-button">All Banners</button></a>
         <a data-target="all-coachings" name="link-button" title="all coachings" href="/all-coachings/" class="link"><button class="option-button">All Coachings</button></a>
         <a data-target="edit-company-info" name="link-button" title="edit company info" href="/edit-company-info/" class="link"><button class="option-button">Edit Company Info</button></a>

@@ -524,7 +524,7 @@ def newsletter_template(name):
     return template
 
 
-def course_registeration_template(name,course,date_slot):
+def course_registeration_template(name,course,batch):
     template = f"""
 
         <!DOCTYPE html>
@@ -551,7 +551,7 @@ def course_registeration_template(name,course,date_slot):
                                     <p style="line-height: 1.6;">Here are the details of your registration:</p>
                                     <ul style="line-height: 1.6; padding-left: 20px;">
                                         <li><strong>Course Name:</strong> {course.course_name}</li>
-                                        <li><strong>Start Date:</strong> {date_slot}</li>
+                                        <li><strong>Batch:</strong> {batch}</li>
                                         <li><strong>Duration:</strong> {course.duration} (weeks)</li>
                                         <li><strong>Mode:</strong> Online</li>
                                     </ul>

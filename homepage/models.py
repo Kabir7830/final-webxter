@@ -312,6 +312,9 @@ class DemoClassRegistration(models.Model):
     alternate_number = models.CharField(max_length=15,null=True,blank=True)
     time_slot = models.ForeignKey(to=TimeSlots,on_delete=models.PROTECT)
     date_slot = models.CharField(max_length=30,default="")
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_read = models.BooleanField(default=False)
 
 
 class Batches(models.Model):

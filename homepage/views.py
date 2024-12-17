@@ -16,6 +16,7 @@ from .email_templates import (otpTemplate,
                               AdminDemoClassRegestrationTemplate,
                               certificate_validation_template,
                               certificate_invalidation_template,
+                              course_registeration_template,
                               admin_template)
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -889,6 +890,22 @@ def getEnrolledtudents(request):
     if request.user.is_superuser:
         students = EnrolledStudents.objects.all().order_by('-id')
         return render(request,'all-enrolled-students.html',{"students":students})
+    
+def getDemoClassStudents(request):
+    if is_admin(request):
+        students = DemoClassRegistration.objects.all().order_by('-id')
+        return render(request,"all/democlassstudents.html",{"students":students})
+
+
+class AdminDemoClassRegisterationAPI(APIView):
+
+    def post(self,request):
+        if is_admin(request):
+            data = request.data
+            demo_reg = DemoClassRegistration.objects.filter(id=data.get('demo_id'))
+            demo_reg.update(is_read = True)
+            return Response({"data":[],"message":"Marked as read","status":"success"})
+        return Response({"-":[]})
 
 
 class ModifyEnrolledStudetns(APIView):
@@ -1210,13 +1227,26 @@ class RegisterationFormAPI(APIView):
         serializer_class = RegistrationFormSerializer(data=data)
         if serializer_class.is_valid():
             serializer_class.save()
+            batch = Batches.objects.filter(id=data.get('batch')).first()
+            body = admin_template(name=data.get('name'),email=data.get('email'),form_type="Course Registration")
+            studentbody = course_registeration_template(name=data.get('name'),
+                                                        course=Courses.objects.filter(id = data.get('course')).first(),
+                                                        batch=batch.name)
+            send_email(subject="Course Registration Confirmation",body=studentbody,recipients=[data.get('email')],sender_name="Webxter Registration Confirmation")
+            send_email(subject="New Course Registration",body=body,recipients=["kabir.behal7830@gmail.com"],sender_name="Webxter Course Registration")
             return Response({"data":[],"message":"Registered","status":"success"})
+        
         return Response({"data":[],"message":serializer_class.errors,"status":"error"})
         
 
 def CoursedetailsTemplate(request):
     return render(request,"courses/course-details.html")
     
-            
+
+
+def TimeSlotTemplate(request):
+
+    if is_admin(request):
+        return render('add/timeslot.html')
 
         
