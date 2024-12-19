@@ -16,9 +16,13 @@ class CompanyDetails(APIView):
 class CoursesAPi(APIView):
 
     def get(self,request):
-
+        query = request.GET.get('featured')
         courses = Courses.objects.filter(is_published = True)
+        if query:
+            courses = courses.filter(is_featured = True)
+            
         serializer_class = homeserializer.CoursesSerializer(courses,many=True)
 
         return Response({"data":serializer_class.data,"message":"","status":"success"})
+
 
