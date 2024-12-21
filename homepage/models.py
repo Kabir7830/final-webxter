@@ -52,7 +52,7 @@ class CompanyUser(AbstractUser):
     last_name = models.CharField(max_length=30)
 
     # Add your additional fields here
-    date_of_birth = models.DateField(null=True, blank=True)
+    date_of_birth = models.DateField()
     security_question_1 = models.TextField()
     security_question_2 = models.TextField()
     security_question_1_answer = models.CharField(max_length=300)
@@ -228,10 +228,11 @@ class Certificate_IDS(models.Model):
     class Meta:
         db_table = "certificate_ids"
     
-    student_id = models.ForeignKey(CompanyUser,on_delete=models.CASCADE,unique=True)
+    student = models.ForeignKey(CompanyUser,on_delete=models.CASCADE,unique=True)
     certificate_number = models.CharField(max_length=40,unique=True)
     course = models.ForeignKey(Courses,on_delete=models.PROTECT)
-    email = models.EmailField()
+    start_date = models.DateField(default='',null=True,blank=True)
+    end_date = models.DateField(default='',null=True,blank=True)
     
     
 class Notes(models.Model):
