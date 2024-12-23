@@ -367,5 +367,17 @@ class RegisterationForm(models.Model):
     emergency_contact_relationship = models.CharField(max_length=500)
     
 
+class NewsletterSubscribers(models.Model):
+    class Meta:
+        db_table = "newsletter_subscribers"
+
+    email = models.EmailField(unique=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+    subscribed = models.BooleanField(default=True,blank=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+
+
+
 
     

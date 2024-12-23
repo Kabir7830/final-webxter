@@ -19,3 +19,10 @@ class CertificateVerficationSerializer(serializers.ModelSerializer):
             'name': instance.course.course_name,
         }
         return representation
+    
+
+class NewseletterSubscribersSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = NewsletterSubscribers
+        fields = "__all__" 

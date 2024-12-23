@@ -44,4 +44,57 @@ class CertificateVerfication(APIView):
         return Response({"data":None,"message":"No Certificate Found","status":status.HTTP_404_NOT_FOUND})
 
 
+class NewsletterSubscribeAPI(APIView):
+
+    def post(self,request):
+
+        email = request.data.get('email')
+        data = {
+            "email" :email,
+            "subscribed":True
+        }
+
+        newsletter = NewsletterSubscribers.objects.filter(email = email)
+
+        if newsletter.filter(subscribed = True).first() is not None:
+            return Response({"data":[],"message":"Already Subscribed","status":status.HTTP_409_CONFLICT})
+        
+        if newsletter.first() is not None:
+
+            newsletter.update(
+                subscribed = 1
+            )
+            return Response({"data":[],"message":"Subscribed","status":status.HTTP_200_OK})
+
+        newsletter = NewseletterSubscribersSerializer(data=data)
+
+        if newsletter.is_valid():
+            newsletter.save()
+            return Response({"data":[],"message":"Subscribed","status":status.HTTP_200_OK})
+        else:
+        
+            return Response({"data":newsletter.errors,"message":"Please Enter a valid email address    ",'status':status.HTTP_406_NOT_ACCEPTABLE})
+        
+
+
+class NewsletterUnsubscribeAPI(APIView):
+
+    def post(self,request):
+
+        email = request.data.get('email')
+
+        newsletter = NewsletterSubscribers.objects.filter(email = email)
+        
+        if newsletter.filter(subscribed = True).first():
+            newsletter.update(
+                subscribed = 0
+            )
+            return Response({"data":[],"message":"UnSubscribed","status":status.HTTP_200_OK})
+
+        return Response({"data":[],"message":"Email not subscribed","status":status.HTTP_404_NOT_FOUND})
+
+
+        
+
+
 
